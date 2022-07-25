@@ -7,4 +7,7 @@
 	<string name="main.select_lang">Select languages</string>
 	<string name="main.edit_lang">Edit languages</string>
 	<string name="main.settings">Settings</string>
+	<string name="main.proceed.info">Study the selected languages</string>
+	<string name="main.edit_lang.info">Add, remove or rename languages</string>
+	<string name="main.settings.info">Application settings</string>
 </resources>

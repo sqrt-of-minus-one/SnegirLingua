@@ -11,24 +11,12 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	xmlns:app="http://schemas.android.com/apk/res-auto">
-
-	<TextView
-		android:id="@+id/main_selectTV"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		app:layout_constraintTop_toTopOf="parent"
-		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintBottom_toBottomOf="@id/main_loadPB"
-		android:padding="10dp"
-		style="@style/TextAppearance.AppCompat.Headline"
-		android:text="@string/main.select_lang"/>
 	
 	<ProgressBar
 		android:id="@+id/main_loadPB"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		app:layout_constraintTop_toBottomOf="@id/main_selectTV"
+		app:layout_constraintTop_toTopOf="parent"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintRight_toRightOf="parent"
 		app:layout_constraintBottom_toTopOf="@id/main_lang1SP"
@@ -51,46 +39,83 @@
 		android:layout_height="wrap_content"
 		app:layout_constraintTop_toBottomOf="@id/main_loadPB"
 		app:layout_constraintLeft_toRightOf="@id/main_lang1SP"
-		app:layout_constraintRight_toLeftOf="@id/main_proceedIB"
-		app:layout_constraintBottom_toTopOf="@id/main_headBR"/>
-	
-	<ImageButton
-		android:id="@+id/main_proceedIB"
-		android:layout_width="50sp"
-		android:layout_height="0dp"
-		app:layout_constraintDimensionRatio="1:1"
-		app:layout_constraintTop_toBottomOf="@id/main_loadPB"
-		app:layout_constraintLeft_toRightOf="@id/main_lang2SP"
 		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintBottom_toTopOf="@id/main_headBR"
-		android:src="@drawable/abc_vector_test"
-		android:scaleType="fitCenter"
-		android:contentDescription="@string/proceed"/>
+		app:layout_constraintBottom_toTopOf="@id/main_headBR"/>
 	
 	<androidx.constraintlayout.widget.Barrier
 		android:id="@+id/main_headBR"
 		android:layout_width="0dp"
 		android:layout_height="0dp"
 		app:barrierDirection="bottom"
-		app:constraint_referenced_ids="main_lang1SP,main_lang2SP,main_proceedIB"/>
+		app:constraint_referenced_ids="main_lang1SP,main_lang2SP"/>
 	
-	<Button
-		android:id="@+id/main_editLangBT"
+	<ImageButton
+		android:id="@+id/main_proceedIB"
 		android:layout_width="0dp"
-		android:layout_height="wrap_content"
+		android:layout_height="0dp"
 		app:layout_constraintTop_toBottomOf="@id/main_headBR"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintBottom_toBottomOf="@id/main_settingsBT"
-		android:text="@string/main.edit_lang"/>
+		app:layout_constraintBottom_toTopOf="@id/main_editLangIB"
+		android:src="@drawable/ic_launcher_foreground"
+		android:scaleType="fitCenter"
+		android:contentDescription="@string/proceed"/>
 	
-	<Button
-		android:id="@+id/main_settingsBT"
+	<TextView
+		android:id="@+id/main_proceedTV"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		app:layout_constraintTop_toBottomOf="@id/main_editLangBT"
+		app:layout_constraintLeft_toLeftOf="@id/main_proceedIB"
+		app:layout_constraintRight_toRightOf="@id/main_proceedIB"
+		app:layout_constraintBottom_toBottomOf="@id/main_proceedIB"
+		style="@style/TextAppearance.AppCompat.Headline"
+		android:padding="10dp"
+		android:text="@string/proceed"/>
+	
+	<ImageButton
+		android:id="@+id/main_editLangIB"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		app:layout_constraintTop_toBottomOf="@id/main_proceedIB"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintBottom_toTopOf="@id/main_settingsIB"
+		android:src="@drawable/ic_launcher_foreground"
+		android:scaleType="fitCenter"
+		android:contentDescription="@string/main.edit_lang"/>
+	
+	<TextView
+		android:id="@+id/main_editLangTV"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		app:layout_constraintLeft_toLeftOf="@id/main_editLangIB"
+		app:layout_constraintRight_toRightOf="@id/main_editLangIB"
+		app:layout_constraintBottom_toBottomOf="@id/main_editLangIB"
+		style="@style/TextAppearance.AppCompat.Headline"
+		android:padding="10dp"
+		android:text="@string/main.edit_lang"/>
+	
+	<ImageButton
+		android:id="@+id/main_settingsIB"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		app:layout_constraintTop_toBottomOf="@id/main_editLangIB"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintBottom_toBottomOf="parent"
+		android:src="@drawable/ic_launcher_foreground"
+		android:scaleType="fitCenter"
+		android:contentDescription="@string/main.settings"/>
+	
+	<TextView
+		android:id="@+id/main_settingsTV"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		app:layout_constraintLeft_toLeftOf="@id/main_settingsIB"
+		app:layout_constraintRight_toRightOf="@id/main_settingsIB"
+		app:layout_constraintBottom_toBottomOf="@id/main_settingsIB"
+		style="@style/TextAppearance.AppCompat.Headline"
+		android:padding="10dp"
 		android:text="@string/main.settings"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
