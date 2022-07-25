@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
+
+	<TextView
+		android:id="@+id/main_selectTV"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintBottom_toBottomOf="@id/main_loadPB"
+		android:padding="10dp"
+		style="@style/TextAppearance.AppCompat.Headline"
+		android:text="@string/main.select_lang"/>
+	
+	<ProgressBar
+		android:id="@+id/main_loadPB"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		app:layout_constraintTop_toBottomOf="@id/main_selectTV"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintBottom_toTopOf="@id/main_lang1SP"
+		style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+		android:indeterminate="true"
+		android:visibility="invisible"/>
+	
+	<Spinner
+		android:id="@+id/main_lang1SP"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		app:layout_constraintTop_toBottomOf="@id/main_loadPB"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toLeftOf="@id/main_lang2SP"
+		app:layout_constraintBottom_toTopOf="@id/main_headBR"/>
+	
+	<Spinner
+		android:id="@+id/main_lang2SP"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		app:layout_constraintTop_toBottomOf="@id/main_loadPB"
+		app:layout_constraintLeft_toRightOf="@id/main_lang1SP"
+		app:layout_constraintRight_toLeftOf="@id/main_proceedIB"
+		app:layout_constraintBottom_toTopOf="@id/main_headBR"/>
+	
+	<ImageButton
+		android:id="@+id/main_proceedIB"
+		android:layout_width="50sp"
+		android:layout_height="0dp"
+		app:layout_constraintDimensionRatio="1:1"
+		app:layout_constraintTop_toBottomOf="@id/main_loadPB"
+		app:layout_constraintLeft_toRightOf="@id/main_lang2SP"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintBottom_toTopOf="@id/main_headBR"
+		android:src="@drawable/abc_vector_test"
+		android:scaleType="fitCenter"
+		android:contentDescription="@string/proceed"/>
+	
+	<androidx.constraintlayout.widget.Barrier
+		android:id="@+id/main_headBR"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		app:barrierDirection="bottom"
+		app:constraint_referenced_ids="main_lang1SP,main_lang2SP,main_proceedIB"/>
+	
+	<Button
+		android:id="@+id/main_editLangBT"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		app:layout_constraintTop_toBottomOf="@id/main_headBR"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintBottom_toBottomOf="@id/main_settingsBT"
+		android:text="@string/main.edit_lang"/>
+	
+	<Button
+		android:id="@+id/main_settingsBT"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		app:layout_constraintTop_toBottomOf="@id/main_editLangBT"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		android:text="@string/main.settings"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

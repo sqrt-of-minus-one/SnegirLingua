@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_name">SnegirLingua</string>
+	<string name="proceed">Proceed</string>
+	
+	<!-- Main -->
+	<string name="main.select_lang">Select languages</string>
+	<string name="main.edit_lang">Edit languages</string>
+	<string name="main.settings">Settings</string>
+</resources>
