@@ -10,4 +10,7 @@
 	<string name="main.proceed.info">Study the selected languages</string>
 	<string name="main.edit_lang.info">Add, remove or rename languages</string>
 	<string name="main.settings.info">Application settings</string>
+	
+	<!-- Settings -->
+	<string name="settings.couldnt_save">Couldn\'t save settings</string>
 </resources>

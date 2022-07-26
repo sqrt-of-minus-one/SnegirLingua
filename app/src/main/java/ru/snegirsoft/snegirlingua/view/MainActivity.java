@@ -7,10 +7,11 @@
 package ru.snegirsoft.snegirlingua.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import ru.snegirsoft.snegirlingua.R;
+import ru.snegirsoft.snegirlingua.SettingsManager;
 import ru.snegirsoft.snegirlingua.database.Database;
 import ru.snegirsoft.snegirlingua.entity.Language;
 
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		SettingsManager.load(MainActivity.this);
 		
 		needsToBeReloaded = false;
 		
@@ -103,7 +107,8 @@ public class MainActivity extends AppCompatActivity
 			@Override
 			public void onClick(View v)
 			{
-				// Todo: start SettingsActivity
+				Intent settingsI = new Intent(MainActivity.this, SettingsActivity.class);
+				startActivity(settingsI);
 			}
 		});
 		settingsIB.setOnLongClickListener(new View.OnLongClickListener()
