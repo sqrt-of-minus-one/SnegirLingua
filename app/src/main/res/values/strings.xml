@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">SnegirLingua</string>
+	<string name="yes">Yes</string>
+	<string name="no">No</string>
+	<string name="ok">OK</string>
+	<string name="cancel">Cancel</string>
+	<string name="delete">Delete</string>
 	<string name="proceed">Proceed</string>
 	
 	<!-- Main -->
@@ -11,6 +16,12 @@
 	<string name="main.edit_lang.info">Add, remove or rename languages</string>
 	<string name="main.settings.info">Application settings</string>
 	
+	<!-- EditLang -->
+	<string name="edit_lang.add_lang">Add a new language</string>
+	
 	<!-- Settings -->
 	<string name="settings.couldnt_save">Couldn\'t save settings</string>
+	
+	<!-- Language adapter -->
+	<string name="a.language.delete_sure">Are you sure you want to permanently delete this language? All its words, dictionaries and tables will also be deleted.</string>
 </resources>
