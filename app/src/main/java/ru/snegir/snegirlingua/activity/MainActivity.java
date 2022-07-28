@@ -4,7 +4,7 @@
  //  File: MainActivity.java           //
 ////////////////////////////////////////
 
-package ru.snegir.snegirlingua.view;
+package ru.snegir.snegirlingua.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -89,7 +89,8 @@ public class MainActivity extends AppCompatActivity
 			@Override
 			public void onClick(View v)
 			{
-				// Todo: start EditLangActivity
+				Intent editLangI = new Intent(MainActivity.this, EditLangActivity.class);
+				startActivity(editLangI);
 			}
 		});
 		editLangIB.setOnLongClickListener(new View.OnLongClickListener()

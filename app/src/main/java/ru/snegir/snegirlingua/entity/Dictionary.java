@@ -6,6 +6,8 @@
 
 package ru.snegir.snegirlingua.entity;
 
+import android.graphics.Color;
+
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -33,13 +35,16 @@ public class Dictionary
 
 	@NonNull
 	private String lang2;
+	
+	private int color;
 
-	public Dictionary(int id, @NonNull String name, @NonNull String lang1, @NonNull String lang2)
+	public Dictionary(int id, @NonNull String name, @NonNull String lang1, @NonNull String lang2, int color)
 	{
 		this.id = id;
 		this.name = name;
 		this.lang1 = lang1;
 		this.lang2 = lang2;
+		this.color = color;
 	}
 
 	public int getId()
@@ -85,6 +90,16 @@ public class Dictionary
 		this.name = name;
 	}
 
+	public int getColor()
+	{
+		return color;
+	}
+	
+	public void setColor(int color)
+	{
+		this.color = color;
+	}
+	
 	@Override
 	@NonNull
 	public String toString()

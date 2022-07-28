@@ -9,15 +9,18 @@
 		android:roundIcon="@mipmap/ic_launcher_round"
 		android:supportsRtl="true"
 		android:theme="@style/Theme.SnegirLingua">
-		<activity android:name="ru.snegir.snegirlingua.view.MainActivity"
-			android:label="@string/main.select_lang">
+		<activity android:name=".activity.MainActivity"
+			android:label="@string/main.label">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
 				
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
-		<activity android:name="ru.snegir.snegirlingua.view.SettingsActivity"/>
+		<activity android:name=".activity.SettingsActivity"
+			android:label="@string/settings.label"/>
+		<activity android:name=".activity.EditLangActivity"
+			android:label="@string/edit_lang.label"/>
 	</application>
 
 </manifest>

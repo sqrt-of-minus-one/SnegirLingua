@@ -28,12 +28,15 @@ public class RowEntry
 	private int row;
 
 	private int entry;
+	
+	private boolean learned;
 
-	public RowEntry(int id, int row, int entry)
+	public RowEntry(int id, int row, int entry, boolean learned)
 	{
 		this.id = id;
 		this.row = row;
 		this.entry = entry;
+		this.learned = learned;
 	}
 
 	public int getId()
@@ -64,6 +67,16 @@ public class RowEntry
 	public void setEntry(int entry)
 	{
 		this.entry = entry;
+	}
+	
+	public boolean isLearned()
+	{
+		return learned;
+	}
+	
+	public void setLearned(boolean learned)
+	{
+		this.learned = learned;
 	}
 
 	@Override

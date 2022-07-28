@@ -33,7 +33,7 @@
 		app:layout_constraintRight_toRightOf="parent"/>
 	
 	<com.google.android.material.floatingactionbutton.FloatingActionButton
-		android:id="@+id/edit_lang_add_LV"
+		android:id="@+id/edit_lang_addFB"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		app:layout_constraintRight_toRightOf="parent"
@@ -41,6 +41,6 @@
 		android:src="@drawable/ic_launcher_foreground"
 		android:contentDescription="@string/edit_lang.add_lang"
 		android:scaleType="fitCenter"
-		android:layout_margin="50dp"/>
+		android:layout_margin="20dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

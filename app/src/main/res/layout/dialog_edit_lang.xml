@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools">
+	
+	<TextView
+		android:id="@+id/d_edit_lang_codeTV"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toLeftOf="@id/d_edit_lang_codeGL"
+		tools:text="CD"
+		style="@style/TextAppearance.AppCompat.Headline"
+		android:autofillHints="language_code"/>
+	
+	<androidx.constraintlayout.widget.Guideline
+		android:id="@+id/d_edit_lang_codeGL"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		app:layout_constraintGuide_begin="64dp"/>
+	
+	<EditText
+		android:id="@+id/d_edit_lang_nameET"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		app:layout_constraintBaseline_toBaselineOf="@id/d_edit_lang_codeTV"
+		app:layout_constraintLeft_toRightOf="@id/d_edit_lang_codeGL"
+		app:layout_constraintRight_toRightOf="parent"
+		android:inputType="text"
+		android:hint="@string/edit_lang.name_hint"
+		android:autofillHints="language"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

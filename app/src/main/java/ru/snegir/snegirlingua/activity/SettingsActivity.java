@@ -4,7 +4,7 @@
  //  File: SettingsActivity.java       //
 ////////////////////////////////////////
 
-package ru.snegir.snegirlingua.view;
+package ru.snegir.snegirlingua.activity;
 
 import android.os.Bundle;
 import android.widget.CheckBox;
@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import ru.snegir.snegirlingua.R;
 import ru.snegir.snegirlingua.SettingsManager;
 
-	public class SettingsActivity extends AppCompatActivity
+public class SettingsActivity extends AppCompatActivity
 {
 	private CheckBox testCB;
 	
