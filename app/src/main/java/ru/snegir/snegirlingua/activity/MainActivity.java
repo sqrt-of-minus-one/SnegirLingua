@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity
 	private ImageButton proceedIB, editLangIB, settingsIB;
 	private TextView proceedTV, editLangTV, settingsTV;
 	
+	// If true, the languages list needs to be updated
 	private boolean needsToBeReloaded;
 	
 	@Override
@@ -66,93 +67,62 @@ public class MainActivity extends AppCompatActivity
 		
 		loadLangs();
 		
-		proceedIB.setOnClickListener(new View.OnClickListener()
+		proceedIB.setOnClickListener(v ->
 		{
-			@Override
-			public void onClick(View v)
-			{
-				// Todo: start MenuActivity
-			}
+			// Todo: start MenuActivity
 		});
-		proceedIB.setOnLongClickListener(new View.OnLongClickListener()
+		proceedIB.setOnLongClickListener(v ->
 		{
-			@Override
-			public boolean onLongClick(View v)
-			{
-				Toast.makeText(MainActivity.this, R.string.main_proceed_info, Toast.LENGTH_LONG).show();
-				return true;
-			}
+			Toast.makeText(MainActivity.this, R.string.main_proceed_info, Toast.LENGTH_LONG).show();
+			return true;
 		});
 		
-		editLangIB.setOnClickListener(new View.OnClickListener()
+		editLangIB.setOnClickListener(v ->
 		{
-			@Override
-			public void onClick(View v)
-			{
-				Intent editLangI = new Intent(MainActivity.this, EditLangActivity.class);
-				startActivity(editLangI);
-			}
+			Intent editLangI = new Intent(MainActivity.this, EditLangActivity.class);
+			startActivity(editLangI);
 		});
-		editLangIB.setOnLongClickListener(new View.OnLongClickListener()
+		editLangIB.setOnLongClickListener(v ->
 		{
-			@Override
-			public boolean onLongClick(View v)
-			{
-				Toast.makeText(MainActivity.this, R.string.main_edit_lang_info, Toast.LENGTH_LONG).show();
-				return true;
-			}
+			Toast.makeText(MainActivity.this, R.string.main_edit_lang_info, Toast.LENGTH_LONG).show();
+			return true;
 		});
 		
-		settingsIB.setOnClickListener(new View.OnClickListener()
+		settingsIB.setOnClickListener(v ->
 		{
-			@Override
-			public void onClick(View v)
-			{
-				Intent settingsI = new Intent(MainActivity.this, SettingsActivity.class);
-				startActivity(settingsI);
-			}
+			Intent settingsI = new Intent(MainActivity.this, SettingsActivity.class);
+			startActivity(settingsI);
 		});
-		settingsIB.setOnLongClickListener(new View.OnLongClickListener()
+		settingsIB.setOnLongClickListener(v ->
 		{
-			@Override
-			public boolean onLongClick(View v)
-			{
-				Toast.makeText(MainActivity.this, R.string.main_settings_info, Toast.LENGTH_LONG).show();
-				return true;
-			}
+			Toast.makeText(MainActivity.this, R.string.main_settings_info, Toast.LENGTH_LONG).show();
+			return true;
 		});
 	}
 	
+	// Update the languages list
 	private void loadLangs()
 	{
 		loadPB.setVisibility(View.VISIBLE);
 		needsToBeReloaded = false;
-		new Thread()
+		new Thread(() ->
 		{
-			@Override
-			public void run()
+			final List<Language> languages = Database.get(MainActivity.this).languages().getAll();
+			String[] langs = new String[languages.size()]; // Array with codes of languages
+			for (int i = 0; i < languages.size(); i++)
 			{
-				List<Language> languages = Database.get(MainActivity.this).languages().getAll();
-				String[] langs = new String[languages.size()];
-				for (int i = 0; i < languages.size(); i++)
-				{
-					langs[i] = languages.get(i).getCode();
-				}
-				final ArrayAdapter<String> adapter =
-						new ArrayAdapter<>(MainActivity.this,
-										   android.R.layout.simple_spinner_item, langs);
-				adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-				runOnUiThread(new Runnable()
-				{
-					@Override
-					public void run()
-					{
-						lang1SP.setAdapter(adapter);
-						lang2SP.setAdapter(adapter);
-						loadPB.setVisibility(View.INVISIBLE);
-					}
-				});
+				langs[i] = languages.get(i).getCode();
 			}
-		}.start();
+			final ArrayAdapter<String> adapter =
+					new ArrayAdapter<>(MainActivity.this,
+									   android.R.layout.simple_spinner_item, langs);
+			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			runOnUiThread(() ->
+			{
+				lang1SP.setAdapter(adapter);
+				lang2SP.setAdapter(adapter);
+				loadPB.setVisibility(View.INVISIBLE);
+			});
+		}).start();
 	}
 }

@@ -27,16 +27,13 @@ public class SettingsActivity extends AppCompatActivity
 		
 		testCB = findViewById(R.id.settings_testCB);
 		
+		// Settings are loaded in MainActivity
 		testCB.setChecked(SettingsManager.settings.test);
 		
-		testCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+		testCB.setOnCheckedChangeListener((buttonView, isChecked) ->
 		{
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
-			{
-				SettingsManager.settings.test = isChecked;
-				SettingsManager.save(SettingsActivity.this);
-			}
+			SettingsManager.settings.test = isChecked;
+			SettingsManager.save(SettingsActivity.this);
 		});
 	}
 }

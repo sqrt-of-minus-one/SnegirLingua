@@ -30,19 +30,17 @@ public class SettingsManager
 		FileInputStream fis = null;
 		try
 		{
+			// Read from file and load to Settings object using GSON
 			fis = context.openFileInput(FILE_NAME);
 			byte[] bytes = new byte[fis.available()];
 			fis.read(bytes);
 			settings = new GsonBuilder().create().fromJson(new String(bytes), Settings.class);
-			Toast.makeText(context, new String(bytes), Toast.LENGTH_LONG).show();
 		}
-		catch (IOException exception)
-		{
-		
-		}
+		catch (IOException ignored)
+		{}
 		finally
 		{
-			if (settings == null)
+			if (settings == null) // settings must not be null
 			{
 				settings = new Settings();
 			}
@@ -53,10 +51,8 @@ public class SettingsManager
 					fis.close();
 				}
 			}
-			catch (IOException exception)
-			{
-			
-			}
+			catch (IOException ignored)
+			{}
 		}
 	}
 	
@@ -65,6 +61,7 @@ public class SettingsManager
 		FileOutputStream fos = null;
 		try
 		{
+			// write settings to file
 			fos = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
 			fos.write(new GsonBuilder().create().toJson(settings).getBytes());
 		}
@@ -81,10 +78,8 @@ public class SettingsManager
 					fos.close();
 				}
 			}
-			catch (IOException exception)
-			{
-			
-			}
+			catch (IOException ignored)
+			{}
 		}
 	}
 }

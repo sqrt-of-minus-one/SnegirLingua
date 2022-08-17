@@ -57,63 +57,42 @@ public class LanguageAdapter extends ArrayAdapter<Language>
 		codeTVs[position].setText(getItem(position).getCode());
 		langTVs[position].setText(getItem(position).getName());
 		
-		convertView.setOnClickListener(new View.OnClickListener()
+		convertView.setOnClickListener(v ->
 		{
-			@Override
-			public void onClick(View v)
-			{
-				View editLangDialog = LayoutInflater.from(getContext()).inflate(R.layout.dialog_edit_lang, null);
-				TextView codeTV = editLangDialog.findViewById(R.id.d_edit_lang_codeTV);
-				EditText nameET = editLangDialog.findViewById(R.id.d_edit_lang_nameET);
-				codeTV.setText(getItem(position).getCode());
-				nameET.setText(getItem(position).getName());
-				
-				new AlertDialog.Builder(getContext())
-						.setTitle(R.string.edit_lang_edit_lang)
-						.setView(editLangDialog)
-						.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener()
+			View editLangDialog = LayoutInflater.from(getContext()).inflate(R.layout.dialog_edit_lang, null);
+			final TextView codeTV = editLangDialog.findViewById(R.id.d_edit_lang_codeTV);
+			final EditText nameET = editLangDialog.findViewById(R.id.d_edit_lang_nameET);
+			codeTV.setText(getItem(position).getCode());
+			nameET.setText(getItem(position).getName());
+			
+			new AlertDialog.Builder(getContext())
+					.setTitle(R.string.edit_lang_edit_lang)
+					.setView(editLangDialog)
+					.setPositiveButton(R.string.ok, (dialog, which) ->
+					{
+						final String code = codeTV.getText().toString();
+						final String name = nameET.getText().toString();
+						
+						// Code cannot be changed
+						if (!name.isEmpty())
 						{
-							@Override
-							public void onClick(DialogInterface dialog, int which)
-							{
-								String code = codeTV.getText().toString();
-								String name = nameET.getText().toString();
-								
-								if (!name.isEmpty())
-								{
-									activity.editLang(new Language(code, name));
-								}
-								else
-								{
-									Toast.makeText(getContext(), R.string.edit_lang_enter_name, Toast.LENGTH_LONG).show();
-								}
-							}
-						})
-						.setNegativeButton(R.string.cancel, null)
-						.create()
-						.show();
-			}
-		});
-		deleteIBs[position].setOnClickListener(new View.OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				new AlertDialog.Builder(getContext())
-						.setMessage(R.string.edit_lang_delete_sure)
-						.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener()
+							activity.editLang(new Language(code, name));
+						}
+						else
 						{
-							@Override
-							public void onClick(DialogInterface dialog, int which)
-							{
-								activity.deleteLang(getItem(position));
-							}
-						})
-						.setNegativeButton(R.string.cancel, null)
-						.create()
-						.show();
-			}
+							Toast.makeText(getContext(), R.string.edit_lang_enter_name, Toast.LENGTH_LONG).show();
+						}
+					})
+					.setNegativeButton(R.string.cancel, null)
+					.create()
+					.show();
 		});
+		deleteIBs[position].setOnClickListener(v -> new AlertDialog.Builder(getContext())
+				.setMessage(R.string.edit_lang_delete_sure)
+				.setPositiveButton(R.string.delete, (dialog, which) -> activity.deleteLang(getItem(position)))
+				.setNegativeButton(R.string.cancel, null)
+				.create()
+				.show());
 		
 		return convertView;
 	}
