@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
@@ -69,7 +70,20 @@ public class MainActivity extends AppCompatActivity
 		
 		proceedIB.setOnClickListener(v ->
 		{
-			// Todo: start MenuActivity
+			Pair<String, String> langs = new Pair<>(
+					lang1SP.getSelectedItem() == null ? "" : lang1SP.getSelectedItem().toString(),
+					lang2SP.getSelectedItem() == null ? "" : lang2SP.getSelectedItem().toString());
+			if (!langs.first.isEmpty() && !langs.second.isEmpty() && !langs.first.equals(langs.second))
+			{
+				Intent menuI = new Intent(MainActivity.this, MenuActivity.class);
+				menuI.putExtra(MenuActivity.LANG_1, langs.first);
+				menuI.putExtra(MenuActivity.LANG_2, langs.second);
+				startActivity(menuI);
+			}
+			else
+			{
+				Toast.makeText(MainActivity.this, R.string.main_select_langs, Toast.LENGTH_LONG).show();
+			}
 		});
 		proceedIB.setOnLongClickListener(v ->
 		{

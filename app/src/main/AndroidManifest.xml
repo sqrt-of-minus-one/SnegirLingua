@@ -21,6 +21,8 @@
 			android:label="@string/settings.label"/>
 		<activity android:name=".activity.EditLangActivity"
 			android:label="@string/edit_lang.label"/>
+		<activity android:name=".activity.MenuActivity"
+			android:label="@string/menu.label"/>
 	</application>
 
 </manifest>

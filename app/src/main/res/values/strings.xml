@@ -16,6 +16,7 @@
 	<string name="main.proceed.info">Study the selected languages</string>
 	<string name="main.edit_lang.info">Add, remove or rename languages</string>
 	<string name="main.settings.info">Application settings</string>
+	<string name="main.select_langs">You should select two different languages</string>
 	
 	<!-- EditLang -->
 	<string name="edit_lang.label">Languages</string>
@@ -33,4 +34,17 @@
 	<!-- Settings -->
 	<string name="settings.label">Settings</string>
 	<string name="settings.couldnt_save">Couldn\'t save settings</string>
+	
+	<!-- Menu -->
+	<string name="menu.label">Menu</string>
+	<string name="menu.langs_separator">—</string>
+	<string name="menu.dictionaries">Dictionaries</string>
+	<string name="menu.words">Words</string>
+	<string name="menu.tables">Tables</string>
+	<string name="menu.training">Training</string>
+	<string name="menu.dictionaries.info">Edit dictionaries of selected languages</string>
+	<string name="menu.words.info">Edit words of selected languages</string>
+	<string name="menu.tables.info">Edit tables of selected languages</string>
+	<string name="menu.training.info">Learn words and tables of selected languages</string>
+	
 </resources>
