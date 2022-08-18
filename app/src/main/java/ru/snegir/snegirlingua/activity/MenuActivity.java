@@ -1,12 +1,13 @@
     ////////////////////////////////////////
    //     SnegirLingua by SnegirSoft     //
   //                                    //
- //  File: SettingsActivity.java       //
+ //  File: MenuActivity.java           //
 ////////////////////////////////////////
 
 package ru.snegir.snegirlingua.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Pair;
 import android.widget.ImageButton;
@@ -54,7 +55,10 @@ public class MenuActivity extends Activity
 		
 		wordsIB.setOnClickListener(v ->
 		{
-			// Todo: start WordsActivity
+			Intent wordsI = new Intent(MenuActivity.this, WordsActivity.class);
+			wordsI.putExtra(WordsActivity.LANG1, langs.first);
+			wordsI.putExtra(WordsActivity.LANG2, langs.second);
+			startActivity(wordsI);
 		});
 		wordsIB.setOnLongClickListener(v ->
 		{

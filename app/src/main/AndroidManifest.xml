@@ -23,6 +23,8 @@
 			android:label="@string/edit_lang.label"/>
 		<activity android:name=".activity.MenuActivity"
 			android:label="@string/menu.label"/>
+		<activity android:name=".activity.WordsActivity"
+			android:label="@string/words.label"/>
 	</application>
 
 </manifest>

@@ -47,4 +47,9 @@
 	<string name="menu.tables.info">Edit tables of selected languages</string>
 	<string name="menu.training.info">Learn words and tables of selected languages</string>
 	
+	<!-- Words -->
+	<string name="words.label">Words</string>
+	<string name="words.delete_sure">Are you sure you want to permanently delete this word?</string>
+	<string name="words.add_word">Add word</string>
+	
 </resources>
