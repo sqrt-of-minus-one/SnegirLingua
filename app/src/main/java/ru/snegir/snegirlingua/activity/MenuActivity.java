@@ -1,7 +1,7 @@
-    ////////////////////////////////////////
-   //     SnegirLingua by SnegirSoft     //
-  //                                    //
- //  File: MenuActivity.java           //
+////////////////////////////////////////////
+/////     SnegirLingua by SnegirSoft     //
+////                                    //
+///  File: MenuActivity.java           //
 ////////////////////////////////////////
 
 package ru.snegir.snegirlingua.activity;
@@ -39,6 +39,7 @@ public class MenuActivity extends Activity
 		tablesIB = findViewById(R.id.menu_tablesIB);
 		trainingIB = findViewById(R.id.menu_trainingIB);
 		
+		// Languages are supposed to be sorted
 		langs = new Pair<>(getIntent().getStringExtra(LANG_1), getIntent().getStringExtra(LANG_2));
 		lang1TV.setText(langs.first);
 		lang2TV.setText(langs.second);

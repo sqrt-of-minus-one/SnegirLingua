@@ -25,6 +25,8 @@
 			android:label="@string/menu.label"/>
 		<activity android:name=".activity.WordsActivity"
 			android:label="@string/words.label"/>
+		<activity android:name=".activity.WordActivity"
+			android:label="@string/word.label"/>
 	</application>
 
 </manifest>

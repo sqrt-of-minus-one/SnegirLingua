@@ -1,7 +1,7 @@
-    ////////////////////////////////////////
-   //     SnegirLingua by SnegirSoft     //
-  //                                    //
- //  File: Rows.java                   //
+////////////////////////////////////////////
+/////     SnegirLingua by SnegirSoft     //
+////                                    //
+///  File: Rows.java                   //
 ////////////////////////////////////////
 
 package ru.snegir.snegirlingua.database;

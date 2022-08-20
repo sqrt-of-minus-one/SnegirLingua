@@ -1,13 +1,12 @@
-    ////////////////////////////////////////
-   //     SnegirLingua by SnegirSoft     //
-  //                                    //
- //  File: EditLangActivity.java       //
+////////////////////////////////////////////
+/////     SnegirLingua by SnegirSoft     //
+////                                    //
+///  File: EditLangActivity.java       //
 ////////////////////////////////////////
 
 package ru.snegir.snegirlingua.activity;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -27,6 +26,7 @@ import java.util.List;
 import ru.snegir.snegirlingua.R;
 import ru.snegir.snegirlingua.adapter.LanguageAdapter;
 import ru.snegir.snegirlingua.database.Database;
+import ru.snegir.snegirlingua.database.facade.LanguagesFacade;
 import ru.snegir.snegirlingua.entity.Language;
 
 public class EditLangActivity extends AppCompatActivity
@@ -56,17 +56,13 @@ public class EditLangActivity extends AppCompatActivity
 						EditText codeET = addLangDialog.findViewById(R.id.d_add_lang_codeET);
 						EditText nameET = addLangDialog.findViewById(R.id.d_add_lang_nameET);
 						
-						String code = codeET.getText().toString();
-						String name = nameET.getText().toString();
-						
-						if (!code.isEmpty() && !name.isEmpty())
+						loadPB.setVisibility(View.VISIBLE);
+						new Thread(() ->
 						{
-							addLang(code, name);
-						}
-						else
-						{
-							Toast.makeText(EditLangActivity.this, R.string.edit_lang_enter_code_name, Toast.LENGTH_SHORT).show();
-						}
+							LanguagesFacade.insert(EditLangActivity.this, codeET.getText().toString(), nameET.getText().toString());
+							EditLangActivity.this.runOnUiThread(this::loadLangs);
+							// Progress bar becomes invisible in loadLangs
+						}).start();
 					})
 					.setNegativeButton(R.string.cancel, null)
 					.create()
@@ -75,75 +71,18 @@ public class EditLangActivity extends AppCompatActivity
 		loadLangs();
 	}
 	
-	private void addLang(@NonNull String code, @NonNull String name)
+	public void makeProgressBarVisible()
 	{
 		loadPB.setVisibility(View.VISIBLE);
-		new Thread(() ->
-		{
-			try
-			{
-				Database.get(EditLangActivity.this).languages().insert(new Language(code, name));
-			}
-			catch (SQLiteConstraintException e)
-			{
-				EditLangActivity.this.runOnUiThread(() ->
-						Toast.makeText(EditLangActivity.this, R.string.edit_lang_couldnt_add, Toast.LENGTH_LONG).show());
-			}
-			finally
-			{
-				EditLangActivity.this.runOnUiThread(this::loadLangs);
-			}
-		}).start();
 	}
 	
-	public void editLang(Language language)
-	{
-		loadPB.setVisibility(View.VISIBLE);
-		new Thread(() ->
-		{
-			try
-			{
-				Database.get(EditLangActivity.this).languages().update(language);
-			}
-			catch (SQLiteConstraintException e)
-			{
-				EditLangActivity.this.runOnUiThread(() ->
-						Toast.makeText(EditLangActivity.this, R.string.edit_lang_couldnt_edit, Toast.LENGTH_LONG).show());
-			}
-			finally
-			{
-				EditLangActivity.this.runOnUiThread(this::loadLangs);
-			}
-		}).start();
-	}
-	
-	public void deleteLang(Language language)
-	{
-		loadPB.setVisibility(View.VISIBLE);
-		new Thread(() ->
-		{
-			try
-			{
-				Database.get(EditLangActivity.this).languages().delete(language);
-			}
-			catch (SQLiteConstraintException e)
-			{
-				EditLangActivity.this.runOnUiThread(() ->
-						Toast.makeText(EditLangActivity.this, R.string.edit_lang_couldnt_delete, Toast.LENGTH_LONG).show());
-			}
-			finally
-			{
-				EditLangActivity.this.runOnUiThread(this::loadLangs);
-			}
-		}).start();
-	}
-	
+	// Load languages to the list view
 	public void loadLangs()
 	{
 		loadPB.setVisibility(View.VISIBLE);
 		new Thread(() ->
 		{
-			List<Language> list = Database.get(EditLangActivity.this).languages().getAll();
+			List<Language> list = LanguagesFacade.getAll(EditLangActivity.this);
 			Language[] array = new Language[list.size()];
 			list.toArray(array);
 			LanguageAdapter adapter = new LanguageAdapter(EditLangActivity.this, array);

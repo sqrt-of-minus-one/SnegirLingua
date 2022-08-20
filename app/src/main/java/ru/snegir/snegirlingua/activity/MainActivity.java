@@ -1,7 +1,7 @@
-    ////////////////////////////////////////
-   //     SnegirLingua by SnegirSoft     //
-  //                                    //
- //  File: MainActivity.java           //
+////////////////////////////////////////////
+/////     SnegirLingua by SnegirSoft     //
+////                                    //
+///  File: MainActivity.java           //
 ////////////////////////////////////////
 
 package ru.snegir.snegirlingua.activity;
@@ -16,7 +16,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -24,6 +23,7 @@ import java.util.List;
 import ru.snegir.snegirlingua.R;
 import ru.snegir.snegirlingua.SettingsManager;
 import ru.snegir.snegirlingua.database.Database;
+import ru.snegir.snegirlingua.database.facade.LanguagesFacade;
 import ru.snegir.snegirlingua.entity.Language;
 
 public class MainActivity extends AppCompatActivity
@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity
 	private ProgressBar loadPB;
 	private Spinner lang1SP, lang2SP;
 	private ImageButton proceedIB, editLangIB, settingsIB;
-	private TextView proceedTV, editLangTV, settingsTV;
 	
 	// If true, the languages list needs to be updated
 	private boolean needsToBeReloaded;
@@ -52,6 +51,7 @@ public class MainActivity extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
+		// Load settings from file
 		SettingsManager.load(MainActivity.this);
 		
 		needsToBeReloaded = false;
@@ -62,9 +62,6 @@ public class MainActivity extends AppCompatActivity
 		proceedIB = findViewById(R.id.main_proceedIB);
 		editLangIB = findViewById(R.id.main_editLangIB);
 		settingsIB = findViewById(R.id.main_settingsIB);
-		proceedTV = findViewById(R.id.main_proceedTV);
-		editLangTV = findViewById(R.id.main_editLangTV);
-		settingsTV = findViewById(R.id.main_settingsTV);
 		
 		loadLangs();
 		
@@ -75,6 +72,11 @@ public class MainActivity extends AppCompatActivity
 					lang2SP.getSelectedItem() == null ? "" : lang2SP.getSelectedItem().toString());
 			if (!langs.first.isEmpty() && !langs.second.isEmpty() && !langs.first.equals(langs.second))
 			{
+				// The first lang must be less (lexicographically) than the second one
+				if (langs.first.compareTo(langs.second) > 0)
+				{
+					langs = new Pair<>(langs.second, langs.first);
+				}
 				Intent menuI = new Intent(MainActivity.this, MenuActivity.class);
 				menuI.putExtra(MenuActivity.LANG_1, langs.first);
 				menuI.putExtra(MenuActivity.LANG_2, langs.second);
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity
 			}
 			else
 			{
-				Toast.makeText(MainActivity.this, R.string.main_select_langs, Toast.LENGTH_LONG).show();
+				Toast.makeText(MainActivity.this, R.string.error_lang_same_selected, Toast.LENGTH_LONG).show();
 			}
 		});
 		proceedIB.setOnLongClickListener(v ->
@@ -121,15 +123,15 @@ public class MainActivity extends AppCompatActivity
 		needsToBeReloaded = false;
 		new Thread(() ->
 		{
-			final List<Language> languages = Database.get(MainActivity.this).languages().getAll();
-			String[] langs = new String[languages.size()]; // Array with codes of languages
+			final List<Language> languages = LanguagesFacade.getAll(MainActivity.this);
+			String[] langCodes = new String[languages.size()]; // Array with codes of languages
 			for (int i = 0; i < languages.size(); i++)
 			{
-				langs[i] = languages.get(i).getCode();
+				langCodes[i] = languages.get(i).getCode();
 			}
 			final ArrayAdapter<String> adapter =
 					new ArrayAdapter<>(MainActivity.this,
-									   android.R.layout.simple_spinner_item, langs);
+									   android.R.layout.simple_spinner_item, langCodes);
 			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			runOnUiThread(() ->
 			{

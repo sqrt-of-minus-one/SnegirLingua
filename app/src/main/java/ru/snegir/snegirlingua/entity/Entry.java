@@ -1,7 +1,7 @@
-    ////////////////////////////////////////
-   //     SnegirLingua by SnegirSoft     //
-  //                                    //
- //  File: Entry.java                  //
+////////////////////////////////////////////
+/////     SnegirLingua by SnegirSoft     //
+////                                    //
+///  File: Entry.java                  //
 ////////////////////////////////////////
 
 package ru.snegir.snegirlingua.entity;

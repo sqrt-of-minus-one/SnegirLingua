@@ -1,7 +1,7 @@
-    ////////////////////////////////////////
-   //     SnegirLingua by SnegirSoft     //
-  //                                    //
- //  File: Settings.java               //
+////////////////////////////////////////////
+/////     SnegirLingua by SnegirSoft     //
+////                                    //
+///  File: Settings.java               //
 ////////////////////////////////////////
 
 package ru.snegir.snegirlingua;
@@ -67,7 +67,7 @@ public class SettingsManager
 		}
 		catch (IOException exception)
 		{
-			Toast.makeText(context, R.string.settings_couldnt_save, Toast.LENGTH_LONG).show();
+			Toast.makeText(context, R.string.error_settings_save, Toast.LENGTH_LONG).show();
 		}
 		finally
 		{

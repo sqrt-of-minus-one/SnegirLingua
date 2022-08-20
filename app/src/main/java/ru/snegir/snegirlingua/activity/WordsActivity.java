@@ -1,12 +1,13 @@
-    ////////////////////////////////////////
-   //     SnegirLingua by SnegirSoft     //
-  //                                    //
- //  File: WordsActivity.java          //
+////////////////////////////////////////////
+/////     SnegirLingua by SnegirSoft     //
+////                                    //
+///  File: WordsActivity.java          //
 ////////////////////////////////////////
 
 package ru.snegir.snegirlingua.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
@@ -22,9 +23,10 @@ import java.util.List;
 import ru.snegir.snegirlingua.R;
 import ru.snegir.snegirlingua.adapter.WordAdapter;
 import ru.snegir.snegirlingua.database.Database;
+import ru.snegir.snegirlingua.database.facade.TranslationsFacade;
 import ru.snegir.snegirlingua.entity.Translation;
 
-	public class WordsActivity extends Activity
+public class WordsActivity extends Activity
 {
 	public static final String LANG1 = "lang_1";
 	public static final String LANG2 = "lang_2";
@@ -52,16 +54,17 @@ import ru.snegir.snegirlingua.entity.Translation;
 		
 		langs = new Pair<>(getIntent().getStringExtra(LANG1), getIntent().getStringExtra(LANG2));
 		
-		sortLang1RB.setText(langs.first + " ↓");
-		sortLang2RB.setText(langs.second + " ↓");
+		sortLang1RB.setText(getString(R.string.sort, langs.first));
+		sortLang2RB.setText(getString(R.string.sort, langs.second));
 		
-		sortRG.setOnCheckedChangeListener((group, checkedId) ->
-		{
-			load();
-		});
+		sortRG.setOnCheckedChangeListener((group, checkedId) -> load());
 		addFB.setOnClickListener(v ->
 		{
-			// Todo: add word
+			Intent wordI = new Intent(WordsActivity.this, WordActivity.class);
+			wordI.putExtra(WordActivity.LANG1, langs.first);
+			wordI.putExtra(WordActivity.LANG2, langs.second);
+			wordI.putExtra(WordActivity.IS_NEW, true);
+			startActivity(wordI);
 		});
 		sortLang1RB.setChecked(true);
 	}
@@ -71,10 +74,10 @@ import ru.snegir.snegirlingua.entity.Translation;
 		loadPB.setVisibility(View.VISIBLE);
 		new Thread(() ->
 		{
-			List<Translation> translations = Database.get(WordsActivity.this).translations().getForLang(langs.first, langs.second);
+			List<Translation> translations = TranslationsFacade.getForLangs(WordsActivity.this, langs, sortLang2RB.isChecked());
 			Translation[] array = new Translation[translations.size()];
 			translations.toArray(array);
-			WordAdapter adapter = new WordAdapter(WordsActivity.this, array);
+			WordAdapter adapter = new WordAdapter(WordsActivity.this, array, langs);
 			WordsActivity.this.runOnUiThread(() ->
 			{
 				listLV.setAdapter(adapter);

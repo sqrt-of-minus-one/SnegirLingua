@@ -1,7 +1,7 @@
-    ////////////////////////////////////////
-   //     SnegirLingua by SnegirSoft     //
-  //                                    //
- //  File: Translations.java           //
+////////////////////////////////////////////
+/////     SnegirLingua by SnegirSoft     //
+////                                    //
+///  File: Translations.java           //
 ////////////////////////////////////////
 
 package ru.snegir.snegirlingua.database;
@@ -32,9 +32,19 @@ public interface Translations
 			"LEFT JOIN words AS words1 ON words1.id = word1 " +
 			"LEFT JOIN words AS words2 ON words2.id = word2 " +
 			"WHERE words1.language = :language1 AND words2.language = :language2 " +
-			"OR words1.language = :language2 AND words2.language = :language1 " +
+//			"OR words1.language = :language2 AND words2.language = :language1 " + // Languages are supposed to be sorted
 			"ORDER BY words1.word, words2.word")
-	List<Translation> getForLang(@NonNull String language1, @NonNull String language2);
+	List<Translation> getForLangOrderByFirst(@NonNull String language1, @NonNull String language2);
+	
+	@Query("SELECT translations.id, translations.word1, translations.word2," +
+			"translations.learned1, translations.learned2 " +
+			"FROM translations " +
+			"LEFT JOIN words AS words1 ON words1.id = word1 " +
+			"LEFT JOIN words AS words2 ON words2.id = word2 " +
+			"WHERE words1.language = :language1 AND words2.language = :language2 " +
+//			"OR words1.language = :language2 AND words2.language = :language1 " + // Languages are supposed to be sorder
+			"ORDER BY words2.word, words1.word")
+	List<Translation> getForLangOrderBySecond(@NonNull String language1, @NonNull String language2);
 
 	@Query("SELECT translations.id, translations.word1, translations.word2, " +
 			"translations.learned1, translations.learned2 " +

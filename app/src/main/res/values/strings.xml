@@ -1,13 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="app_name">SnegirLingua</string>
+	<string name="lang_code">EN</string>
+	<string name="lang_name">English</string>
+	<string name="lang_region">United States</string>
+	
 	<string name="yes">Yes</string>
 	<string name="no">No</string>
 	<string name="ok">OK</string>
 	<string name="add">Add</string>
+	<string name="save">Save</string>
 	<string name="cancel">Cancel</string>
 	<string name="delete">Delete</string>
 	<string name="proceed">Proceed</string>
+	
+	<string name="sort">%s ↓</string>
+	
+	<!-- Errors -->
+	<string name="error.lang.add">Couldn\'t add the language</string>
+	<string name="error.lang.edit">Couldn\'t edit the language</string>
+	<string name="error.lang.delete">Couldn\'t delete the languge</string>
+	<string name="error.lang.same_selected">You should select two different languages</string>
+	<string name="error.lang.no_code_name">You should enter both the code and the name of the language</string>
+	<string name="error.lang.no_name">You should enter the name of the language</string>
+	<string name="error.lang.already_exists">The language with such code already exists</string>
+	<string name="error.settings.save">Couldn\'t save settings</string>
+	<string name="error.word.no_word">You should enter both words</string>
+	<string name="error.word.already_exists">This translation already exists</string>
+	
+	<!-- Sure -->
+	<string name="sure.delete.lang">Are you sure you want to permanently delete this language? All its words, dictionaries and tables will also be deleted.</string>
+	<string name="sure.delete.word">Are you sure you want to permanently delete this word?</string>
 	
 	<!-- Main -->
 	<string name="main.label">SnegirLingua</string>
@@ -16,24 +39,14 @@
 	<string name="main.proceed.info">Study the selected languages</string>
 	<string name="main.edit_lang.info">Add, remove or rename languages</string>
 	<string name="main.settings.info">Application settings</string>
-	<string name="main.select_langs">You should select two different languages</string>
 	
 	<!-- EditLang -->
 	<string name="edit_lang.label">Languages</string>
 	<string name="edit_lang.add_lang">Add a new language</string>
 	<string name="edit_lang.edit_lang">Edit the language</string>
-	<string name="edit_lang.delete_sure">Are you sure you want to permanently delete this language? All its words, dictionaries and tables will also be deleted.</string>
-	<string name="edit_lang.enter_code_name">You should enter the code and the name of the language</string>
-	<string name="edit_lang.enter_name">You should enter the name of the language</string>
-	<string name="edit_lang.couldnt_add">Couldn\'t add the language</string>
-	<string name="edit_lang.couldnt_edit">Couldn\'t edit the language</string>
-	<string name="edit_lang.couldnt_delete">Couldn\'t delete the languge</string>
-	<string name="edit_lang.code_hint">EN</string>
-	<string name="edit_lang.name_hint">English</string>
 	
 	<!-- Settings -->
 	<string name="settings.label">Settings</string>
-	<string name="settings.couldnt_save">Couldn\'t save settings</string>
 	
 	<!-- Menu -->
 	<string name="menu.label">Menu</string>
@@ -49,7 +62,10 @@
 	
 	<!-- Words -->
 	<string name="words.label">Words</string>
-	<string name="words.delete_sure">Are you sure you want to permanently delete this word?</string>
 	<string name="words.add_word">Add word</string>
+	
+	<!-- Word -->
+	<string name="word.label">Edit word</string>
+	<string name="word.word">word</string>
 	
 </resources>

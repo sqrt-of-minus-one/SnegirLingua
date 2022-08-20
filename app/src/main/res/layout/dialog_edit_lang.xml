@@ -32,7 +32,7 @@
 		app:layout_constraintLeft_toRightOf="@id/d_edit_lang_codeGL"
 		app:layout_constraintRight_toRightOf="parent"
 		android:inputType="text"
-		android:hint="@string/edit_lang.name_hint"
+		android:hint="@string/lang_name"
 		android:autofillHints="language"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

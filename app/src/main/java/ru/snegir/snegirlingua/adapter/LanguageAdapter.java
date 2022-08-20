@@ -1,7 +1,7 @@
-    ////////////////////////////////////////
-   //     SnegirLingua by SnegirSoft     //
-  //                                    //
- //  File: LanguageAdapter.java        //
+////////////////////////////////////////////
+/////     SnegirLingua by SnegirSoft     //
+////                                    //
+///  File: LanguageAdapter.java        //
 ////////////////////////////////////////
 
 package ru.snegir.snegirlingua.adapter;
@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 
 import ru.snegir.snegirlingua.R;
 import ru.snegir.snegirlingua.activity.EditLangActivity;
+import ru.snegir.snegirlingua.database.facade.LanguagesFacade;
 import ru.snegir.snegirlingua.entity.Language;
 
 public class LanguageAdapter extends ArrayAdapter<Language>
@@ -62,34 +63,38 @@ public class LanguageAdapter extends ArrayAdapter<Language>
 			View editLangDialog = LayoutInflater.from(getContext()).inflate(R.layout.dialog_edit_lang, null);
 			final TextView codeTV = editLangDialog.findViewById(R.id.d_edit_lang_codeTV);
 			final EditText nameET = editLangDialog.findViewById(R.id.d_edit_lang_nameET);
-			codeTV.setText(getItem(position).getCode());
-			nameET.setText(getItem(position).getName());
+			codeTV.setText(codeTVs[position].getText());
+			nameET.setText(langTVs[position].getText());
 			
 			new AlertDialog.Builder(getContext())
 					.setTitle(R.string.edit_lang_edit_lang)
 					.setView(editLangDialog)
-					.setPositiveButton(R.string.ok, (dialog, which) ->
+					.setPositiveButton(R.string.save, (dialog, which) ->
 					{
-						final String code = codeTV.getText().toString();
-						final String name = nameET.getText().toString();
-						
-						// Code cannot be changed
-						if (!name.isEmpty())
+						activity.makeProgressBarVisible();
+						new Thread(() ->
 						{
-							activity.editLang(new Language(code, name));
-						}
-						else
-						{
-							Toast.makeText(getContext(), R.string.edit_lang_enter_name, Toast.LENGTH_LONG).show();
-						}
+							LanguagesFacade.update(activity, codeTV.getText().toString(), nameET.getText().toString());
+							activity.runOnUiThread(activity::loadLangs);
+							// Progress bar becomes invisible in loadLangs
+						}).start();
 					})
 					.setNegativeButton(R.string.cancel, null)
 					.create()
 					.show();
 		});
 		deleteIBs[position].setOnClickListener(v -> new AlertDialog.Builder(getContext())
-				.setMessage(R.string.edit_lang_delete_sure)
-				.setPositiveButton(R.string.delete, (dialog, which) -> activity.deleteLang(getItem(position)))
+				.setMessage(R.string.sure_delete_lang)
+				.setPositiveButton(R.string.delete, (dialog, which) ->
+				{
+					activity.makeProgressBarVisible();
+					new Thread(() ->
+					{
+						LanguagesFacade.delete(activity, codeTVs[position].getText().toString());
+						activity.runOnUiThread(activity::loadLangs);
+						// Progress bar becomes invisible in loadLangs
+					}).start();
+				})
 				.setNegativeButton(R.string.cancel, null)
 				.create()
 				.show());

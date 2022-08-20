@@ -1,7 +1,7 @@
-    ////////////////////////////////////////
-   //     SnegirLingua by SnegirSoft     //
-  //                                    //
- //  File: Dictionaries.java           //
+////////////////////////////////////////////
+/////     SnegirLingua by SnegirSoft     //
+////                                    //
+///  File: Dictionaries.java           //
 ////////////////////////////////////////
 
 package ru.snegir.snegirlingua.database;
@@ -24,6 +24,14 @@ public interface Dictionaries
 
 	@Query("SELECT * FROM dictionaries WHERE name = :name AND ((lang1 = :lang1 AND lang2 = :lang2) OR (lang1 = :lang2 AND lang2 = :lang1))")
 	List<Dictionary> getDictionary(String name, String lang1, String lang2);
+	
+	@Query("SELECT * FROM dictionaries ORDER BY name")
+	List<Dictionary> getAll();
+	
+	@Query("SELECT * FROM dictionaries WHERE lang1 = :lang1 AND lang2 = :lang2 " +
+//			"OR lang2 = :lang1 AND lang1 = lang2 " + // Languages are supposed to be sorted
+			"ORDER BY name")
+	List<Dictionary> getForLangs(String lang1, String lang2);
 
 	@Insert
 	void insert(Dictionary... languages);

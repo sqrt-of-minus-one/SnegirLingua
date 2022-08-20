@@ -1,7 +1,7 @@
-    ////////////////////////////////////////
-   //     SnegirLingua by SnegirSoft     //
-  //                                    //
- //  File: Dictionary.java             //
+////////////////////////////////////////////
+/////     SnegirLingua by SnegirSoft     //
+////                                    //
+///  File: Dictionary.java             //
 ////////////////////////////////////////
 
 package ru.snegir.snegirlingua.entity;

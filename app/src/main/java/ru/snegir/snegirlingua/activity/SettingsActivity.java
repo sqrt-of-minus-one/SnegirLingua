@@ -1,14 +1,13 @@
-    ////////////////////////////////////////
-   //     SnegirLingua by SnegirSoft     //
-  //                                    //
- //  File: SettingsActivity.java       //
+////////////////////////////////////////////
+/////     SnegirLingua by SnegirSoft     //
+////                                    //
+///  File: SettingsActivity.java       //
 ////////////////////////////////////////
 
 package ru.snegir.snegirlingua.activity;
 
 import android.os.Bundle;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,9 +26,21 @@ public class SettingsActivity extends AppCompatActivity
 		
 		testCB = findViewById(R.id.settings_testCB);
 		
-		// Settings are loaded in MainActivity
-		testCB.setChecked(SettingsManager.settings.test);
+		// Settings have already been loaded in MainActivity
 		
+		toUi();
+		setupOnUpdate();
+	}
+	
+	// Apply values from settings to the UI elements
+	private void toUi()
+	{
+		testCB.setChecked(SettingsManager.settings.test);
+	}
+	
+	// Set listeners to update settings when UI elements are changed
+	private void setupOnUpdate()
+	{
 		testCB.setOnCheckedChangeListener((buttonView, isChecked) ->
 		{
 			SettingsManager.settings.test = isChecked;
