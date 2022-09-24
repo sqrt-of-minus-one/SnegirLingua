@@ -7,6 +7,7 @@
 package ru.snegir.snegirlingua.adapter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -24,6 +25,8 @@ import ru.snegir.snegirlingua.R;
 import ru.snegir.snegirlingua.activity.WordActivity;
 import ru.snegir.snegirlingua.activity.WordsActivity;
 import ru.snegir.snegirlingua.database.Database;
+import ru.snegir.snegirlingua.database.facade.TranslationsFacade;
+import ru.snegir.snegirlingua.database.facade.WordsFacade;
 import ru.snegir.snegirlingua.entity.Translation;
 
 public class WordAdapter extends ArrayAdapter<Translation>
@@ -67,16 +70,36 @@ public class WordAdapter extends ArrayAdapter<Translation>
 		
 		learned1CBs[position].setChecked(translation.getLearned1());
 		learned2CBs[position].setChecked(translation.getLearned2());
-		word1TVs[position].setText(Database.get(getContext()).words().getById(translation.getWord1()).getWord());
-		word2TVs[position].setText(Database.get(getContext()).words().getById(translation.getWord2()).getWord());
+		new Thread(() ->
+		{
+			String str1 = WordsFacade.getById(activity, translation.getWord1()).getWord();
+			String str2 = WordsFacade.getById(activity, translation.getWord2()).getWord();
+			activity.runOnUiThread(() ->
+			{
+				word1TVs[position].setText(str1);
+				word2TVs[position].setText(str2);
+			});
+		}).start();
 		
 		learned1CBs[position].setOnCheckedChangeListener((buttonView, isChecked) ->
 		{
-			// Todo: change learned state
+			activity.setProgressBarVisible();
+			new Thread(() ->
+			{
+				TranslationsFacade.setLearned(activity, getItem(position).getId(), false, isChecked);
+				activity.runOnUiThread(activity::loadWords);
+				// Progress bar becomes invisible in loadWords
+			}).start();
 		});
 		learned2CBs[position].setOnCheckedChangeListener((buttonView, isChecked) ->
 		{
-			// Todo: change learned state
+			activity.setProgressBarVisible();
+			new Thread(() ->
+			{
+				TranslationsFacade.setLearned(activity, getItem(position).getId(), true, isChecked);
+				activity.runOnUiThread(activity::loadWords);
+				// Progress bar becomes invisible in loadWords
+			}).start();
 		});
 		convertView.setOnClickListener(v ->
 		{
@@ -85,12 +108,24 @@ public class WordAdapter extends ArrayAdapter<Translation>
 			wordI.putExtra(WordActivity.LANG2, langs.second);
 			wordI.putExtra(WordActivity.IS_NEW, false);
 			wordI.putExtra(WordActivity.TRANSLATION_ID, getItem(position).getId());
+			activity.needsToBeReloaded = true;
 			activity.startActivity(wordI);
 		});
-		deleteIBs[position].setOnClickListener(v ->
-		{
-			// Todo: delete word
-		});
+		deleteIBs[position].setOnClickListener(v -> new AlertDialog.Builder(activity)
+				.setMessage(R.string.sure_delete_word)
+				.setPositiveButton(R.string.delete, (dialog, which) ->
+				{
+					activity.setProgressBarVisible();
+					new Thread(() ->
+					{
+						TranslationsFacade.delete(activity, translation.getId());
+						activity.runOnUiThread(activity::loadWords);
+						// Progress bar becomes invisible in loadWords
+					}).start();
+				})
+				.setNegativeButton(R.string.cancel, null)
+				.create()
+				.show());
 		
 		return convertView;
 	}

@@ -26,4 +26,14 @@ public class DictionariesFacade
 	{
 		return !Database.get(activity).dictionaryTranslations().getByContent(dictionary, translation).isEmpty();
 	}
+	
+	public static void includeTranslation(Activity activity, int dictionary, int translation)
+	{
+		// Todo: include
+	}
+	
+	public static void excludeTranslation(Activity activity, int dictionary, int translation)
+	{
+		// Todo: exclude
+	}
 }

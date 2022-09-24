@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import ru.snegir.snegirlingua.R;
@@ -222,7 +223,26 @@ public class WordActivity extends Activity
 					cancelBT.setOnClickListener(v -> finish());
 					saveBT.setOnClickListener(v ->
 					{
-						// Todo: add translation
+						loadPB.setVisibility(View.VISIBLE);
+						new Thread(() ->
+						{
+							// Which dictionaries the translation should be added to
+							boolean[] checked = adapter.getChecked();
+							LinkedList<Integer> dictList = new LinkedList<>();
+							for (int i = 0; i < checked.length; i++)
+							{
+								if (checked[i])
+								{
+									dictList.add(array[i].getId());
+								}
+							}
+							if (TranslationsFacade.insert(WordActivity.this, langs,
+									new Pair<>(word1ET.getText().toString(), word2ET.getText().toString()), dictList))
+							{
+								WordActivity.this.runOnUiThread(WordActivity.this::finish);
+							}
+							WordActivity.this.runOnUiThread(() -> loadPB.setVisibility(View.INVISIBLE));
+						}).start();
 					});
 					loadPB.setVisibility(View.INVISIBLE);
 				});
@@ -235,23 +255,36 @@ public class WordActivity extends Activity
 				{
 					added[i] = DictionariesFacade.containsTranslation(WordActivity.this, array[i].getId(), translation.getId());
 				}
+				String str1 = WordsFacade.getById(WordActivity.this, translation.getWord1()).getWord();
+				String str2 = WordsFacade.getById(WordActivity.this, translation.getWord2()).getWord();
 				WordActivity.this.runOnUiThread(() ->
 				{
-					word1ET.setText(WordsFacade.getById(WordActivity.this, translation.getWord1()).getWord());
-					word2ET.setText(WordsFacade.getById(WordActivity.this, translation.getWord2()).getWord());
+					word1ET.setText(str2);
+					word2ET.setText(str1);
 					listLV.setAdapter(adapter);
 					cancelBT.setOnClickListener(v -> new AlertDialog.Builder(WordActivity.this)
 								.setMessage(R.string.sure_delete_word)
 								.setPositiveButton(R.string.delete, (dialog, which) ->
 								{
-									// Todo: delete translation
+									loadPB.setVisibility(View.VISIBLE);
+									new Thread(() ->
+									{
+										TranslationsFacade.delete(WordActivity.this, translation.getId());
+										WordActivity.this.runOnUiThread(WordActivity.this::finish);
+									}).start();
 								})
 								.setNegativeButton(R.string.cancel, null)
 								.create()
 								.show());
 					saveBT.setOnClickListener(v ->
 					{
-						// Todo: edit translation
+						new Thread(() ->
+						{
+							TranslationsFacade.update(WordActivity.this, translation.getId(),
+									new Pair<>(word1ET.getText().toString(), word2ET.getText().toString()));
+							// Todo: update dictionaries
+							WordActivity.this.runOnUiThread(WordActivity.this::finish);
+						}).start();
 					});
 					loadPB.setVisibility(View.INVISIBLE);
 				});

@@ -39,11 +39,25 @@ public class WordsActivity extends Activity
 	
 	private Pair<String, String> langs;
 	
+	public boolean needsToBeReloaded;
+	
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		if (needsToBeReloaded)
+		{
+			loadWords();
+		}
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_words);
+		
+		needsToBeReloaded = false;
 		
 		sortRG = findViewById(R.id.words_sortRG);
 		sortLang1RB = findViewById(R.id.words_sortLang1RB);
@@ -57,21 +71,28 @@ public class WordsActivity extends Activity
 		sortLang1RB.setText(getString(R.string.sort, langs.first));
 		sortLang2RB.setText(getString(R.string.sort, langs.second));
 		
-		sortRG.setOnCheckedChangeListener((group, checkedId) -> load());
+		sortRG.setOnCheckedChangeListener((group, checkedId) -> loadWords());
 		addFB.setOnClickListener(v ->
 		{
 			Intent wordI = new Intent(WordsActivity.this, WordActivity.class);
 			wordI.putExtra(WordActivity.LANG1, langs.first);
 			wordI.putExtra(WordActivity.LANG2, langs.second);
 			wordI.putExtra(WordActivity.IS_NEW, true);
+			needsToBeReloaded = true;
 			startActivity(wordI);
 		});
 		sortLang1RB.setChecked(true);
 	}
 	
-	private void load()
+	public void setProgressBarVisible()
 	{
 		loadPB.setVisibility(View.VISIBLE);
+	}
+	
+	public void loadWords()
+	{
+		loadPB.setVisibility(View.VISIBLE);
+		needsToBeReloaded = false;
 		new Thread(() ->
 		{
 			List<Translation> translations = TranslationsFacade.getForLangs(WordsActivity.this, langs, sortLang2RB.isChecked());

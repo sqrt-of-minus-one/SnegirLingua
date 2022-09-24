@@ -19,12 +19,15 @@
 	<!-- Errors -->
 	<string name="error.lang.add">Couldn\'t add the language</string>
 	<string name="error.lang.edit">Couldn\'t edit the language</string>
-	<string name="error.lang.delete">Couldn\'t delete the languge</string>
+	<string name="error.lang.delete">Couldn\'t delete the language</string>
 	<string name="error.lang.same_selected">You should select two different languages</string>
 	<string name="error.lang.no_code_name">You should enter both the code and the name of the language</string>
 	<string name="error.lang.no_name">You should enter the name of the language</string>
 	<string name="error.lang.already_exists">The language with such code already exists</string>
 	<string name="error.settings.save">Couldn\'t save settings</string>
+	<string name="error.word.add">Couldn\'t add the word</string>
+	<string name="error.word.edit">Couldn\'t edit the word</string>
+	<string name="error.word.delete">Couldn\'t delete the word</string>
 	<string name="error.word.no_word">You should enter both words</string>
 	<string name="error.word.already_exists">This translation already exists</string>
 	
