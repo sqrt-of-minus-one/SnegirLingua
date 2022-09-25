@@ -71,7 +71,7 @@ public class LanguageAdapter extends ArrayAdapter<Language>
 					.setView(editLangDialog)
 					.setPositiveButton(R.string.save, (dialog, which) ->
 					{
-						activity.makeProgressBarVisible();
+						activity.setPBVisibility(true);
 						new Thread(() ->
 						{
 							LanguagesFacade.update(activity, codeTV.getText().toString(), nameET.getText().toString());
@@ -87,7 +87,7 @@ public class LanguageAdapter extends ArrayAdapter<Language>
 				.setMessage(R.string.sure_delete_lang)
 				.setPositiveButton(R.string.delete, (dialog, which) ->
 				{
-					activity.makeProgressBarVisible();
+					activity.setPBVisibility(true);
 					new Thread(() ->
 					{
 						LanguagesFacade.delete(activity, codeTVs[position].getText().toString());

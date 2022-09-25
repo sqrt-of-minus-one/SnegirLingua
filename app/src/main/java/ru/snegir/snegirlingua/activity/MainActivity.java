@@ -22,7 +22,6 @@ import java.util.List;
 
 import ru.snegir.snegirlingua.R;
 import ru.snegir.snegirlingua.SettingsManager;
-import ru.snegir.snegirlingua.database.Database;
 import ru.snegir.snegirlingua.database.facade.LanguagesFacade;
 import ru.snegir.snegirlingua.entity.Language;
 
@@ -119,7 +118,7 @@ public class MainActivity extends AppCompatActivity
 	// Update the languages list
 	private void loadLangs()
 	{
-		loadPB.setVisibility(View.VISIBLE);
+		setPBVisibility(true);
 		needsToBeReloaded = false;
 		new Thread(() ->
 		{
@@ -137,8 +136,21 @@ public class MainActivity extends AppCompatActivity
 			{
 				lang1SP.setAdapter(adapter);
 				lang2SP.setAdapter(adapter);
-				loadPB.setVisibility(View.INVISIBLE);
+				setPBVisibility(false);
 			});
 		}).start();
+	}
+	
+	public void setPBVisibility(boolean visible)
+	{
+		runOnUiThread(() ->
+		{
+			loadPB.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
+			lang1SP.setEnabled(!visible);
+			lang2SP.setEnabled(!visible);
+			proceedIB.setEnabled(!visible);
+			editLangIB.setEnabled(!visible);
+			settingsIB.setEnabled(!visible);
+		});
 	}
 }

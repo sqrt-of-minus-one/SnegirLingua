@@ -3,13 +3,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 32
 
     defaultConfig {
         applicationId "ru.snegirsoft.snegirlingua"
         minSdkVersion 26
-        targetSdkVersion 29
+        targetSdkVersion 32
         versionCode 1
         versionName "Alpha 1.0.0"
 
@@ -23,8 +22,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
     namespace 'ru.snegir.snegirlingua'
 }

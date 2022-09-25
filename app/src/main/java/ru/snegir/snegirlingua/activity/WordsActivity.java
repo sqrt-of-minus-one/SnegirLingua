@@ -22,7 +22,6 @@ import java.util.List;
 
 import ru.snegir.snegirlingua.R;
 import ru.snegir.snegirlingua.adapter.WordAdapter;
-import ru.snegir.snegirlingua.database.Database;
 import ru.snegir.snegirlingua.database.facade.TranslationsFacade;
 import ru.snegir.snegirlingua.entity.Translation;
 
@@ -84,14 +83,9 @@ public class WordsActivity extends Activity
 		sortLang1RB.setChecked(true);
 	}
 	
-	public void setProgressBarVisible()
-	{
-		loadPB.setVisibility(View.VISIBLE);
-	}
-	
 	public void loadWords()
 	{
-		loadPB.setVisibility(View.VISIBLE);
+		setPBVisibility(true);
 		needsToBeReloaded = false;
 		new Thread(() ->
 		{
@@ -102,8 +96,21 @@ public class WordsActivity extends Activity
 			WordsActivity.this.runOnUiThread(() ->
 			{
 				listLV.setAdapter(adapter);
-				loadPB.setVisibility(View.INVISIBLE);
+				setPBVisibility(false);
 			});
 		}).start();
+	}
+	
+	public void setPBVisibility(boolean visible)
+	{
+		runOnUiThread(() ->
+		{
+			loadPB.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
+			sortRG.setEnabled(!visible);
+			sortLang1RB.setEnabled(!visible);
+			sortLang2RB.setEnabled(!visible);
+			listLV.setEnabled(!visible);
+			addFB.setEnabled(!visible);
+		});
 	}
 }

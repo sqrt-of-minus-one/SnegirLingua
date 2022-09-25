@@ -83,7 +83,7 @@ public class WordAdapter extends ArrayAdapter<Translation>
 		
 		learned1CBs[position].setOnCheckedChangeListener((buttonView, isChecked) ->
 		{
-			activity.setProgressBarVisible();
+			activity.setPBVisibility(true);
 			new Thread(() ->
 			{
 				TranslationsFacade.setLearned(activity, getItem(position).getId(), false, isChecked);
@@ -93,7 +93,7 @@ public class WordAdapter extends ArrayAdapter<Translation>
 		});
 		learned2CBs[position].setOnCheckedChangeListener((buttonView, isChecked) ->
 		{
-			activity.setProgressBarVisible();
+			activity.setPBVisibility(true);
 			new Thread(() ->
 			{
 				TranslationsFacade.setLearned(activity, getItem(position).getId(), true, isChecked);
@@ -115,7 +115,7 @@ public class WordAdapter extends ArrayAdapter<Translation>
 				.setMessage(R.string.sure_delete_word)
 				.setPositiveButton(R.string.delete, (dialog, which) ->
 				{
-					activity.setProgressBarVisible();
+					activity.setPBVisibility(true);
 					new Thread(() ->
 					{
 						TranslationsFacade.delete(activity, translation.getId());

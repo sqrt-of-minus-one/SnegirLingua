@@ -204,7 +204,7 @@ public class WordActivity extends Activity
 	
 	private void loadUi()
 	{
-		loadPB.setVisibility(View.VISIBLE);
+		setPBVisibility(true);
 		new Thread(() ->
 		{
 			database = Database.get(WordActivity.this);
@@ -223,7 +223,7 @@ public class WordActivity extends Activity
 					cancelBT.setOnClickListener(v -> finish());
 					saveBT.setOnClickListener(v ->
 					{
-						loadPB.setVisibility(View.VISIBLE);
+						setPBVisibility(true);
 						new Thread(() ->
 						{
 							// Which dictionaries the translation should be added to
@@ -241,10 +241,10 @@ public class WordActivity extends Activity
 							{
 								WordActivity.this.runOnUiThread(WordActivity.this::finish);
 							}
-							WordActivity.this.runOnUiThread(() -> loadPB.setVisibility(View.INVISIBLE));
+							setPBVisibility(false);
 						}).start();
 					});
-					loadPB.setVisibility(View.INVISIBLE);
+					setPBVisibility(false);
 				});
 			}
 			else
@@ -266,7 +266,7 @@ public class WordActivity extends Activity
 								.setMessage(R.string.sure_delete_word)
 								.setPositiveButton(R.string.delete, (dialog, which) ->
 								{
-									loadPB.setVisibility(View.VISIBLE);
+									setPBVisibility(true);
 									new Thread(() ->
 									{
 										TranslationsFacade.delete(WordActivity.this, translation.getId());
@@ -286,9 +286,24 @@ public class WordActivity extends Activity
 							WordActivity.this.runOnUiThread(WordActivity.this::finish);
 						}).start();
 					});
-					loadPB.setVisibility(View.INVISIBLE);
+					setPBVisibility(false);
 				});
 			}
 		}).start();
+	}
+	
+	public void setPBVisibility(boolean visible)
+	{
+		runOnUiThread(() ->
+		{
+			loadPB.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
+			lang1TV.setEnabled(!visible);
+			lang2TV.setEnabled(!visible);
+			word1ET.setEnabled(!visible);
+			word2ET.setEnabled(!visible);
+			cancelBT.setEnabled(!visible);
+			saveBT.setEnabled(!visible);
+			listLV.setEnabled(!visible);
+		});
 	}
 }

@@ -7,16 +7,13 @@
 package ru.snegir.snegirlingua.activity;
 
 import android.app.AlertDialog;
-import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -25,7 +22,6 @@ import java.util.List;
 
 import ru.snegir.snegirlingua.R;
 import ru.snegir.snegirlingua.adapter.LanguageAdapter;
-import ru.snegir.snegirlingua.database.Database;
 import ru.snegir.snegirlingua.database.facade.LanguagesFacade;
 import ru.snegir.snegirlingua.entity.Language;
 
@@ -56,7 +52,7 @@ public class EditLangActivity extends AppCompatActivity
 						EditText codeET = addLangDialog.findViewById(R.id.d_add_lang_codeET);
 						EditText nameET = addLangDialog.findViewById(R.id.d_add_lang_nameET);
 						
-						loadPB.setVisibility(View.VISIBLE);
+						setPBVisibility(true);
 						new Thread(() ->
 						{
 							LanguagesFacade.insert(EditLangActivity.this, codeET.getText().toString(), nameET.getText().toString());
@@ -71,15 +67,10 @@ public class EditLangActivity extends AppCompatActivity
 		loadLangs();
 	}
 	
-	public void makeProgressBarVisible()
-	{
-		loadPB.setVisibility(View.VISIBLE);
-	}
-	
 	// Load languages to the list view
 	public void loadLangs()
 	{
-		loadPB.setVisibility(View.VISIBLE);
+		setPBVisibility(true);
 		new Thread(() ->
 		{
 			List<Language> list = LanguagesFacade.getAll(EditLangActivity.this);
@@ -89,8 +80,18 @@ public class EditLangActivity extends AppCompatActivity
 			EditLangActivity.this.runOnUiThread(() ->
 			{
 				listLV.setAdapter(adapter);
-				loadPB.setVisibility(View.INVISIBLE);
+				setPBVisibility(false);
 			});
 		}).start();
+	}
+	
+	public void setPBVisibility(boolean visible)
+	{
+		runOnUiThread(() ->
+		{
+			loadPB.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
+			listLV.setEnabled(!visible);
+			addFB.setEnabled(!visible);
+		});
 	}
 }
