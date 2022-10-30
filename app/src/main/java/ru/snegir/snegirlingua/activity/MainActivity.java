@@ -31,13 +31,14 @@ public class MainActivity extends AppCompatActivity
 	private Spinner lang1SP, lang2SP;
 	private ImageButton proceedIB, editLangIB, settingsIB;
 	
-	// If true, the languages list needs to be updated
+	// If true, the language list needs to be updated
 	private boolean needsToBeReloaded;
 	
 	@Override
 	public void onResume()
 	{
 		super.onResume();
+		// Reload if necessary
 		if (needsToBeReloaded)
 		{
 			loadLangs();
@@ -115,7 +116,7 @@ public class MainActivity extends AppCompatActivity
 		});
 	}
 	
-	// Update the languages list
+	// Reload the languages list
 	private void loadLangs()
 	{
 		setPBVisibility(true);

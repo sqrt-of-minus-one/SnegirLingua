@@ -41,7 +41,22 @@ public class TranslationsFacade
 	
 	public static void setLearned(Activity activity, int translation, boolean isSecond, boolean isLearned)
 	{
-		// Todo: set learned
+		Database database = Database.get(activity);
+		Translation translationObj = database.translations().getById(translation);
+		int word = isSecond ? translationObj.getWord2() : translationObj.getWord1();
+		List<Translation> translations = database.translations().getWithWord(word);
+		for (Translation i : translations)
+		{
+			if (i.getWord1() == word)
+			{
+				i.setLearned1(isLearned);
+			}
+			else
+			{
+				i.setLearned2(isLearned);
+			}
+			database.translations().update(i);
+		}
 	}
 	
 	// Returns true if the insertion has been performed
@@ -85,9 +100,7 @@ public class TranslationsFacade
 					// Add the translation into the dictionaries
 					for (Integer i : dictionaries)
 					{
-						DictionaryTranslation dictionaryTranslation =
-								new DictionaryTranslation(database.dictionaryTranslations().getLastId() + 1, i, translation.getId());
-						database.dictionaryTranslations().insert(dictionaryTranslation);
+						DictionariesFacade.includeTranslation(activity, i, translation.getId());
 					}
 					return true;
 				}

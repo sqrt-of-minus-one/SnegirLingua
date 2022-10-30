@@ -27,8 +27,9 @@ import ru.snegir.snegirlingua.entity.Translation;
 
 public class WordsActivity extends Activity
 {
-	public static final String LANG1 = "lang_1";
-	public static final String LANG2 = "lang_2";
+	// The intent is supposed to have two language codes (LANG_1 and LANG_2), which should be sorted
+	public static final String LANG_1 = "lang_1";
+	public static final String LANG_2 = "lang_2";
 	
 	private RadioGroup sortRG;
 	private RadioButton sortLang1RB, sortLang2RB;
@@ -38,12 +39,14 @@ public class WordsActivity extends Activity
 	
 	private Pair<String, String> langs;
 	
+	// If true, the word list will be reloaded in onResume method
 	public boolean needsToBeReloaded;
 	
 	@Override
 	protected void onResume()
 	{
 		super.onResume();
+		// Reload words if necessary
 		if (needsToBeReloaded)
 		{
 			loadWords();
@@ -65,7 +68,8 @@ public class WordsActivity extends Activity
 		listLV = findViewById(R.id.words_listLV);
 		addFB = findViewById(R.id.words_addFB);
 		
-		langs = new Pair<>(getIntent().getStringExtra(LANG1), getIntent().getStringExtra(LANG2));
+		// Languages are supposed to be sorted
+		langs = new Pair<>(getIntent().getStringExtra(LANG_1), getIntent().getStringExtra(LANG_2));
 		
 		sortLang1RB.setText(getString(R.string.sort, langs.first));
 		sortLang2RB.setText(getString(R.string.sort, langs.second));
@@ -74,8 +78,8 @@ public class WordsActivity extends Activity
 		addFB.setOnClickListener(v ->
 		{
 			Intent wordI = new Intent(WordsActivity.this, WordActivity.class);
-			wordI.putExtra(WordActivity.LANG1, langs.first);
-			wordI.putExtra(WordActivity.LANG2, langs.second);
+			wordI.putExtra(WordActivity.LANG_1, langs.first);
+			wordI.putExtra(WordActivity.LANG_2, langs.second);
 			wordI.putExtra(WordActivity.IS_NEW, true);
 			needsToBeReloaded = true;
 			startActivity(wordI);
@@ -85,19 +89,22 @@ public class WordsActivity extends Activity
 	
 	public void loadWords()
 	{
-		setPBVisibility(true);
 		needsToBeReloaded = false;
 		new Thread(() ->
 		{
-			List<Translation> translations = TranslationsFacade.getForLangs(WordsActivity.this, langs, sortLang2RB.isChecked());
-			Translation[] array = new Translation[translations.size()];
-			translations.toArray(array);
-			WordAdapter adapter = new WordAdapter(WordsActivity.this, array, langs);
-			WordsActivity.this.runOnUiThread(() ->
+			synchronized (WordsActivity.this)
 			{
-				listLV.setAdapter(adapter);
-				setPBVisibility(false);
-			});
+				WordsActivity.this.runOnUiThread(() -> setPBVisibility(true));
+				List<Translation> translations = TranslationsFacade.getForLangs(WordsActivity.this, langs, sortLang2RB.isChecked());
+				Translation[] array = new Translation[translations.size()];
+				translations.toArray(array);
+				WordAdapter adapter = new WordAdapter(WordsActivity.this, array, langs);
+				WordsActivity.this.runOnUiThread(() ->
+				{
+					listLV.setAdapter(adapter);
+					setPBVisibility(false);
+				});
+			}
 		}).start();
 	}
 	

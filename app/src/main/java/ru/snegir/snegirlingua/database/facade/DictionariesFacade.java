@@ -13,6 +13,7 @@ import java.util.List;
 
 import ru.snegir.snegirlingua.database.Database;
 import ru.snegir.snegirlingua.entity.Dictionary;
+import ru.snegir.snegirlingua.entity.DictionaryTranslation;
 
 // All methods should be called in a dedicated thread
 public class DictionariesFacade
@@ -29,11 +30,23 @@ public class DictionariesFacade
 	
 	public static void includeTranslation(Activity activity, int dictionary, int translation)
 	{
-		// Todo: include
+		Database database = Database.get(activity);
+		if (database.dictionaryTranslations().getByContent(dictionary, translation).isEmpty())
+		{
+			DictionaryTranslation dictionaryTranslation =
+					new DictionaryTranslation(database.dictionaryTranslations().getLastId() + 1, dictionary, translation);
+			database.dictionaryTranslations().insert(dictionaryTranslation);
+		}
 	}
 	
 	public static void excludeTranslation(Activity activity, int dictionary, int translation)
 	{
-		// Todo: exclude
+		Database database = Database.get(activity);
+		List<DictionaryTranslation> dictionaryTranslations =
+				database.dictionaryTranslations().getByContent(dictionary, translation);
+		if (!dictionaryTranslations.isEmpty())
+		{
+			database.dictionaryTranslations().delete(dictionaryTranslations.get(0));
+		}
 	}
 }

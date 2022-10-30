@@ -18,6 +18,7 @@ import ru.snegir.snegirlingua.R;
 
 public class MenuActivity extends Activity
 {
+	// The intent is supposed to have two language codes (LANG_1 and LANG_2), which should be sorted
 	public static final String LANG_1 = "lang_1";
 	public static final String LANG_2 = "lang_2";
 	
@@ -57,8 +58,8 @@ public class MenuActivity extends Activity
 		wordsIB.setOnClickListener(v ->
 		{
 			Intent wordsI = new Intent(MenuActivity.this, WordsActivity.class);
-			wordsI.putExtra(WordsActivity.LANG1, langs.first);
-			wordsI.putExtra(WordsActivity.LANG2, langs.second);
+			wordsI.putExtra(WordsActivity.LANG_1, langs.first);
+			wordsI.putExtra(WordsActivity.LANG_2, langs.second);
 			startActivity(wordsI);
 		});
 		wordsIB.setOnLongClickListener(v ->

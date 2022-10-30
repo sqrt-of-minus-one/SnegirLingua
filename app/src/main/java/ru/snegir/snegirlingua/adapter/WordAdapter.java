@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -24,7 +23,6 @@ import androidx.annotation.NonNull;
 import ru.snegir.snegirlingua.R;
 import ru.snegir.snegirlingua.activity.WordActivity;
 import ru.snegir.snegirlingua.activity.WordsActivity;
-import ru.snegir.snegirlingua.database.Database;
 import ru.snegir.snegirlingua.database.facade.TranslationsFacade;
 import ru.snegir.snegirlingua.database.facade.WordsFacade;
 import ru.snegir.snegirlingua.entity.Translation;
@@ -104,8 +102,8 @@ public class WordAdapter extends ArrayAdapter<Translation>
 		convertView.setOnClickListener(v ->
 		{
 			Intent wordI = new Intent(activity, WordActivity.class);
-			wordI.putExtra(WordActivity.LANG1, langs.first);
-			wordI.putExtra(WordActivity.LANG2, langs.second);
+			wordI.putExtra(WordActivity.LANG_1, langs.first);
+			wordI.putExtra(WordActivity.LANG_2, langs.second);
 			wordI.putExtra(WordActivity.IS_NEW, false);
 			wordI.putExtra(WordActivity.TRANSLATION_ID, getItem(position).getId());
 			activity.needsToBeReloaded = true;

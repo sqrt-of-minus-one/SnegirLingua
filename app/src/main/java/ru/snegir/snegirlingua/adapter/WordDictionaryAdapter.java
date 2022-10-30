@@ -39,6 +39,8 @@ public class WordDictionaryAdapter extends ArrayAdapter<Dictionary>
 			convertView = LayoutInflater.from(getContext()).inflate(R.layout.adapter_word_dictionary, null);
 		}
 		addedCB[position] = convertView.findViewById(R.id.a_word_dictionary_addedCB);
+		View colorVW = convertView.findViewById(R.id.a_word_dictionary_colorVW);
+		colorVW.setBackgroundColor(getItem(position).getColor());
 		
 		addedCB[position].setChecked(added[position]);
 		

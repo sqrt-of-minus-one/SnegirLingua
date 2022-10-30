@@ -16,26 +16,26 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import ru.snegir.snegirlingua.R;
 import ru.snegir.snegirlingua.adapter.WordDictionaryAdapter;
-import ru.snegir.snegirlingua.database.Database;
 import ru.snegir.snegirlingua.database.facade.DictionariesFacade;
 import ru.snegir.snegirlingua.database.facade.TranslationsFacade;
 import ru.snegir.snegirlingua.database.facade.WordsFacade;
 import ru.snegir.snegirlingua.entity.Dictionary;
-import ru.snegir.snegirlingua.entity.DictionaryTranslation;
 import ru.snegir.snegirlingua.entity.Translation;
-import ru.snegir.snegirlingua.entity.Word;
 
 public class WordActivity extends Activity
 {
-	public static final String LANG1 = "lang_1";
-	public static final String LANG2 = "lang_2";
+	// The intent is supposed to have:
+	//     two language codes (LANG_1 and LANG_2), which should be sorted
+	//     IS_NEW: whether a new word is adding
+	//     TRANSLATION_ID: id of the translation which is going to be edited, if the word isn't new
+	public static final String LANG_1 = "lang_1";
+	public static final String LANG_2 = "lang_2";
 	public static final String IS_NEW = "is_new";
 	public static final String TRANSLATION_ID = "translation_id";
 	
@@ -49,7 +49,6 @@ public class WordActivity extends Activity
 	private boolean isNew; // Is the translation new or it already exists in database (add word or edit word)
 	private Translation translation;
 	private WordDictionaryAdapter adapter;
-	private Database database;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -66,7 +65,7 @@ public class WordActivity extends Activity
 		loadPB = findViewById(R.id.word_loadPB);
 		listLV = findViewById(R.id.word_listLV);
 		
-		langs = new Pair<>(getIntent().getStringExtra(LANG1), getIntent().getStringExtra(LANG2));
+		langs = new Pair<>(getIntent().getStringExtra(LANG_1), getIntent().getStringExtra(LANG_2));
 		isNew = getIntent().getBooleanExtra(IS_NEW, true);
 		
 		lang1TV.setText(langs.first);
@@ -207,8 +206,6 @@ public class WordActivity extends Activity
 		setPBVisibility(true);
 		new Thread(() ->
 		{
-			database = Database.get(WordActivity.this);
-		
 			List<Dictionary> dictionaries = DictionariesFacade.getForLangs(WordActivity.this, langs);
 			Dictionary[] array = new Dictionary[dictionaries.size()];
 			dictionaries.toArray(array);
@@ -228,7 +225,7 @@ public class WordActivity extends Activity
 						{
 							// Which dictionaries the translation should be added to
 							boolean[] checked = adapter.getChecked();
-							LinkedList<Integer> dictList = new LinkedList<>();
+							LinkedList<Integer> dictList = new LinkedList<>(); // Dictionary ID's
 							for (int i = 0; i < checked.length; i++)
 							{
 								if (checked[i])
@@ -250,11 +247,11 @@ public class WordActivity extends Activity
 			else
 			{
 				translation = TranslationsFacade.getById(WordActivity.this, getIntent().getIntExtra(TRANSLATION_ID, 0));
-				adapter = new WordDictionaryAdapter(WordActivity.this, array, added);
 				for (int i = 0; i < added.length; i++)
 				{
 					added[i] = DictionariesFacade.containsTranslation(WordActivity.this, array[i].getId(), translation.getId());
 				}
+				adapter = new WordDictionaryAdapter(WordActivity.this, array, added);
 				String str1 = WordsFacade.getById(WordActivity.this, translation.getWord1()).getWord();
 				String str2 = WordsFacade.getById(WordActivity.this, translation.getWord2()).getWord();
 				WordActivity.this.runOnUiThread(() ->
@@ -276,16 +273,32 @@ public class WordActivity extends Activity
 								.setNegativeButton(R.string.cancel, null)
 								.create()
 								.show());
-					saveBT.setOnClickListener(v ->
+					saveBT.setOnClickListener(v -> new Thread(() ->
 					{
-						new Thread(() ->
+						TranslationsFacade.update(WordActivity.this, translation.getId(),
+								new Pair<>(word1ET.getText().toString(), word2ET.getText().toString()));
+						
+						// Which dictionaries the translation should be added to
+						boolean[] checked = adapter.getChecked();
+						for (int i = 0; i < checked.length; i++)
 						{
-							TranslationsFacade.update(WordActivity.this, translation.getId(),
-									new Pair<>(word1ET.getText().toString(), word2ET.getText().toString()));
-							// Todo: update dictionaries
-							WordActivity.this.runOnUiThread(WordActivity.this::finish);
-						}).start();
-					});
+							// If the state of a checkbox has been changed
+							if (added[i] != checked[i])
+							{
+								int dictionary = array[i].getId();
+								if (checked[i])
+								{
+									DictionariesFacade.includeTranslation(WordActivity.this, dictionary, translation.getId());
+								}
+								else
+								{
+									DictionariesFacade.excludeTranslation(WordActivity.this, dictionary, translation.getId());
+								}
+							}
+						}
+						
+						WordActivity.this.runOnUiThread(WordActivity.this::finish);
+					}).start());
 					setPBVisibility(false);
 				});
 			}
