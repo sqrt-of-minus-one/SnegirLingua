@@ -81,23 +81,31 @@ public class WordAdapter extends ArrayAdapter<Translation>
 		
 		learned1CBs[position].setOnCheckedChangeListener((buttonView, isChecked) ->
 		{
-			activity.setPBVisibility(true);
-			new Thread(() ->
+			// If the checkbox is switched by user
+			if (buttonView.isPressed())
 			{
-				TranslationsFacade.setLearned(activity, getItem(position).getId(), false, isChecked);
-				activity.runOnUiThread(activity::loadWords);
-				// Progress bar becomes invisible in loadWords
-			}).start();
+				activity.setPBVisibility(true);
+				new Thread(() ->
+				{
+					TranslationsFacade.setLearned(activity, getItem(position).getId(), false, isChecked);
+					activity.runOnUiThread(activity::loadWords);
+					// Progress bar becomes invisible in loadWords
+				}).start();
+			}
 		});
 		learned2CBs[position].setOnCheckedChangeListener((buttonView, isChecked) ->
 		{
-			activity.setPBVisibility(true);
-			new Thread(() ->
+			// If the checkbox is switched by user
+			if (buttonView.isPressed())
 			{
-				TranslationsFacade.setLearned(activity, getItem(position).getId(), true, isChecked);
-				activity.runOnUiThread(activity::loadWords);
-				// Progress bar becomes invisible in loadWords
-			}).start();
+				activity.setPBVisibility(true);
+				new Thread(() ->
+				{
+					TranslationsFacade.setLearned(activity, getItem(position).getId(), true, isChecked);
+					activity.runOnUiThread(activity::loadWords);
+					// Progress bar becomes invisible in loadWords
+				}).start();
+			}
 		});
 		convertView.setOnClickListener(v ->
 		{

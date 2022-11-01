@@ -84,7 +84,7 @@ public class WordsActivity extends Activity
 			needsToBeReloaded = true;
 			startActivity(wordI);
 		});
-		sortLang1RB.setChecked(true);
+		sortLang1RB.setChecked(true); // Also calls loadWords()
 	}
 	
 	public void loadWords()
@@ -92,19 +92,16 @@ public class WordsActivity extends Activity
 		needsToBeReloaded = false;
 		new Thread(() ->
 		{
-			synchronized (WordsActivity.this)
+			WordsActivity.this.runOnUiThread(() -> setPBVisibility(true));
+			List<Translation> translations = TranslationsFacade.getForLangs(WordsActivity.this, langs, sortLang2RB.isChecked());
+			Translation[] array = new Translation[translations.size()];
+			translations.toArray(array);
+			WordAdapter adapter = new WordAdapter(WordsActivity.this, array, langs);
+			WordsActivity.this.runOnUiThread(() ->
 			{
-				WordsActivity.this.runOnUiThread(() -> setPBVisibility(true));
-				List<Translation> translations = TranslationsFacade.getForLangs(WordsActivity.this, langs, sortLang2RB.isChecked());
-				Translation[] array = new Translation[translations.size()];
-				translations.toArray(array);
-				WordAdapter adapter = new WordAdapter(WordsActivity.this, array, langs);
-				WordsActivity.this.runOnUiThread(() ->
-				{
-					listLV.setAdapter(adapter);
-					setPBVisibility(false);
-				});
-			}
+				listLV.setAdapter(adapter);
+				setPBVisibility(false);
+			});
 		}).start();
 	}
 	
