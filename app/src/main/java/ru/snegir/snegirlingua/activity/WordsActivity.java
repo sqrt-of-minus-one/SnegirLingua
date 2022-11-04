@@ -39,6 +39,9 @@ public class WordsActivity extends Activity
 	
 	private Pair<String, String> langs;
 	
+	private Translation[] translationsLang1;
+	private Translation[] translatinosLang2;
+	
 	// If true, the word list will be reloaded in onResume method
 	public boolean needsToBeReloaded;
 	
@@ -59,7 +62,7 @@ public class WordsActivity extends Activity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_words);
 		
-		needsToBeReloaded = false;
+		needsToBeReloaded = true;
 		
 		sortRG = findViewById(R.id.words_sortRG);
 		sortLang1RB = findViewById(R.id.words_sortLang1RB);
@@ -89,14 +92,18 @@ public class WordsActivity extends Activity
 	
 	public void loadWords()
 	{
-		needsToBeReloaded = false;
+		setPBVisibility(true);
 		new Thread(() ->
 		{
-			WordsActivity.this.runOnUiThread(() -> setPBVisibility(true));
-			List<Translation> translations = TranslationsFacade.getForLangs(WordsActivity.this, langs, sortLang2RB.isChecked());
-			Translation[] array = new Translation[translations.size()];
-			translations.toArray(array);
-			WordAdapter adapter = new WordAdapter(WordsActivity.this, array, langs);
+			if (needsToBeReloaded)
+			{
+				List<Translation> translations1 = TranslationsFacade.getForLangs(WordsActivity.this, langs, false);
+				List<Translation> translations2 = TranslationsFacade.getForLangs(WordsActivity.this, langs, true);
+				translationsLang1 = translations1.toArray(new Translation[0]);
+				translationsLang2 = translations2.toArray(new Translation[0]);
+				needsToBeReloaded = false;
+			}
+			WordAdapter adapter = new WordAdapter(WordsActivity.this, sortLangRB1.isChecked() ? translationsLang1 : translationsLang2, langs);
 			WordsActivity.this.runOnUiThread(() ->
 			{
 				listLV.setAdapter(adapter);
