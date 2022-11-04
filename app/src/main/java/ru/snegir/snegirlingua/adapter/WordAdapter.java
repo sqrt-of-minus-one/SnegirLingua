@@ -88,6 +88,7 @@ public class WordAdapter extends ArrayAdapter<Translation>
 				new Thread(() ->
 				{
 					TranslationsFacade.setLearned(activity, getItem(position).getId(), false, isChecked);
+					activity.needsToBeReloaded = true;
 					activity.runOnUiThread(activity::loadWords);
 					// Progress bar becomes invisible in loadWords
 				}).start();
@@ -102,6 +103,7 @@ public class WordAdapter extends ArrayAdapter<Translation>
 				new Thread(() ->
 				{
 					TranslationsFacade.setLearned(activity, getItem(position).getId(), true, isChecked);
+					activity.needsToBeReloaded = true;
 					activity.runOnUiThread(activity::loadWords);
 					// Progress bar becomes invisible in loadWords
 				}).start();
@@ -125,6 +127,7 @@ public class WordAdapter extends ArrayAdapter<Translation>
 					new Thread(() ->
 					{
 						TranslationsFacade.delete(activity, translation.getId());
+						activity.needsToBeReloaded = true;
 						activity.runOnUiThread(activity::loadWords);
 						// Progress bar becomes invisible in loadWords
 					}).start();
