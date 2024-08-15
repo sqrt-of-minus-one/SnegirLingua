@@ -32,7 +32,7 @@ public class WordActivity extends Activity
 {
 	// The intent is supposed to have:
 	//     two language codes (LANG_1 and LANG_2), which should be sorted
-	//     IS_NEW: whether a new word is adding
+	//     IS_NEW: whether a new word is being added
 	//     TRANSLATION_ID: id of the translation which is going to be edited, if the word isn't new
 	public static final String LANG_1 = "lang_1";
 	public static final String LANG_2 = "lang_2";

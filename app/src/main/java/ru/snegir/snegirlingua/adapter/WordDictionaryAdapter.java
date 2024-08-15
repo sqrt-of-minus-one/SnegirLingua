@@ -20,13 +20,13 @@ import ru.snegir.snegirlingua.entity.Dictionary;
 
 public class WordDictionaryAdapter extends ArrayAdapter<Dictionary>
 {
-	private CheckBox[] addedCB;
+	private CheckBox[] addedCBs;
 	private boolean[] added;
 	
 	public WordDictionaryAdapter(@NonNull Activity activity, Dictionary[] array, boolean[] added)
 	{
 		super(activity, R.layout.adapter_word_dictionary, array);
-		addedCB = new CheckBox[array.length];
+		addedCBs = new CheckBox[array.length];
 		this.added = added;
 	}
 	
@@ -38,21 +38,22 @@ public class WordDictionaryAdapter extends ArrayAdapter<Dictionary>
 		{
 			convertView = LayoutInflater.from(getContext()).inflate(R.layout.adapter_word_dictionary, null);
 		}
-		addedCB[position] = convertView.findViewById(R.id.a_word_dictionary_addedCB);
+		addedCBs[position] = convertView.findViewById(R.id.a_word_dictionary_addedCB);
 		View colorVW = convertView.findViewById(R.id.a_word_dictionary_colorVW);
 		colorVW.setBackgroundColor(getItem(position).getColor());
 		
-		addedCB[position].setChecked(added[position]);
+		addedCBs[position].setText(getItem(position).getName());
+		addedCBs[position].setChecked(added[position]);
 		
 		return convertView;
 	}
 	
 	public boolean[] getChecked()
 	{
-		boolean[] checked = new boolean[addedCB.length];
+		boolean[] checked = new boolean[addedCBs.length];
 		for (int i = 0; i < checked.length; i++)
 		{
-			checked[i] = addedCB[i].isChecked();
+			checked[i] = addedCBs[i].isChecked();
 		}
 		return checked;
 	}

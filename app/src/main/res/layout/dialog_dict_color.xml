@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	xmlns:app="http://schemas.android.com/apk/res-auto">
+	
+	<GridLayout
+		android:id="@+id/d_dict_color_gridGL"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintRight_toLeftOf="@id/d_dict_color_oldVW"
+		android:layout_margin="15dp"
+		android:rowCount="3"
+		android:orientation="vertical">
+		
+		<TextView
+			android:id="@+id/d_dict_color_rTV"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_margin="5dp"
+			android:text="@string/dictionary.rgb.r"
+			style="@style/TextAppearance.AppCompat.Headline"
+			android:textColor="#FF0000"/>
+		
+		<TextView
+			android:id="@+id/d_dict_color_gTV"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_margin="5dp"
+			style="@style/TextAppearance.AppCompat.Headline"
+			android:textColor="#00FF00"
+			android:text="@string/dictionary.rgb.g"/>
+		
+		<TextView
+			android:id="@+id/d_dict_color_bTV"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_margin="5dp"
+			style="@style/TextAppearance.AppCompat.Headline"
+			android:textColor="#0000FF"
+			android:text="@string/dictionary.rgb.b"/>
+		
+		<EditText
+			android:id="@+id/d_dict_color_rET"
+			android:layout_width="50dp"
+			android:layout_height="wrap_content"
+			android:layout_margin="5dp"
+			android:inputType="number"
+			android:autofillHints="rgb"
+			android:hint="@string/dictionary.rgb.r"/>
+		
+		<EditText
+			android:id="@+id/d_dict_color_gET"
+			android:layout_width="50dp"
+			android:layout_height="wrap_content"
+			android:layout_margin="5dp"
+			android:inputType="number"
+			android:autofillHints="rgb"
+			android:hint="@string/dictionary.rgb.g"/>
+		
+		<EditText
+			android:id="@+id/d_dict_color_bET"
+			android:layout_width="50dp"
+			android:layout_height="wrap_content"
+			android:layout_margin="5dp"
+			android:inputType="number"
+			android:autofillHints="rgb"
+			android:hint="@string/dictionary.rgb.b"/>
+		
+		<SeekBar
+			android:id="@+id/d_dict_color_rSB"
+			android:layout_width="150dp"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"/>
+		
+		<SeekBar
+			android:id="@+id/d_dict_color_gSB"
+			android:layout_width="150dp"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"/>
+		
+		<SeekBar
+			android:id="@+id/d_dict_color_bSB"
+			android:layout_width="150dp"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_vertical"/>
+		
+	</GridLayout>
+	
+	<View
+		android:id="@+id/d_dict_color_oldVW"
+		android:layout_width="50dp"
+		android:layout_height="50dp"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toTopOf="@id/d_dict_color_gridGL"
+		app:layout_constraintBottom_toTopOf="@id/d_dict_color_newVW"
+		app:layout_constraintLeft_toRightOf="@id/d_dict_color_gridGL"/>
+	
+	<View
+		android:id="@+id/d_dict_color_newVW"
+		android:layout_width="50dp"
+		android:layout_height="50dp"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/d_dict_color_oldVW"
+		app:layout_constraintBottom_toBottomOf="@id/d_dict_color_gridGL"
+		app:layout_constraintLeft_toRightOf="@id/d_dict_color_gridGL"/>
+	
+</androidx.constraintlayout.widget.ConstraintLayout>

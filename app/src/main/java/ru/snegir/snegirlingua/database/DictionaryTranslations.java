@@ -25,6 +25,9 @@ public interface DictionaryTranslations
 	@Query("SELECT * FROM dictionary_translations WHERE dictionary = :dictionary AND translation = :translation")
 	List<DictionaryTranslation> getByContent(int dictionary, int translation);
 	
+	@Query("SELECT * FROM dictionary_translations WHERE dictionary = :dictionary")
+	List<DictionaryTranslation> getForDictionary(int dictionary);
+	
 	@Query("SELECT MAX(id) FROM dictionary_translations")
 	int getLastId();
 

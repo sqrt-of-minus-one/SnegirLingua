@@ -32,6 +32,9 @@ public interface Dictionaries
 //			"OR lang2 = :lang1 AND lang1 = lang2 " + // Languages are supposed to be sorted
 			"ORDER BY name")
 	List<Dictionary> getForLangs(String lang1, String lang2);
+	
+	@Query("SELECT MAX(id) FROM dictionaries")
+	int getLastId();
 
 	@Insert
 	void insert(Dictionary... languages);

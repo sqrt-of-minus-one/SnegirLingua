@@ -39,10 +39,10 @@ public class WordsActivity extends Activity
 	
 	private Pair<String, String> langs;
 	
-	private Translation[] translationsLang1;
-	private Translation[] translatinosLang2;
+	private Translation[] translationsLang1; // Sorted by lang 1
+	private Translation[] translationsLang2; // Sorted by lang 2
 	
-	// If true, the word list will be reloaded in onResume method
+	// If true, the word list should be reloaded from database
 	public boolean needsToBeReloaded;
 	
 	@Override
@@ -103,7 +103,7 @@ public class WordsActivity extends Activity
 				translationsLang2 = translations2.toArray(new Translation[0]);
 				needsToBeReloaded = false;
 			}
-			WordAdapter adapter = new WordAdapter(WordsActivity.this, sortLangRB1.isChecked() ? translationsLang1 : translationsLang2, langs);
+			WordAdapter adapter = new WordAdapter(WordsActivity.this, sortLang1RB.isChecked() ? translationsLang1 : translationsLang2, langs);
 			WordsActivity.this.runOnUiThread(() ->
 			{
 				listLV.setAdapter(adapter);
