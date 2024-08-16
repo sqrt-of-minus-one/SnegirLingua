@@ -26,9 +26,7 @@ public interface Translations
 	@Query("SELECT * FROM translations WHERE word1 = :word1 AND word2 = :word2")
 	List<Translation> getTranslation(int word1, int word2);
 
-	@Query("SELECT translations.id, translations.word1, translations.word2," +
-			"translations.learned1, translations.learned2 " +
-			"FROM translations " +
+	@Query("SELECT translations.* FROM translations " +
 			"LEFT JOIN words AS words1 ON words1.id = word1 " +
 			"LEFT JOIN words AS words2 ON words2.id = word2 " +
 			"WHERE words1.language = :language1 AND words2.language = :language2 " +
@@ -36,43 +34,48 @@ public interface Translations
 			"ORDER BY words1.word, words2.word")
 	List<Translation> getForLangOrderByFirst(@NonNull String language1, @NonNull String language2);
 	
-	@Query("SELECT translations.id, translations.word1, translations.word2," +
-			"translations.learned1, translations.learned2 " +
-			"FROM translations " +
+	@Query("SELECT translations.* FROM translations " +
 			"LEFT JOIN words AS words1 ON words1.id = word1 " +
 			"LEFT JOIN words AS words2 ON words2.id = word2 " +
 			"WHERE words1.language = :language1 AND words2.language = :language2 " +
-//			"OR words1.language = :language2 AND words2.language = :language1 " + // Languages are supposed to be sorder
+//			"OR words1.language = :language2 AND words2.language = :language1 " + // Languages are supposed to be sorter
 			"ORDER BY words2.word, words1.word")
 	List<Translation> getForLangOrderBySecond(@NonNull String language1, @NonNull String language2);
 
-	@Query("SELECT translations.id, translations.word1, translations.word2, " +
-			"translations.learned1, translations.learned2 " +
-			"FROM translations " +
+	@Query("SELECT translations.* FROM translations " +
 			"LEFT JOIN words AS words1 ON words1.id = word1 " +
 			"LEFT JOIN words AS words2 ON words2.id = word2 " +
 			"WHERE (words1.language = :language1 AND words2.language = :language2 " +
-			"OR words1.language = :language2 AND words2.language = :language1) " +
-			"AND translations.learned1 = 0 " +
+//			"OR words1.language = :language2 AND words2.language = :language1" + // Languages are supposed to be sorted
+			") AND translations.learned1 = 0 " +
 			"ORDER BY words1.word, words2.word")
 	List<Translation> getForLangNotLearned1(@NonNull String language1, @NonNull String language2);
 
-	@Query("SELECT translations.id, translations.word1, translations.word2, " +
-			"translations.learned1, translations.learned2 " +
-			"FROM translations " +
+	@Query("SELECT translations.* FROM translations " +
 			"LEFT JOIN words AS words1 ON words1.id = word1 " +
 			"LEFT JOIN words AS words2 ON words2.id = word2 " +
 			"WHERE (words1.language = :language1 AND words2.language = :language2 " +
-			"OR words1.language = :language2 AND words2.language = :language1) " +
-			"AND translations.learned2 = 0 " +
+//			"OR words1.language = :language2 AND words2.language = :language1" + // Languages are supposed to be sorted
+			") AND translations.learned2 = 0 " +
 			"ORDER BY words1.word, words2.word")
 	List<Translation> getForLangNotLearned2(@NonNull String language1, @NonNull String language2);
 
 	@Query("SELECT MAX(id) FROM translations")
 	int getLastId();
-
-	@Query("SELECT * FROM translations WHERE word1 = :id OR word2 = :id")
+	
+	@Query("SELECT translations.* FROM translations " +
+		   "LEFT JOIN words AS words1 ON words1.id = word1 " +
+		   "LEFT JOIN words AS words2 ON words2.id = word2 " +
+		   "WHERE word1 = :id OR word2 = :id")
 	List<Translation> getWithWord(int id);
+
+	@Query("SELECT translations.* FROM translations " +
+		   "LEFT JOIN words AS words1 ON words1.id = word1 " +
+		   "LEFT JOIN words AS words2 ON words2.id = word2 " +
+		   "WHERE (words1.language = :language1 AND words2.language = :language2 " +
+//		   "OR words1.language = :language2 AND words2.language = :language1" + // Languages are supposed to be sorted
+		   ") AND (word1 = :id OR word2 = :id)")
+	List<Translation> getWithWordForLangs(int id, @NonNull String language1, @NonNull String language2);
 
 	@Query("SELECT COUNT(*) FROM translations")
 	int count();

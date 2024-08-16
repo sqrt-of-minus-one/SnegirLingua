@@ -40,7 +40,6 @@ public class DictionaryTranslation
 	{
 		return id;
 	}
-
 	public void setId(int id)
 	{
 		this.id = id;
@@ -50,7 +49,6 @@ public class DictionaryTranslation
 	{
 		return dictionary;
 	}
-
 	public void setDictionary(int dictionary)
 	{
 		this.dictionary = dictionary;
@@ -60,7 +58,6 @@ public class DictionaryTranslation
 	{
 		return translation;
 	}
-
 	public void setTranslation(int translation)
 	{
 		this.translation = translation;

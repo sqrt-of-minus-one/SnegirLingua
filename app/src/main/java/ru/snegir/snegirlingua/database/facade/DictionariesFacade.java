@@ -17,91 +17,87 @@ import ru.snegir.snegirlingua.R;
 import ru.snegir.snegirlingua.database.Database;
 import ru.snegir.snegirlingua.entity.Dictionary;
 import ru.snegir.snegirlingua.entity.DictionaryTranslation;
-import ru.snegir.snegirlingua.entity.Language;
 
 // All methods should be called in a dedicated thread
 public class DictionariesFacade
 {
-	public static void insert(Activity activity, Pair<String, String> langs, String name, int color, List<Integer> translations)
+	public static void insert(Activity activity, String name, String description, Pair<String, String> langs, int color, List<Integer> translations)
 	{
 		// The name should be filled
-		if (name != null && !name.isEmpty())
-		{
-			try
-			{
-				Database database = Database.get(activity);
-				database.dictionaries().insert(new Dictionary(database.dictionaries().getLastId() + 1, name, langs.first, langs.second, color));
-				for (Integer i : translations)
-				{
-					includeTranslation(activity, id, i);
-				}
-			}
-			catch (SQLiteException e)
-			{
-				activity.runOnUiThread(() ->
-						Toast.makeText(activity, R.string.error_lang_add, Toast.LENGTH_LONG).show());
-			}
-		}
-		else
+		if (name == null || name.isEmpty())
 		{
 			activity.runOnUiThread(() ->
-					Toast.makeText(activity, R.string.error_dictionary_no_name, Toast.LENGTH_LONG).show());
+					Toast.makeText(activity, R.string.error_dict_add_no_name, Toast.LENGTH_LONG).show());
+			return;
+		}
+		try
+		{
+			Database database = Database.get(activity);
+			int id = database.dictionaries().getLastId() + 1;
+			database.dictionaries().insert(new Dictionary(id, name, description, langs.first, langs.second, color));
+			for (Integer i : translations)
+			{
+				includeTranslation(activity, id, i);
+			}
+		}
+		catch (SQLiteException e)
+		{
+			activity.runOnUiThread(() ->
+					Toast.makeText(activity, R.string.error_dict_add, Toast.LENGTH_LONG).show());
 		}
 	}
 	
-	public static void update(Activity activity, int id, String name, int color)
+	public static void update(Activity activity, int id, String name, String description, int color)
 	{
 		// The name should be filled
-		if (name != null && !name.isEmpty())
-		{
-			Dictionary dictionary = Database.get(activity).dictionaries().getById(id);
-			// The language with the passed code should exist
-			if (dictionary != null)
-			{
-				dictionary.setName(name);
-				dictionary.setColor(color);
-				try
-				{
-					Database.get(activity).dictionaries().update(dictionary);
-				}
-				catch (SQLiteException e)
-				{
-					activity.runOnUiThread(() ->
-							Toast.makeText(activity, R.string.error_dictionary_edit, Toast.LENGTH_LONG).show());
-				}
-			}
-			else
-			{
-				activity.runOnUiThread(() ->
-						Toast.makeText(activity, R.string.error_dictionary_edit, Toast.LENGTH_LONG).show());
-			}
-		}
-		else
+		if (name == null || name.isEmpty())
 		{
 			activity.runOnUiThread(() ->
-					Toast.makeText(activity, R.string.error_dictionary_no_name, Toast.LENGTH_LONG).show());
+					Toast.makeText(activity, R.string.error_dict_edit_no_name, Toast.LENGTH_LONG).show());
+			return;
+		}
+		
+		Dictionary dictionary = Database.get(activity).dictionaries().getById(id);
+		// The language with the passed code should exist
+		if (dictionary == null)
+		{
+			activity.runOnUiThread(() ->
+					Toast.makeText(activity, R.string.error_dict_edit_not_exist, Toast.LENGTH_LONG).show());
+			return;
+		}
+		
+		dictionary.setName(name);
+		dictionary.setDescription(description);
+		dictionary.setColor(color);
+		try
+		{
+			Database.get(activity).dictionaries().update(dictionary);
+		}
+		catch (SQLiteException e)
+		{
+			activity.runOnUiThread(() ->
+					Toast.makeText(activity, R.string.error_dict_edit, Toast.LENGTH_LONG).show());
 		}
 	}
 	
 	public static void delete(Activity activity, int dictionary)
 	{
 		Dictionary dictionaryObj = Database.get(activity).dictionaries().getById(dictionary);
-		if (dictionaryObj != null)
-		{
-			try
-			{
-				Database.get(activity).dictionaries().delete(dictionaryObj);
-			}
-			catch (SQLiteException e)
-			{
-				activity.runOnUiThread(() ->
-						Toast.makeText(activity, R.string.error_dictionary_delete, Toast.LENGTH_LONG).show());
-			}
-		}
-		else
+		if (dictionaryObj == null)
 		{
 			activity.runOnUiThread(() ->
-					Toast.makeText(activity, R.string.error_dictionary_delete, Toast.LENGTH_LONG).show());
+					Toast.makeText(activity, R.string.error_dict_delete, Toast.LENGTH_LONG).show());
+			return;
+		}
+		
+		try
+		{
+			Database.get(activity).dictionaries().delete(dictionaryObj);
+		}
+		catch (SQLiteException e)
+		{
+			activity.runOnUiThread(() ->
+					Toast.makeText(activity, R.string.error_dict_delete_not_exist, Toast.LENGTH_LONG).show());
 		}
 	}
 	
@@ -136,9 +132,9 @@ public class DictionariesFacade
 		Database database = Database.get(activity);
 		List<DictionaryTranslation> dictionaryTranslations =
 				database.dictionaryTranslations().getByContent(dictionary, translation);
-		if (!dictionaryTranslations.isEmpty())
+		for (DictionaryTranslation dt : dictionaryTranslations) // There shouldn't be more than 1 element in the list
 		{
-			database.dictionaryTranslations().delete(dictionaryTranslations.get(0));
+			database.dictionaryTranslations().delete(dt);
 		}
 	}
 }

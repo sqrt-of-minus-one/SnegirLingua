@@ -42,7 +42,6 @@ public class Word
 	{
 		return id;
 	}
-
 	public void setId(int id)
 	{
 		this.id = id;
@@ -53,7 +52,6 @@ public class Word
 	{
 		return word;
 	}
-
 	public void setWord(@NonNull String word)
 	{
 		this.word = word;
@@ -64,7 +62,6 @@ public class Word
 	{
 		return language;
 	}
-
 	public void setLanguage(@NonNull String language)
 	{
 		this.language = language;

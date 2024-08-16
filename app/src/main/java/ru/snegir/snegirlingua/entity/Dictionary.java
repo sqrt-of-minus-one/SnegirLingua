@@ -29,7 +29,10 @@ public class Dictionary
 
 	@NonNull
 	private String name;
+	
+	private String description;
 
+	// Languages are supposed to be sorted
 	@NonNull
 	private String lang1;
 
@@ -38,10 +41,11 @@ public class Dictionary
 	
 	private int color;
 
-	public Dictionary(int id, @NonNull String name, @NonNull String lang1, @NonNull String lang2, int color)
+	public Dictionary(int id, @NonNull String name, String description, @NonNull String lang1, @NonNull String lang2, int color)
 	{
 		this.id = id;
 		this.name = name;
+		this.description = description;
 		this.lang1 = lang1;
 		this.lang2 = lang2;
 		this.color = color;
@@ -51,10 +55,28 @@ public class Dictionary
 	{
 		return id;
 	}
-
 	public void setId(int id)
 	{
 		this.id = id;
+	}
+	
+	@NonNull
+	public String getName()
+	{
+		return name;
+	}
+	public void setName(@NonNull String name)
+	{
+		this.name = name;
+	}
+	
+	public String getDescription()
+	{
+		return description;
+	}
+	public void setDescription(String description)
+	{
+		this.description = description;
 	}
 
 	@NonNull
@@ -62,7 +84,6 @@ public class Dictionary
 	{
 		return lang1;
 	}
-
 	public void setLang1(@NonNull String lang1)
 	{
 		this.lang1 = lang1;
@@ -73,28 +94,15 @@ public class Dictionary
 	{
 		return lang2;
 	}
-
 	public void setLang2(@NonNull String lang2)
 	{
 		this.lang2 = lang2;
-	}
-
-	@NonNull
-	public String getName()
-	{
-		return name;
-	}
-
-	public void setName(@NonNull String name)
-	{
-		this.name = name;
 	}
 
 	public int getColor()
 	{
 		return color;
 	}
-	
 	public void setColor(int color)
 	{
 		this.color = color;

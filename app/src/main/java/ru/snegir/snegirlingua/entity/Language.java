@@ -35,7 +35,6 @@ public class Language
 	{
 		return code;
 	}
-
 	public void setCode(@NonNull String code)
 	{
 		this.code = code;
@@ -46,7 +45,6 @@ public class Language
 	{
 		return name;
 	}
-
 	public void setName(@NonNull String name)
 	{
 		this.name = name;
