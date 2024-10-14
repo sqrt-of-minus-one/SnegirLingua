@@ -8,11 +8,13 @@ package ru.snegir.snegirlingua.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -29,7 +31,7 @@ public class MainActivity extends AppCompatActivity
 {
 	private ProgressBar loadPB;
 	private Spinner lang1SP, lang2SP;
-	private ImageButton proceedIB, editLangIB, settingsIB;
+	private ImageButton infoIB, proceedIB, editLangIB, settingsIB;
 	
 	// If true, the language list needs to be updated
 	private boolean needsToBeReloaded;
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity
 		loadPB = findViewById(R.id.main_loadPB);
 		lang1SP = findViewById(R.id.main_lang1SP);
 		lang2SP = findViewById(R.id.main_lang2SP);
+		infoIB = findViewById(R.id.main_infoIB);
 		proceedIB = findViewById(R.id.main_proceedIB);
 		editLangIB = findViewById(R.id.main_editLangIB);
 		settingsIB = findViewById(R.id.main_settingsIB);
@@ -84,12 +87,15 @@ public class MainActivity extends AppCompatActivity
 			}
 			else
 			{
-				Toast.makeText(MainActivity.this, R.string.error_lang_same_selected, Toast.LENGTH_LONG).show();
+				Toast.makeText(MainActivity.this,
+						lang1SP.getAdapter().getCount() < 2 ?
+						R.string.error_a_main_addLangs :
+						R.string.error_a_main_sameLangs, Toast.LENGTH_LONG).show();
 			}
 		});
 		proceedIB.setOnLongClickListener(v ->
 		{
-			Toast.makeText(MainActivity.this, R.string.main_proceed_info, Toast.LENGTH_LONG).show();
+			Toast.makeText(MainActivity.this, R.string.a_main_proceed_hint, Toast.LENGTH_LONG).show();
 			return true;
 		});
 		
@@ -100,7 +106,7 @@ public class MainActivity extends AppCompatActivity
 		});
 		editLangIB.setOnLongClickListener(v ->
 		{
-			Toast.makeText(MainActivity.this, R.string.main_edit_lang_info, Toast.LENGTH_LONG).show();
+			Toast.makeText(MainActivity.this, R.string.a_main_editLang_hint, Toast.LENGTH_LONG).show();
 			return true;
 		});
 		
@@ -111,7 +117,19 @@ public class MainActivity extends AppCompatActivity
 		});
 		settingsIB.setOnLongClickListener(v ->
 		{
-			Toast.makeText(MainActivity.this, R.string.main_settings_info, Toast.LENGTH_LONG).show();
+			Toast.makeText(MainActivity.this, R.string.a_main_settings_hint, Toast.LENGTH_LONG).show();
+			return true;
+		});
+		
+		infoIB.setOnClickListener(v -> new AlertDialog.Builder(MainActivity.this)
+				.setTitle(R.string.a_main_help_title)
+				.setMessage(R.string.a_main_help)
+				.setPositiveButton(R.string.ok, null)
+				.create()
+				.show());
+		infoIB.setOnLongClickListener(v ->
+		{
+			Toast.makeText(MainActivity.this, R.string.help, Toast.LENGTH_LONG).show();
 			return true;
 		});
 	}

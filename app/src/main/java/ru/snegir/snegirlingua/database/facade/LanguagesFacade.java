@@ -30,7 +30,7 @@ public class LanguagesFacade
 		if (code == null || name == null || code.isEmpty() || name.isEmpty())
 		{
 			activity.runOnUiThread(() ->
-					Toast.makeText(activity, R.string.error_lang_add_no_code_name, Toast.LENGTH_LONG).show());
+					Toast.makeText(activity, R.string.error_lang_add_noCodeName, Toast.LENGTH_LONG).show());
 			return;
 		}
 		
@@ -59,7 +59,7 @@ public class LanguagesFacade
 		if (code == null || name == null || code.isEmpty() || name.isEmpty())
 		{
 			activity.runOnUiThread(() ->
-					Toast.makeText(activity, R.string.error_lang_edit_no_name, Toast.LENGTH_LONG).show());
+					Toast.makeText(activity, R.string.error_lang_edit_noName, Toast.LENGTH_LONG).show());
 			return;
 		}
 		
@@ -68,7 +68,7 @@ public class LanguagesFacade
 		if (language == null)
 		{
 			activity.runOnUiThread(() ->
-					Toast.makeText(activity, R.string.error_lang_edit_not_exist, Toast.LENGTH_LONG).show());
+					Toast.makeText(activity, R.string.error_lang_edit_notExist, Toast.LENGTH_LONG).show());
 			return;
 		}
 		
@@ -91,7 +91,7 @@ public class LanguagesFacade
 		if (language == null)
 		{
 			activity.runOnUiThread(() ->
-					Toast.makeText(activity, R.string.error_lang_delete_not_exist, Toast.LENGTH_LONG).show());
+					Toast.makeText(activity, R.string.error_lang_delete_notExist, Toast.LENGTH_LONG).show());
 			return;
 		}
 		

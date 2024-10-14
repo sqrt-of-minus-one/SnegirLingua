@@ -10,9 +10,12 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -28,8 +31,9 @@ import ru.snegir.snegirlingua.entity.Language;
 public class EditLangActivity extends AppCompatActivity
 {
 	private ProgressBar loadPB;
+	private Button addBT;
+	private ImageButton infoIB;
 	private ListView listLV;
-	private FloatingActionButton addFB;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -37,20 +41,21 @@ public class EditLangActivity extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_lang);
 		
-		loadPB = findViewById(R.id.edit_lang_loadPB);
-		listLV = findViewById(R.id.edit_lang_listLV);
-		addFB = findViewById(R.id.edit_lang_addFB);
+		loadPB = findViewById(R.id.editLang_loadPB);
+		addBT = findViewById(R.id.editLang_addBT);
+		infoIB = findViewById(R.id.editLang_infoIB);
+		listLV = findViewById(R.id.editLang_listLV);
 		
-		addFB.setOnClickListener(v ->
+		addBT.setOnClickListener(v ->
 		{
 			final View addLangDialog = LayoutInflater.from(EditLangActivity.this).inflate(R.layout.dialog_add_lang, null);
 			new AlertDialog.Builder(EditLangActivity.this)
-					.setTitle(R.string.edit_lang_add_lang)
+					.setTitle(R.string.a_editLang_addLang)
 					.setView(addLangDialog)
 					.setPositiveButton(R.string.add, (dialog, which) ->
 					{
-						EditText codeET = addLangDialog.findViewById(R.id.d_add_lang_codeET);
-						EditText nameET = addLangDialog.findViewById(R.id.d_add_lang_nameET);
+						EditText codeET = addLangDialog.findViewById(R.id.d_addLang_codeET);
+						EditText nameET = addLangDialog.findViewById(R.id.d_addLang_nameET);
 						
 						setPBVisibility(true);
 						new Thread(() ->
@@ -63,6 +68,17 @@ public class EditLangActivity extends AppCompatActivity
 					.setNegativeButton(R.string.cancel, null)
 					.create()
 					.show();
+		});
+		infoIB.setOnClickListener(v -> new AlertDialog.Builder(EditLangActivity.this)
+				.setTitle(R.string.a_editLang_help_title)
+				.setMessage(R.string.a_editLang_help)
+				.setPositiveButton(R.string.ok, null)
+				.create()
+				.show());
+		infoIB.setOnLongClickListener(v ->
+		{
+			Toast.makeText(EditLangActivity.this, R.string.help, Toast.LENGTH_LONG).show();
+			return true;
 		});
 		loadLangs();
 	}
@@ -91,7 +107,7 @@ public class EditLangActivity extends AppCompatActivity
 		{
 			loadPB.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
 			listLV.setEnabled(!visible);
-			addFB.setEnabled(!visible);
+			addBT.setEnabled(!visible);
 		});
 	}
 }

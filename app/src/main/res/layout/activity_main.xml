@@ -6,28 +6,28 @@
 <!-- File: activity_main.xml         -->
 <!--=================================-->
 
-<androidx.constraintlayout.widget.ConstraintLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	xmlns:app="http://schemas.android.com/apk/res-auto">
+	android:layout_height="match_parent">
 	
 	<ProgressBar
 		android:id="@+id/main_loadPB"
+		style="@style/Widget.AppCompat.ProgressBar.Horizontal"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:indeterminate="true"
+		android:visibility="invisible"
 		app:layout_constraintTop_toTopOf="parent"
 		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintBottom_toTopOf="@id/main_lang1SP"
-		style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-		android:indeterminate="true"
-		android:visibility="invisible"/>
+		app:layout_constraintRight_toRightOf="parent"/>
 	
 	<Spinner
 		android:id="@+id/main_lang1SP"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
+		android:contentDescription="@string/a_main_lang1"
 		app:layout_constraintTop_toBottomOf="@id/main_loadPB"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintRight_toLeftOf="@id/main_lang2SP"
@@ -37,85 +37,99 @@
 		android:id="@+id/main_lang2SP"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
+		android:contentDescription="@string/a_main_lang2"
 		app:layout_constraintTop_toBottomOf="@id/main_loadPB"
 		app:layout_constraintLeft_toRightOf="@id/main_lang1SP"
-		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintRight_toLeftOf="@id/main_infoIB"
 		app:layout_constraintBottom_toTopOf="@id/main_headBR"/>
+	
+	<ImageButton
+		android:id="@+id/main_infoIB"
+		android:layout_width="50dp"
+		android:layout_height="50dp"
+		app:layout_constraintTop_toBottomOf="@id/main_loadPB"
+		app:layout_constraintLeft_toRightOf="@id/main_lang2SP"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintBottom_toTopOf="@id/main_headBR"
+		app:layout_constraintDimensionRatio="W,1:1"
+		android:scaleType="fitCenter"
+		android:src="@drawable/ic_launcher_foreground"
+		android:contentDescription="@string/help"/>
 	
 	<androidx.constraintlayout.widget.Barrier
 		android:id="@+id/main_headBR"
 		android:layout_width="0dp"
 		android:layout_height="0dp"
 		app:barrierDirection="bottom"
-		app:constraint_referenced_ids="main_lang1SP,main_lang2SP"/>
+		app:constraint_referenced_ids="main_lang1SP,main_lang2SP,main_infoIB"/>
 	
 	<ImageButton
 		android:id="@+id/main_proceedIB"
 		android:layout_width="0dp"
 		android:layout_height="0dp"
+		android:contentDescription="@string/a_main_proceed"
+		android:scaleType="fitCenter"
+		android:src="@drawable/ic_launcher_foreground"
 		app:layout_constraintTop_toBottomOf="@id/main_headBR"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintBottom_toTopOf="@id/main_editLangIB"
-		android:src="@drawable/ic_launcher_foreground"
-		android:scaleType="fitCenter"
-		android:contentDescription="@string/proceed"/>
+		app:layout_constraintBottom_toTopOf="@id/main_editLangIB"/>
 	
 	<TextView
 		android:id="@+id/main_proceedTV"
+		style="@style/TextAppearance.AppCompat.Headline"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
+		android:padding="10dp"
+		android:text="@string/a_main_proceed"
 		app:layout_constraintLeft_toLeftOf="@id/main_proceedIB"
 		app:layout_constraintRight_toRightOf="@id/main_proceedIB"
-		app:layout_constraintBottom_toBottomOf="@id/main_proceedIB"
-		style="@style/TextAppearance.AppCompat.Headline"
-		android:padding="10dp"
-		android:text="@string/proceed"/>
+		app:layout_constraintBottom_toBottomOf="@id/main_proceedIB"/>
 	
 	<ImageButton
 		android:id="@+id/main_editLangIB"
 		android:layout_width="0dp"
 		android:layout_height="0dp"
+		android:contentDescription="@string/a_main_editLang"
+		android:scaleType="fitCenter"
+		android:src="@drawable/ic_launcher_foreground"
 		app:layout_constraintTop_toBottomOf="@id/main_proceedIB"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintBottom_toTopOf="@id/main_settingsIB"
-		android:src="@drawable/ic_launcher_foreground"
-		android:scaleType="fitCenter"
-		android:contentDescription="@string/main.edit_lang"/>
+		app:layout_constraintBottom_toTopOf="@id/main_settingsIB"/>
 	
 	<TextView
 		android:id="@+id/main_editLangTV"
+		style="@style/TextAppearance.AppCompat.Headline"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
+		android:padding="10dp"
+		android:text="@string/a_main_editLang"
 		app:layout_constraintLeft_toLeftOf="@id/main_editLangIB"
 		app:layout_constraintRight_toRightOf="@id/main_editLangIB"
-		app:layout_constraintBottom_toBottomOf="@id/main_editLangIB"
-		style="@style/TextAppearance.AppCompat.Headline"
-		android:padding="10dp"
-		android:text="@string/main.edit_lang"/>
+		app:layout_constraintBottom_toBottomOf="@id/main_editLangIB"/>
 	
 	<ImageButton
 		android:id="@+id/main_settingsIB"
 		android:layout_width="0dp"
 		android:layout_height="0dp"
+		android:contentDescription="@string/a_main_settings"
+		android:scaleType="fitCenter"
+		android:src="@drawable/ic_launcher_foreground"
 		app:layout_constraintTop_toBottomOf="@id/main_editLangIB"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintBottom_toBottomOf="parent"
-		android:src="@drawable/ic_launcher_foreground"
-		android:scaleType="fitCenter"
-		android:contentDescription="@string/main.settings"/>
+		app:layout_constraintBottom_toBottomOf="parent"/>
 	
 	<TextView
 		android:id="@+id/main_settingsTV"
+		style="@style/TextAppearance.AppCompat.Headline"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
+		android:padding="10dp"
+		android:text="@string/a_main_settings"
 		app:layout_constraintLeft_toLeftOf="@id/main_settingsIB"
 		app:layout_constraintRight_toRightOf="@id/main_settingsIB"
-		app:layout_constraintBottom_toBottomOf="@id/main_settingsIB"
-		style="@style/TextAppearance.AppCompat.Headline"
-		android:padding="10dp"
-		android:text="@string/main.settings"/>
+		app:layout_constraintBottom_toBottomOf="@id/main_settingsIB"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

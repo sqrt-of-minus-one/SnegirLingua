@@ -7,16 +7,18 @@
 package ru.snegir.snegirlingua.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -33,9 +35,10 @@ public class WordsActivity extends Activity
 	
 	private RadioGroup sortRG;
 	private RadioButton sortLang1RB, sortLang2RB;
+	private ImageButton infoIB;
 	private ProgressBar loadPB;
-	private ListView listLV;
-	private FloatingActionButton addFB;
+	private Button addBT;
+	private ListView list1LV, list2LV;
 	
 	private Pair<String, String> langs;
 	
@@ -67,9 +70,11 @@ public class WordsActivity extends Activity
 		sortRG = findViewById(R.id.words_sortRG);
 		sortLang1RB = findViewById(R.id.words_sortLang1RB);
 		sortLang2RB = findViewById(R.id.words_sortLang2RB);
+		infoIB = findViewById(R.id.words_infoIB);
 		loadPB = findViewById(R.id.words_loadPB);
-		listLV = findViewById(R.id.words_listLV);
-		addFB = findViewById(R.id.words_addFB);
+		addBT = findViewById(R.id.words_addBT);
+		list1LV = findViewById(R.id.words_list1LV);
+		list2LV = findViewById(R.id.words_list2LV);
 		
 		// Languages are supposed to be sorted
 		langs = new Pair<>(getIntent().getStringExtra(LANG_1), getIntent().getStringExtra(LANG_2));
@@ -78,7 +83,7 @@ public class WordsActivity extends Activity
 		sortLang2RB.setText(getString(R.string.sort, langs.second));
 		
 		sortRG.setOnCheckedChangeListener((group, checkedId) -> loadWords());
-		addFB.setOnClickListener(v ->
+		addBT.setOnClickListener(v ->
 		{
 			Intent wordI = new Intent(WordsActivity.this, WordActivity.class);
 			wordI.putExtra(WordActivity.LANG_1, langs.first);
@@ -88,6 +93,18 @@ public class WordsActivity extends Activity
 			startActivity(wordI);
 		});
 		sortLang1RB.setChecked(true); // Also calls loadWords()
+		
+		infoIB.setOnClickListener(v -> new AlertDialog.Builder(WordsActivity.this)
+				.setTitle(R.string.a_words_help_title)
+				.setMessage(R.string.a_words_help)
+				.setPositiveButton(R.string.ok, null)
+				.create()
+				.show());
+		infoIB.setOnLongClickListener(v ->
+		{
+			Toast.makeText(WordsActivity.this, R.string.help, Toast.LENGTH_LONG).show();
+			return true;
+		});
 	}
 	
 	public void loadWords()
@@ -97,18 +114,46 @@ public class WordsActivity extends Activity
 		{
 			if (needsToBeReloaded)
 			{
+				needsToBeReloaded = false;
 				List<Translation> translations1 = TranslationsFacade.getForLangs(WordsActivity.this, langs, false);
 				List<Translation> translations2 = TranslationsFacade.getForLangs(WordsActivity.this, langs, true);
 				translationsLang1 = translations1.toArray(new Translation[0]);
 				translationsLang2 = translations2.toArray(new Translation[0]);
-				needsToBeReloaded = false;
+				WordAdapter adapter1 = new WordAdapter(WordsActivity.this, translationsLang1, langs);
+				WordAdapter adapter2 = new WordAdapter(WordsActivity.this, translationsLang2, langs);
+				WordsActivity.this.runOnUiThread(() ->
+				{
+					list1LV.setAdapter(adapter1);
+					list2LV.setAdapter(adapter2);
+					setPBVisibility(false);
+					if (sortLang1RB.isChecked())
+					{
+						list2LV.setVisibility(View.GONE);
+						list1LV.setVisibility(View.VISIBLE);
+					}
+					else
+					{
+						list1LV.setVisibility(View.GONE);
+						list2LV.setVisibility(View.VISIBLE);
+					}
+				});
 			}
-			WordAdapter adapter = new WordAdapter(WordsActivity.this, sortLang1RB.isChecked() ? translationsLang1 : translationsLang2, langs);
-			WordsActivity.this.runOnUiThread(() ->
+			else
 			{
-				listLV.setAdapter(adapter);
-				setPBVisibility(false);
-			});
+				WordsActivity.this.runOnUiThread(() ->
+				{
+					if (sortLang1RB.isChecked())
+					{
+						list2LV.setVisibility(View.GONE);
+						list1LV.setVisibility(View.VISIBLE);
+					}
+					else
+					{
+						list1LV.setVisibility(View.GONE);
+						list2LV.setVisibility(View.VISIBLE);
+					}
+				});
+			}
 		}).start();
 	}
 	
@@ -120,8 +165,9 @@ public class WordsActivity extends Activity
 			sortRG.setEnabled(!visible);
 			sortLang1RB.setEnabled(!visible);
 			sortLang2RB.setEnabled(!visible);
-			listLV.setEnabled(!visible);
-			addFB.setEnabled(!visible);
+			addBT.setEnabled(!visible);
+			list1LV.setEnabled(!visible);
+			list2LV.setEnabled(!visible);
 		});
 	}
 }

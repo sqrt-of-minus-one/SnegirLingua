@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
 
@@ -47,17 +48,18 @@ public class DictionaryActivity extends Activity
 	public static final String DICTIONARY_ID = "dictionary_id";
 	
 	private ImageButton colorIB;
-	private EditText nameET;
+	private EditText nameET, descriptionET;
 	private RadioGroup sortRG;
 	private RadioButton sortLang1RB, sortLang2RB;
 	private Button cancelBT, saveBT;
+	private ImageButton infoIB;
 	private ProgressBar loadPB;
-	private ListView listLV;
+	private ListView list1LV, list2LV;
 	
 	private Pair<String, String> langs;
 	private boolean isNew; // Is the dictionary new or it already exists in database (add dictionary or edit dictionary)
 	private Dictionary dictionary;
-	private DictionaryWordAdapter adapter;
+	private DictionaryWordAdapter adapter1, adapter2;
 	@ColorInt private int color;
 	public HashMap<Integer, Boolean> originallyAdded;
 	public HashMap<Integer, Boolean> added; // Which translation was added to the dictionary
@@ -72,19 +74,63 @@ public class DictionaryActivity extends Activity
 		
 		colorIB = findViewById(R.id.dictionary_colorIB);
 		nameET = findViewById(R.id.dictionary_nameET);
+		descriptionET = findViewById(R.id.dictionary_descriptionET);
 		sortRG = findViewById(R.id.dictionary_sortRG);
 		sortLang1RB = findViewById(R.id.dictionary_sortLang1RB);
 		sortLang2RB = findViewById(R.id.dictionary_sortLang2RB);
 		cancelBT = findViewById(R.id.dictionary_cancelBT);
 		saveBT = findViewById(R.id.dictionary_saveBT);
+		infoIB = findViewById(R.id.dictionary_infoIB);
 		loadPB = findViewById(R.id.dictionary_loadPB);
-		listLV = findViewById(R.id.dictionary_listLV);
+		list1LV = findViewById(R.id.dictionary_list1LV);
+		list2LV = findViewById(R.id.dictionary_list2LV);
 		
 		langs = new Pair<>(getIntent().getStringExtra(LANG_1), getIntent().getStringExtra(LANG_2));
 		isNew = getIntent().getBooleanExtra(IS_NEW, true);
 		
 		sortLang1RB.setText(getString(R.string.sort, langs.first));
 		sortLang2RB.setText(getString(R.string.sort, langs.second));
+		
+		if (isNew)
+		{
+			cancelBT.setText(R.string.cancel);
+			cancelBT.setOnLongClickListener(v ->
+			{
+				Toast.makeText(DictionaryActivity.this, R.string.a_dictionary_cancel_hint, Toast.LENGTH_LONG).show();
+				return true;
+			});
+			saveBT.setOnLongClickListener(v ->
+			{
+				Toast.makeText(DictionaryActivity.this, R.string.a_dictionary_create_hint, Toast.LENGTH_LONG).show();
+				return true;
+			});
+		}
+		else
+		{
+			cancelBT.setText(R.string.delete);
+			cancelBT.setOnLongClickListener(v ->
+			{
+				Toast.makeText(DictionaryActivity.this, R.string.a_dictionary_delete_hint, Toast.LENGTH_LONG).show();
+				return true;
+			});
+			cancelBT.setOnLongClickListener(v ->
+			{
+				Toast.makeText(DictionaryActivity.this, R.string.a_dictionary_save_hint, Toast.LENGTH_LONG).show();
+				return true;
+			});
+		}
+		
+		infoIB.setOnClickListener(v -> new AlertDialog.Builder(DictionaryActivity.this)
+				.setTitle(R.string.a_dictionary_help_title)
+				.setMessage(R.string.a_dictionary_help)
+				.setPositiveButton(R.string.ok, null)
+				.create()
+				.show());
+		infoIB.setOnLongClickListener(v ->
+		{
+			Toast.makeText(DictionaryActivity.this, R.string.help, Toast.LENGTH_LONG).show();
+			return true;
+		});
 		
 		load();
 	}
@@ -111,7 +157,6 @@ public class DictionaryActivity extends Activity
 				
 				DictionaryActivity.this.runOnUiThread(() ->
 				{
-					cancelBT.setText(R.string.cancel);
 					cancelBT.setOnClickListener(v -> finish());
 					saveBT.setOnClickListener(v ->
 					{
@@ -199,12 +244,14 @@ public class DictionaryActivity extends Activity
 			loadPB.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
 			colorIB.setEnabled(!visible);
 			nameET.setEnabled(!visible);
+			descriptionET.setEnabled(!visible);
 			sortRG.setEnabled(!visible);
 			sortLang1RB.setEnabled(!visible);
 			sortLang2RB.setEnabled(!visible);
 			cancelBT.setEnabled(!visible);
 			saveBT.setEnabled(!visible);
-			listLV.setEnabled(!visible);
+			list1LV.setEnabled(!visible);
+			list2LV.setEnabled(!visible);
 		});
 	}
 }

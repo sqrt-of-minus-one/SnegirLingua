@@ -8,6 +8,7 @@ package ru.snegir.snegirlingua.activity;
 
 import android.os.Bundle;
 import android.widget.CheckBox;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -45,6 +46,11 @@ public class SettingsActivity extends AppCompatActivity
 		{
 			SettingsManager.settings.test = isChecked;
 			SettingsManager.save(SettingsActivity.this);
+		});
+		testCB.setOnLongClickListener(v ->
+		{
+			Toast.makeText(SettingsActivity.this, R.string.a_settings_test_hint, Toast.LENGTH_LONG).show();
+			return true;
 		});
 	}
 }

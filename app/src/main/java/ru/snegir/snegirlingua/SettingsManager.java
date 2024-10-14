@@ -17,6 +17,7 @@ import java.io.IOException;
 
 public class SettingsManager
 {
+	// The class keeping all the settings
 	public static class Settings
 	{
 		public boolean test = false;
@@ -27,59 +28,35 @@ public class SettingsManager
 	
 	public static void load(Context context)
 	{
-		FileInputStream fis = null;
-		try
+		try (FileInputStream fis = context.openFileInput(FILE_NAME))
 		{
 			// Read from file and load to Settings object using GSON
-			fis = context.openFileInput(FILE_NAME);
 			byte[] bytes = new byte[fis.available()];
 			fis.read(bytes);
 			settings = new GsonBuilder().create().fromJson(new String(bytes), Settings.class);
 		}
 		catch (IOException ignored)
-		{}
+		{
+		}
 		finally
 		{
 			if (settings == null) // settings must not be null
 			{
 				settings = new Settings();
 			}
-			try
-			{
-				if (fis != null)
-				{
-					fis.close();
-				}
-			}
-			catch (IOException ignored)
-			{}
 		}
 	}
 	
 	public static void save(Context context)
 	{
-		FileOutputStream fos = null;
-		try
+		try (FileOutputStream fos = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE))
 		{
 			// write settings to file
-			fos = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
 			fos.write(new GsonBuilder().create().toJson(settings).getBytes());
 		}
 		catch (IOException exception)
 		{
 			Toast.makeText(context, R.string.error_settings_save, Toast.LENGTH_LONG).show();
-		}
-		finally
-		{
-			try
-			{
-				if (fos != null)
-				{
-					fos.close();
-				}
-			}
-			catch (IOException ignored)
-			{}
 		}
 	}
 }

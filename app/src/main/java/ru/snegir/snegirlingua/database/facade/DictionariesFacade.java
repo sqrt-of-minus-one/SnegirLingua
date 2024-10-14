@@ -27,7 +27,7 @@ public class DictionariesFacade
 		if (name == null || name.isEmpty())
 		{
 			activity.runOnUiThread(() ->
-					Toast.makeText(activity, R.string.error_dict_add_no_name, Toast.LENGTH_LONG).show());
+					Toast.makeText(activity, R.string.error_dict_add_noName, Toast.LENGTH_LONG).show());
 			return;
 		}
 		try
@@ -53,7 +53,7 @@ public class DictionariesFacade
 		if (name == null || name.isEmpty())
 		{
 			activity.runOnUiThread(() ->
-					Toast.makeText(activity, R.string.error_dict_edit_no_name, Toast.LENGTH_LONG).show());
+					Toast.makeText(activity, R.string.error_dict_edit_noName, Toast.LENGTH_LONG).show());
 			return;
 		}
 		
@@ -62,7 +62,7 @@ public class DictionariesFacade
 		if (dictionary == null)
 		{
 			activity.runOnUiThread(() ->
-					Toast.makeText(activity, R.string.error_dict_edit_not_exist, Toast.LENGTH_LONG).show());
+					Toast.makeText(activity, R.string.error_dict_edit_notExist, Toast.LENGTH_LONG).show());
 			return;
 		}
 		
@@ -97,7 +97,7 @@ public class DictionariesFacade
 		catch (SQLiteException e)
 		{
 			activity.runOnUiThread(() ->
-					Toast.makeText(activity, R.string.error_dict_delete_not_exist, Toast.LENGTH_LONG).show());
+					Toast.makeText(activity, R.string.error_dict_delete_notExist, Toast.LENGTH_LONG).show());
 		}
 	}
 	

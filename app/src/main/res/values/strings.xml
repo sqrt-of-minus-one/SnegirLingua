@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="app_name">SnegirLingua</string>
-	<string name="lang_code">EN</string>
-	<string name="lang_name">English</string>
-	<string name="lang_region">United States</string>
+	<string name="appName">SnegirLingua</string>
+	<string name="langCode">EN</string>
+	<string name="langName">English</string>
+	<string name="langRegion">United States</string>
 	
 	<string name="yes">Yes</string>
 	<string name="no">No</string>
@@ -13,92 +13,127 @@
 	<string name="cancel">Cancel</string>
 	<string name="delete">Delete</string>
 	<string name="proceed">Proceed</string>
+	<string name="help">Get help</string>
 	
 	<string name="sort">%s ↓</string>
 	
 	<!-- Errors -->
-	<string name="error.lang.add">Couldn\'t add the language: unknown error</string>
-	<string name="error.lang.add.no_code_name">Couldn\'t add the language: the code or the name is not specified</string>
-	<string name="error.lang.add.exists">Couldn\'t add the language: the language with the specified code already exists</string>
-	<string name="error.lang.edit">Couldn\'t edit the language: unknown error</string>
-	<string name="error.lang.edit.no_name">Couldn\'t edit the language: the name is not specified</string>
-	<string name="error.lang.edit.not_exist">Couldn\'t edit the language: the language with the specified code doesn\'t exist</string>
-	<string name="error.lang.delete">Couldn\'t delete the language: unknown error</string>
-	<string name="error.lang.delete.not_exist">Couldn\'t delete the language: the language with the specified code doesn\'t exist</string>
-	<string name="error.translation.add">Couldn\'t add the translation: unknown error</string>
-	<string name="error.translation.add.no_word">Couldn\'t add the translation: one of the words is not specified</string>
-	<string name="error.translation.add.exists">Couldn\'t add the translation: the translation with these words already exists</string>
-	<string name="error.translation.edit">Couldn\'t edit the translation: unknown error</string>
-	<string name="error.translation.edit.no_word">Couldn\'t edit the translation: one of the words is not specified</string>
-	<string name="error.translation.edit.not_exist">Couldn\'t edit the translation: the translation with the specified ID doesn\'t exist</string>
-	<string name="error.translation.delete">Couldn\'t delete the translation: unknown error</string>
-	<string name="error.translation.delete.not_exist">Couldn\'t delete the translation: the translation with the specified ID doesn\'t exist</string>
-	<string name="error.translation.set_learned">Couldn\'t switch the learned flag of the translation: unknown error</string>
-	<string name="error.translation.set_learned.not_exist">Couldn\'t switch the learned flag of the translation: the translation with the specified ID doesn\'t exist</string>
-	<string name="error.translation.set_learned.invalid_word">Couldn\'t switch the learned flag of the translation: the translation contains an invalid word ID</string>
-	<string name="error.dict.add">Couldn\'t add the dictionary: unknown error</string>
-	<string name="error.dict.add.no_name">Couldn\'t add the dictionary: the name is not specified</string>
-	<string name="error.dict.edit">Couldn\'t edit the dictionary: unknown error</string>
-	<string name="error.dict.edit.no_name">Couldn\'t edit the dictionary: the name is not specified</string>
-	<string name="error.dict.edit.not_exist">Couldn\'t edit the dictionary: the dictionary with the specified ID doesn\'t exist</string>
-	<string name="error.dict.delete">Couldn\'t delete the dictionary: unknown error</string>
-	<string name="error.dict.delete.not_exist">Couldn\'t delete the dictionary: the dictionary with the specified ID doesn\'t exist</string>
+	<string name="error_lang_add">Couldn\'t add the language: unknown error</string>
+	<string name="error_lang_add_noCodeName">Couldn\'t add the language: the code or the name is not specified</string>
+	<string name="error_lang_add_exists">Couldn\'t add the language: the language with the specified code already exists</string>
+	<string name="error_lang_edit">Couldn\'t edit the language: unknown error</string>
+	<string name="error_lang_edit_noName">Couldn\'t edit the language: the name is not specified</string>
+	<string name="error_lang_edit_notExist">Couldn\'t edit the language: the language with the specified code doesn\'t exist</string>
+	<string name="error_lang_delete">Couldn\'t delete the language: unknown error</string>
+	<string name="error_lang_delete_notExist">Couldn\'t delete the language: the language with the specified code doesn\'t exist</string>
+	<string name="error_translation_add">Couldn\'t add the translation: unknown error</string>
+	<string name="error_translation_add_noWord">Couldn\'t add the translation: one of the words is not specified</string>
+	<string name="error_translation_add_exists">Couldn\'t add the translation: the translation with these words already exists</string>
+	<string name="error_translation_edit">Couldn\'t edit the translation: unknown error</string>
+	<string name="error_translation_edit_noWord">Couldn\'t edit the translation: one of the words is not specified</string>
+	<string name="error_translation_edit_notExist">Couldn\'t edit the translation: the translation with the specified ID doesn\'t exist</string>
+	<string name="error_translation_delete">Couldn\'t delete the translation: unknown error</string>
+	<string name="error_translation_delete_notExist">Couldn\'t delete the translation: the translation with the specified ID doesn\'t exist</string>
+	<string name="error_translation_setLearned">Couldn\'t switch the learned flag of the translation: unknown error</string>
+	<string name="error_translation_setLearned_notExist">Couldn\'t switch the learned flag of the translation: the translation with the specified ID doesn\'t exist</string>
+	<string name="error_translation_setLearned_invalidWord">Couldn\'t switch the learned flag of the translation: the translation contains an invalid word ID</string>
+	<string name="error_dict_add">Couldn\'t add the dictionary: unknown error</string>
+	<string name="error_dict_add_noName">Couldn\'t add the dictionary: the name is not specified</string>
+	<string name="error_dict_edit">Couldn\'t edit the dictionary: unknown error</string>
+	<string name="error_dict_edit_noName">Couldn\'t edit the dictionary: the name is not specified</string>
+	<string name="error_dict_edit_notExist">Couldn\'t edit the dictionary: the dictionary with the specified ID doesn\'t exist</string>
+	<string name="error_dict_delete">Couldn\'t delete the dictionary: unknown error</string>
+	<string name="error_dict_delete_notExist">Couldn\'t delete the dictionary: the dictionary with the specified ID doesn\'t exist</string>
 	
-	<string name="error.lang.same_selected">You should select two different languages</string>
-	<string name="error.settings.save">Couldn\'t save settings</string>
+	<string name="error_a_main_sameLangs">Select two different languages from the lists on the top of the screen</string>
+	<string name="error_a_main_addLangs">You should create at least two languages in the \"Edit languages\" menu</string>
+	<string name="error_settings_save">Couldn\'t save settings: unknown error</string>
 	
 	<!-- Sure -->
-	<string name="sure.delete.lang">Are you sure you want to permanently delete this language? All its words, dictionaries and tables will also be deleted.</string>
-	<string name="sure.delete.word">Are you sure you want to permanently delete this word?</string>
-	<string name="sure.delete.dictionary">Are you sure you want to permanently delete this dictionary? The words being in the dictionary will not be deleted.</string>
+	<string name="sure_delete_lang">Are you sure you want to permanently delete this language? All its words, dictionaries and tables will also be deleted.</string>
+	<string name="sure_delete_word">Are you sure you want to permanently delete this word?</string>
+	<string name="sure_delete_dictionary">Are you sure you want to permanently delete this dictionary? The words being in the dictionary will not be deleted.</string>
 	
-	<!-- Main -->
-	<string name="main.label">SnegirLingua</string>
-	<string name="main.edit_lang">Edit languages</string>
-	<string name="main.settings">Settings</string>
-	<string name="main.proceed.info">Study the selected languages</string>
-	<string name="main.edit_lang.info">Add, remove or rename languages</string>
-	<string name="main.settings.info">Application settings</string>
+	<!-- Info -->
+	<string name="info_main_proceed">Study the selected languages</string>
+	<string name="info_main_editLang">Add, remove or rename languages</string>
+	<string name="info_main_settings">Application settings</string>
 	
-	<!-- EditLang -->
-	<string name="edit_lang.label">Languages</string>
-	<string name="edit_lang.add_lang">Add a new language</string>
-	<string name="edit_lang.edit_lang">Edit the language</string>
+	<!-- Activities -->
+	<string name="a_main_label">SnegirLingua</string>
+	<string name="a_main_help_title">The main screen</string>
+	<string name="a_main_help"></string>
+	<string name="a_main_lang1">The first language</string>
+	<string name="a_main_lang2">The second language</string>
+	<string name="a_main_proceed">@string/proceed</string>
+	<string name="a_main_proceed_hint">Go to learning the language</string>
+	<string name="a_main_editLang">Edit languages</string>
+	<string name="a_main_editLang_hint">Add, remove or edit languages</string>
+	<string name="a_main_settings">@string/a_settings_label</string>
+	<string name="a_main_settings_hint">Go to the app settings</string>
 	
-	<!-- Settings -->
-	<string name="settings.label">Settings</string>
+	<string name="a_settings_label">Settings</string>
+	<string name="a_settings_test">Test setting</string>
+	<string name="a_settings_test_hint">Test setting hint</string>
 	
-	<!-- Menu -->
-	<string name="menu.label">Menu</string>
-	<string name="menu.langs_separator">—</string>
-	<string name="menu.dictionaries">Dictionaries</string>
-	<string name="menu.words">Words</string>
-	<string name="menu.tables">Tables</string>
-	<string name="menu.training">Training</string>
-	<string name="menu.dictionaries.info">Edit dictionaries of selected languages</string>
-	<string name="menu.words.info">Edit words of selected languages</string>
-	<string name="menu.tables.info">Edit tables of selected languages</string>
-	<string name="menu.training.info">Learn words and tables of selected languages</string>
+	<string name="a_editLang_label">Languages</string>
+	<string name="a_editLang_help_title">The languages list</string>
+	<string name="a_editLang_help"></string>
+	<string name="a_editLang_addLang">Add language</string>
+	<string name="a_editLang_editLang">Edit the language</string>
+	<string name="a_editLang_code">Code</string>
+	<string name="a_editLang_name">Language name</string>
+	<string name="a_editLang_delete_hint">Delete the language</string>
 	
-	<!-- Words -->
-	<string name="words.label">Words</string>
-	<string name="words.add_word">Add word</string>
+	<string name="a_menu_label">Menu</string>
+	<string name="a_menu_help_title">The menu</string>
+	<string name="a_menu_help"></string>
+	<string name="a_menu_langsSeparator">—</string>
+	<string name="a_menu_dictionaries">Dictionaries</string>
+	<string name="a_menu_words">Words</string>
+	<string name="a_menu_tables">Tables</string>
+	<string name="a_menu_training">Training</string>
+	<string name="a_menu_dictionaries_hint">Edit dictionaries for the selected languages</string>
+	<string name="a_menu_words_hint">Edit words of the selected languages</string>
+	<string name="a_menu_tables_hint">Edit tables for the selected languages</string>
+	<string name="a_menu_training_hint">Learn words and tables of the selected languages</string>
 	
-	<!-- Word -->
-	<string name="word.label">Edit word</string>
-	<string name="word.word">word</string>
+	<string name="a_words_label">Words</string>
+	<string name="a_words_help_title">The list of words</string>
+	<string name="a_words_help"></string>
+	<string name="a_words_addWord">Add word</string>
 	
-	<!-- Dictionaries -->
-	<string name="dictionaries.label">Dictionaries</string>
-	<string name="dictionaries.add_dictionary">Add dictionary</string>
-	<string name="dictionaries.words">Words: %d</string>
+	<string name="a_word_label">Edit word</string>
+	<string name="a_word_help_title">The word editing</string>
+	<string name="a_word_help"></string>
+	<string name="a_word_word">word</string>
+	<string name="a_word_comment">Add comment</string>
+	<string name="a_word_dictTitle">Dictionaries</string>
+	<string name="a_word_noDict">No dictionaries\nCreate a new dictionary in the \"Dictionaries\" menu</string>
+	<string name="a_word_cancel_hint">Cancel creating a word</string>
+	<string name="a_word_delete_hint">Delete the translation</string>
+	<string name="a_word_create_hint">Create a new translation</string>
+	<string name="a_word_save_hint">Save all changes</string>
 	
-	<!-- Dictionary -->
-	<string name="dictionary.label">Edit dictionary</string>
-	<string name="dictionary.select_color">Select color</string>
-	<string name="dictionary.name">Dictionary name</string>
-	<string name="dictionary.rgb.r">R</string>
-	<string name="dictionary.rgb.g">G</string>
-	<string name="dictionary.rgb.b">B</string>
+	<string name="a_dictionaries_label">Dictionaries</string>
+	<string name="a_dictionaries_help_title">The list of dictionaries</string>
+	<string name="a_dictionaries_help"></string>
+	<string name="a_dictionaries_addDictionary">Add dictionary</string>
+	<string name="a_dictionaries_words">Words: %d</string>
+	<string name="a_dictionaries_addDictionary_hint">Add a new dictionary for the languages</string>
+	
+	<string name="a_dictionary_label">Edit dictionary</string>
+	<string name="a_dictionary_help_title">The editing of the dictionary</string>
+	<string name="a_dictionary_help"></string>
+	<string name="a_dictionary_selectColor">Select color</string>
+	<string name="a_dictionary_name">Dictionary name</string>
+	<string name="a_dictionary_description">Dictionary description</string>
+	<string name="a_dictionary_rgbR">R</string>
+	<string name="a_dictionary_rgbG">G</string>
+	<string name="a_dictionary_rgbB">B</string>
+	<string name="a_dictionary_cancel_hint">Cancel creating a dictionary</string>
+	<string name="a_dictionary_delete_hint">Delete the dictionary</string>
+	<string name="a_dictionary_create_hint">Create a new dictionary</string>
+	<string name="a_dictionary_save_hint">Save all changes</string>
 	
 </resources>

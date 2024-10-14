@@ -9,10 +9,9 @@
 		android:id="@+id/d_dict_color_gridGL"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintRight_toLeftOf="@id/d_dict_color_oldVW"
 		android:layout_margin="15dp"
 		android:rowCount="3"
 		android:orientation="vertical">
@@ -22,7 +21,7 @@
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_margin="5dp"
-			android:text="@string/dictionary.rgb.r"
+			android:text="@string/a_dictionary_rgbR"
 			style="@style/TextAppearance.AppCompat.Headline"
 			android:textColor="#FF0000"/>
 		
@@ -33,7 +32,7 @@
 			android:layout_margin="5dp"
 			style="@style/TextAppearance.AppCompat.Headline"
 			android:textColor="#00FF00"
-			android:text="@string/dictionary.rgb.g"/>
+			android:text="@string/a_dictionary_rgbG"/>
 		
 		<TextView
 			android:id="@+id/d_dict_color_bTV"
@@ -42,7 +41,7 @@
 			android:layout_margin="5dp"
 			style="@style/TextAppearance.AppCompat.Headline"
 			android:textColor="#0000FF"
-			android:text="@string/dictionary.rgb.b"/>
+			android:text="@string/a_dictionary_rgbB"/>
 		
 		<EditText
 			android:id="@+id/d_dict_color_rET"
@@ -51,7 +50,7 @@
 			android:layout_margin="5dp"
 			android:inputType="number"
 			android:autofillHints="rgb"
-			android:hint="@string/dictionary.rgb.r"/>
+			android:hint="@string/a_dictionary_rgbR"/>
 		
 		<EditText
 			android:id="@+id/d_dict_color_gET"
@@ -60,7 +59,7 @@
 			android:layout_margin="5dp"
 			android:inputType="number"
 			android:autofillHints="rgb"
-			android:hint="@string/dictionary.rgb.g"/>
+			android:hint="@string/a_dictionary_rgbG"/>
 		
 		<EditText
 			android:id="@+id/d_dict_color_bET"
@@ -69,7 +68,7 @@
 			android:layout_margin="5dp"
 			android:inputType="number"
 			android:autofillHints="rgb"
-			android:hint="@string/dictionary.rgb.b"/>
+			android:hint="@string/a_dictionary_rgbB"/>
 		
 		<SeekBar
 			android:id="@+id/d_dict_color_rSB"
@@ -93,20 +92,20 @@
 	
 	<View
 		android:id="@+id/d_dict_color_oldVW"
-		android:layout_width="50dp"
-		android:layout_height="50dp"
-		app:layout_constraintRight_toRightOf="parent"
+		android:layout_width="75dp"
+		android:layout_height="75dp"
 		app:layout_constraintTop_toTopOf="@id/d_dict_color_gridGL"
-		app:layout_constraintBottom_toTopOf="@id/d_dict_color_newVW"
-		app:layout_constraintLeft_toRightOf="@id/d_dict_color_gridGL"/>
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintLeft_toRightOf="@id/d_dict_color_gridGL"
+		app:layout_constraintBottom_toTopOf="@id/d_dict_color_newVW"/>
 	
 	<View
 		android:id="@+id/d_dict_color_newVW"
-		android:layout_width="50dp"
-		android:layout_height="50dp"
-		app:layout_constraintRight_toRightOf="parent"
+		android:layout_width="75dp"
+		android:layout_height="75dp"
 		app:layout_constraintTop_toBottomOf="@id/d_dict_color_oldVW"
-		app:layout_constraintBottom_toBottomOf="@id/d_dict_color_gridGL"
-		app:layout_constraintLeft_toRightOf="@id/d_dict_color_gridGL"/>
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintLeft_toRightOf="@id/d_dict_color_gridGL"
+		app:layout_constraintBottom_toBottomOf="@id/d_dict_color_gridGL"/>
 	
 </androidx.constraintlayout.widget.ConstraintLayout>

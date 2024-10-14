@@ -24,19 +24,25 @@
 	
 	<TextView
 		android:id="@+id/a_dictionary_word_word1TV"
-		android:layout_width="wrap_content"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		app:layout_constraintBaseline_toBaselineOf="@id/a_dictionary_word_addedCB"
 		app:layout_constraintLeft_toRightOf="@id/a_dictionary_word_addedCB"
+		app:layout_constraintRight_toLeftOf="@id/a_dictionary_word_word2TV"
+		android:paddingRight="5dp"
+		android:textAlignment="viewStart"
 		tool:text="word"/>
 	
 	<TextView
 		android:id="@+id/a_dictionary_word_word2TV"
-		android:layout_width="wrap_content"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		app:layout_constraintBaseline_toBaselineOf="@id/a_dictionary_word_word1TV"
+		app:layout_constraintBaseline_toBaselineOf="@id/a_dictionary_word_addedCB"
+		app:layout_constraintLeft_toRightOf="@id/a_dictionary_word_word1TV"
 		app:layout_constraintRight_toRightOf="parent"
-		android:layout_marginRight="5dp"
+		android:paddingLeft="5dp"
+		android:layout_marginRight="20dp"
+		android:textAlignment="viewEnd"
 		tool:text="word"/>
-
+	
 </androidx.constraintlayout.widget.ConstraintLayout>

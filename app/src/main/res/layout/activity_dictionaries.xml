@@ -12,14 +12,43 @@
 	android:layout_height="match_parent"
 	xmlns:app="http://schemas.android.com/apk/res-auto">
 	
+	<Button
+		android:id="@+id/dictionaries_addBT"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toLeftOf="@id/dictionaries_infoIB"
+		app:layout_constraintBottom_toTopOf="@id/main_headBR"
+		android:text="@string/a_dictionaries_addDictionary"/>
+	
+	<ImageButton
+		android:id="@+id/dictionaries_infoIB"
+		android:layout_width="50dp"
+		android:layout_height="50dp"
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintLeft_toRightOf="@id/dictionaries_addBT"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintBottom_toTopOf="@id/main_headBR"
+		app:layout_constraintDimensionRatio="W,1:1"
+		android:scaleType="fitCenter"
+		android:src="@drawable/ic_launcher_foreground"
+		android:contentDescription="@string/help"/>
+	
+	<androidx.constraintlayout.widget.Barrier
+		android:id="@+id/main_headBR"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		app:barrierDirection="bottom"
+		app:constraint_referenced_ids="dictionaries_addBT,dictionaries_infoIB"/>
+	
 	<ProgressBar
 		android:id="@+id/dictionaries_loadPB"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintTop_toBottomOf="@id/main_headBR"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintBottom_toTopOf="@id/dictionaries_listLV"
 		style="@style/Widget.AppCompat.ProgressBar.Horizontal"
 		android:indeterminate="true"
 		android:visibility="invisible"/>
@@ -33,15 +62,4 @@
 		app:layout_constraintRight_toRightOf="parent"
 		app:layout_constraintBottom_toBottomOf="parent"/>
 	
-	<com.google.android.material.floatingactionbutton.FloatingActionButton
-		android:id="@+id/dictionaries_addFB"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintBottom_toBottomOf="parent"
-		android:src="@drawable/ic_launcher_foreground"
-		android:contentDescription="@string/dictionaries.add_dictionary"
-		android:scaleType="fitCenter"
-		android:layout_margin="20dp"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

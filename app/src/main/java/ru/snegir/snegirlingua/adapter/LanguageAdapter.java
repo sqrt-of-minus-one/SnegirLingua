@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -25,9 +26,9 @@ import ru.snegir.snegirlingua.entity.Language;
 
 public class LanguageAdapter extends ArrayAdapter<Language>
 {
-	private TextView[] codeTVs;
-	private TextView[] langTVs;
-	private ImageButton[] deleteIBs;
+	final private TextView[] codeTVs;
+	final private TextView[] langTVs;
+	final private ImageButton[] deleteIBs;
 	
 	EditLangActivity activity;
 	
@@ -59,13 +60,13 @@ public class LanguageAdapter extends ArrayAdapter<Language>
 		convertView.setOnClickListener(v ->
 		{
 			View editLangDialog = LayoutInflater.from(getContext()).inflate(R.layout.dialog_edit_lang, null);
-			final TextView codeTV = editLangDialog.findViewById(R.id.d_edit_lang_codeTV);
-			final EditText nameET = editLangDialog.findViewById(R.id.d_edit_lang_nameET);
+			final TextView codeTV = editLangDialog.findViewById(R.id.d_editLang_codeTV);
+			final EditText nameET = editLangDialog.findViewById(R.id.d_editLang_nameET);
 			codeTV.setText(codeTVs[position].getText());
 			nameET.setText(langTVs[position].getText());
 			
 			new AlertDialog.Builder(getContext())
-					.setTitle(R.string.edit_lang_edit_lang)
+					.setTitle(R.string.a_editLang_editLang)
 					.setView(editLangDialog)
 					.setPositiveButton(R.string.save, (dialog, which) ->
 					{
@@ -96,6 +97,11 @@ public class LanguageAdapter extends ArrayAdapter<Language>
 				.setNegativeButton(R.string.cancel, null)
 				.create()
 				.show());
+		deleteIBs[position].setOnLongClickListener(v ->
+		{
+			Toast.makeText(activity, R.string.a_editLang_delete_hint, Toast.LENGTH_LONG).show();
+			return true;
+		});
 		
 		return convertView;
 	}

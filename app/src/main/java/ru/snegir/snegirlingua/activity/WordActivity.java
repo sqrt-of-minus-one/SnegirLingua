@@ -13,9 +13,11 @@ import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -40,9 +42,11 @@ public class WordActivity extends Activity
 	public static final String TRANSLATION_ID = "translation_id";
 	
 	private TextView lang1TV, lang2TV;
-	private EditText word1ET, word2ET;
+	private EditText word1ET, word2ET, comment1ET, comment2ET;
 	private Button cancelBT, saveBT;
+	private ImageButton infoIB;
 	private ProgressBar loadPB;
+	private TextView noDictTV;
 	private ListView listLV;
 	
 	private Pair<String, String> langs;
@@ -60,9 +64,13 @@ public class WordActivity extends Activity
 		lang2TV = findViewById(R.id.word_lang2TV);
 		word1ET = findViewById(R.id.word_word1ET);
 		word2ET = findViewById(R.id.word_word2ET);
+		comment1ET = findViewById(R.id.word_comment1ET);
+		comment2ET = findViewById(R.id.word_comment2ET);
 		cancelBT = findViewById(R.id.word_cancelBT);
 		saveBT = findViewById(R.id.word_saveBT);
+		infoIB = findViewById(R.id.word_infoIB);
 		loadPB = findViewById(R.id.word_loadPB);
+		noDictTV = findViewById(R.id.word_noDictTV);
 		listLV = findViewById(R.id.word_listLV);
 		
 		langs = new Pair<>(getIntent().getStringExtra(LANG_1), getIntent().getStringExtra(LANG_2));
@@ -74,12 +82,45 @@ public class WordActivity extends Activity
 		if (isNew)
 		{
 			cancelBT.setText(R.string.cancel);
+			cancelBT.setOnLongClickListener(v ->
+			{
+				Toast.makeText(WordActivity.this, R.string.a_word_cancel_hint, Toast.LENGTH_LONG).show();
+				return true;
+			});
+			saveBT.setOnLongClickListener(v ->
+			{
+				Toast.makeText(WordActivity.this, R.string.a_word_create_hint, Toast.LENGTH_LONG).show();
+				return true;
+			});
 		}
 		else
 		{
 			cancelBT.setText(R.string.delete);
+			cancelBT.setOnLongClickListener(v ->
+			{
+				Toast.makeText(WordActivity.this, R.string.a_word_delete_hint, Toast.LENGTH_LONG).show();
+				return true;
+			});
+			cancelBT.setOnLongClickListener(v ->
+			{
+				Toast.makeText(WordActivity.this, R.string.a_word_save_hint, Toast.LENGTH_LONG).show();
+				return true;
+			});
 		}
 		
+		infoIB.setOnClickListener(v -> new AlertDialog.Builder(WordActivity.this)
+				.setTitle(R.string.a_word_help_title)
+				.setMessage(R.string.a_word_help)
+				.setPositiveButton(R.string.ok, null)
+				.create()
+				.show());
+		infoIB.setOnLongClickListener(v ->
+		{
+			Toast.makeText(WordActivity.this, R.string.help, Toast.LENGTH_LONG).show();
+			return true;
+		});
+		
+		noDictTV.setVisibility(View.GONE);
 		loadUi();
 	}
 	
@@ -216,7 +257,15 @@ public class WordActivity extends Activity
 				adapter = new WordDictionaryAdapter(WordActivity.this, array, added);
 				WordActivity.this.runOnUiThread(() ->
 				{
-					listLV.setAdapter(adapter);
+					if (dictionaries.size() == 0)
+					{
+						listLV.setVisibility(View.GONE);
+						noDictTV.setVisibility(View.VISIBLE);
+					}
+					else
+					{
+						listLV.setAdapter(adapter);
+					}
 					cancelBT.setOnClickListener(v -> finish());
 					saveBT.setOnClickListener(v ->
 					{
@@ -234,7 +283,9 @@ public class WordActivity extends Activity
 								}
 							}
 							if (TranslationsFacade.insert(WordActivity.this, langs,
-									new Pair<>(word1ET.getText().toString(), word2ET.getText().toString()), dictList))
+									new Pair<>(word1ET.getText().toString(), word2ET.getText().toString()),
+									new Pair<>(comment1ET.getText().toString(), comment2ET.getText().toString()),
+									dictList))
 							{
 								WordActivity.this.runOnUiThread(WordActivity.this::finish);
 							}
@@ -247,18 +298,32 @@ public class WordActivity extends Activity
 			else
 			{
 				translation = TranslationsFacade.getById(WordActivity.this, getIntent().getIntExtra(TRANSLATION_ID, 0));
-				for (int i = 0; i < added.length; i++)
+				if (dictionaries.size() != 0)
 				{
-					added[i] = DictionariesFacade.containsTranslation(WordActivity.this, array[i].getId(), translation.getId());
+					for (int i = 0; i < added.length; i++)
+					{
+						added[i] = DictionariesFacade.containsTranslation(WordActivity.this, array[i].getId(), translation.getId());
+					}
+					adapter = new WordDictionaryAdapter(WordActivity.this, array, added);
 				}
-				adapter = new WordDictionaryAdapter(WordActivity.this, array, added);
 				String str1 = WordsFacade.getById(WordActivity.this, translation.getWord1()).getWord();
 				String str2 = WordsFacade.getById(WordActivity.this, translation.getWord2()).getWord();
+				String comm1 = translation.getComment1(), comm2 = translation.getComment2();
 				WordActivity.this.runOnUiThread(() ->
 				{
 					word1ET.setText(str2);
 					word2ET.setText(str1);
-					listLV.setAdapter(adapter);
+					comment1ET.setText(comm1);
+					comment2ET.setText(comm2);
+					if (dictionaries.size() == 0)
+					{
+						listLV.setVisibility(View.GONE);
+						noDictTV.setVisibility(View.VISIBLE);
+					}
+					else
+					{
+						listLV.setAdapter(adapter);
+					}
 					cancelBT.setOnClickListener(v -> new AlertDialog.Builder(WordActivity.this)
 								.setMessage(R.string.sure_delete_word)
 								.setPositiveButton(R.string.delete, (dialog, which) ->
@@ -276,23 +341,27 @@ public class WordActivity extends Activity
 					saveBT.setOnClickListener(v -> new Thread(() ->
 					{
 						TranslationsFacade.update(WordActivity.this, translation.getId(),
-								new Pair<>(word1ET.getText().toString(), word2ET.getText().toString()));
+								new Pair<>(word1ET.getText().toString(), word2ET.getText().toString()),
+								new Pair<>(comment1ET.getText().toString(), comment2ET.getText().toString()));
 						
-						// Which dictionaries the translation should be added to
-						boolean[] checked = adapter.getChecked();
-						for (int i = 0; i < checked.length; i++)
+						if (dictionaries.size() != 0)
 						{
-							// If the state of a checkbox has been changed
-							if (added[i] != checked[i])
+							// Which dictionaries the translation should be added to
+							boolean[] checked = adapter.getChecked();
+							for (int i = 0; i < checked.length; i++)
 							{
-								int dictionary = array[i].getId();
-								if (checked[i])
+								// If the state of a checkbox has been changed
+								if (added[i] != checked[i])
 								{
-									DictionariesFacade.includeTranslation(WordActivity.this, dictionary, translation.getId());
-								}
-								else
-								{
-									DictionariesFacade.excludeTranslation(WordActivity.this, dictionary, translation.getId());
+									int dictionary = array[i].getId();
+									if (checked[i])
+									{
+										DictionariesFacade.includeTranslation(WordActivity.this, dictionary, translation.getId());
+									}
+									else
+									{
+										DictionariesFacade.excludeTranslation(WordActivity.this, dictionary, translation.getId());
+									}
 								}
 							}
 						}
@@ -314,6 +383,8 @@ public class WordActivity extends Activity
 			lang2TV.setEnabled(!visible);
 			word1ET.setEnabled(!visible);
 			word2ET.setEnabled(!visible);
+			comment1ET.setEnabled(!visible);
+			comment2ET.setEnabled(!visible);
 			cancelBT.setEnabled(!visible);
 			saveBT.setEnabled(!visible);
 			listLV.setEnabled(!visible);

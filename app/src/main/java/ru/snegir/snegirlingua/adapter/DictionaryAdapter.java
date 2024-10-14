@@ -66,7 +66,7 @@ public class DictionaryAdapter extends ArrayAdapter<Dictionary>
 		new Thread(() ->
 		{
 			int words = DictionariesFacade.countTranslations(activity, dictionary.getId());
-			activity.runOnUiThread(() -> wordsTVs[position].setText(activity.getString(R.string.dictionaries_words, words)));
+			activity.runOnUiThread(() -> wordsTVs[position].setText(activity.getString(R.string.a_dictionaries_words, words)));
 		}).start();
 		
 		convertView.setOnClickListener(v ->

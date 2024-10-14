@@ -50,7 +50,7 @@ public class TranslationsFacade
 		if (translationObj == null)
 		{
 			activity.runOnUiThread(() ->
-					Toast.makeText(activity, R.string.error_translation_set_learned_not_exist, Toast.LENGTH_LONG).show());
+					Toast.makeText(activity, R.string.error_translation_setLearned_notExist, Toast.LENGTH_LONG).show());
 			return;
 		}
 		
@@ -62,7 +62,7 @@ public class TranslationsFacade
 		if (words.first == null || words.second == null)
 		{
 			activity.runOnUiThread(() ->
-					Toast.makeText(activity, R.string.error_translation_set_learned_invalid_word, Toast.LENGTH_LONG).show());
+					Toast.makeText(activity, R.string.error_translation_setLearned_invalidWord, Toast.LENGTH_LONG).show());
 			return;
 		}
 		// Which word is about to be marked
@@ -86,7 +86,7 @@ public class TranslationsFacade
 			catch (SQLiteException e)
 			{
 				activity.runOnUiThread(() ->
-						Toast.makeText(activity, R.string.error_translation_set_learned, Toast.LENGTH_LONG).show());
+						Toast.makeText(activity, R.string.error_translation_setLearned, Toast.LENGTH_LONG).show());
 				return;
 			}
 		}
@@ -108,7 +108,7 @@ public class TranslationsFacade
 			if (words.first == null || words.second == null || words.first.isEmpty() || !words.second.isEmpty())
 			{
 				activity.runOnUiThread(() ->
-						Toast.makeText(activity, R.string.error_translation_add_no_word, Toast.LENGTH_LONG).show());
+						Toast.makeText(activity, R.string.error_translation_add_noWord, Toast.LENGTH_LONG).show());
 				return false;
 			}
 			// Each list is supposed to contain <=1 element
@@ -165,7 +165,7 @@ public class TranslationsFacade
 		if (words.first == null || words.second == null || words.first.isEmpty() || words.second.isEmpty())
 		{
 			activity.runOnUiThread(() ->
-					Toast.makeText(activity, R.string.error_translation_edit_no_word, Toast.LENGTH_LONG).show());
+					Toast.makeText(activity, R.string.error_translation_edit_noWord, Toast.LENGTH_LONG).show());
 			return;
 		}
 		try
@@ -174,7 +174,7 @@ public class TranslationsFacade
 			Translation translationObj = database.translations().getById(translation);
 			if (translationObj == null)
 			{
-				activity.runOnUiThread(() -> Toast.makeText(activity, R.string.error_translation_edit_not_exist, Toast.LENGTH_LONG).show());
+				activity.runOnUiThread(() -> Toast.makeText(activity, R.string.error_translation_edit_notExist, Toast.LENGTH_LONG).show());
 				return;
 			}
 			Pair<Word, Word> oldWords = new Pair<>(database.words().getById(translationObj.getWord1()), database.words().getById(translationObj.getWord2()));
@@ -258,7 +258,7 @@ public class TranslationsFacade
 		if (translationObj == null)
 		{
 			activity.runOnUiThread(() ->
-					Toast.makeText(activity, R.string.error_translation_delete_not_exist, Toast.LENGTH_LONG).show());
+					Toast.makeText(activity, R.string.error_translation_delete_notExist, Toast.LENGTH_LONG).show());
 			return;
 		}
 		try

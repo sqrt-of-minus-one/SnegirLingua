@@ -23,18 +23,24 @@
 	
 	<TextView
 		android:id="@+id/a_word_word1TV"
-		android:layout_width="wrap_content"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		app:layout_constraintBaseline_toBaselineOf="@id/a_word_learned1CB"
 		app:layout_constraintLeft_toRightOf="@id/a_word_learned1CB"
+		app:layout_constraintRight_toLeftOf="@id/a_word_word2TV"
+		android:paddingRight="5dp"
+		android:textAlignment="viewStart"
 		tool:text="word"/>
 	
 	<TextView
 		android:id="@+id/a_word_word2TV"
-		android:layout_width="wrap_content"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		app:layout_constraintBaseline_toBaselineOf="@id/a_word_learned2CB"
+		app:layout_constraintLeft_toRightOf="@id/a_word_word1TV"
 		app:layout_constraintRight_toLeftOf="@id/a_word_learned2CB"
+		android:paddingLeft="5dp"
+		android:textAlignment="viewEnd"
 		tool:text="word"/>
 	
 	<CheckBox
@@ -47,8 +53,8 @@
 	
 	<ImageButton
 		android:id="@+id/a_word_deleteIB"
-		android:layout_width="40dp"
-		android:layout_height="40dp"
+		android:layout_width="50dp"
+		android:layout_height="50dp"
 		app:layout_constraintTop_toTopOf="parent"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintRight_toRightOf="parent"

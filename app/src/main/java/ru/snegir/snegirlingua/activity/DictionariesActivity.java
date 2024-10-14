@@ -7,14 +7,16 @@
 package ru.snegir.snegirlingua.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -29,9 +31,10 @@ public class DictionariesActivity extends Activity
 	public static final String LANG_1 = "lang_1";
 	public static final String LANG_2 = "lang_2";
 	
+	private Button addBT;
+	private ImageButton infoIB;
 	private ProgressBar loadPB;
 	private ListView listLV;
-	private FloatingActionButton addFB;
 	
 	private Pair<String, String> langs;
 	
@@ -57,14 +60,15 @@ public class DictionariesActivity extends Activity
 		
 		needsToBeReloaded = true;
 		
+		addBT = findViewById(R.id.dictionaries_addBT);
+		infoIB = findViewById(R.id.dictionaries_infoIB);
 		loadPB = findViewById(R.id.dictionaries_loadPB);
 		listLV = findViewById(R.id.dictionaries_listLV);
-		addFB = findViewById(R.id.dictionaries_addFB);
 		
 		// Languages are supposed to be sorted
 		langs = new Pair<>(getIntent().getStringExtra(LANG_1), getIntent().getStringExtra(LANG_2));
 		
-		addFB.setOnClickListener(v ->
+		addBT.setOnClickListener(v ->
 		{
 			Intent wordI = new Intent(DictionariesActivity.this, DictionaryActivity.class);
 			wordI.putExtra(DictionaryActivity.LANG_1, langs.first);
@@ -72,6 +76,23 @@ public class DictionariesActivity extends Activity
 			wordI.putExtra(DictionaryActivity.IS_NEW, true);
 			needsToBeReloaded = true;
 			startActivity(wordI);
+		});
+		addBT.setOnLongClickListener(v ->
+		{
+			Toast.makeText(DictionariesActivity.this, R.string.a_dictionaries_addDictionary_hint, Toast.LENGTH_LONG).show();
+			return true;
+		});
+		
+		infoIB.setOnClickListener(v -> new AlertDialog.Builder(DictionariesActivity.this)
+				.setTitle(R.string.a_dictionaries_help_title)
+				.setMessage(R.string.a_dictionaries_help)
+				.setPositiveButton(R.string.ok, null)
+				.create()
+				.show());
+		infoIB.setOnLongClickListener(v ->
+		{
+			Toast.makeText(DictionariesActivity.this, R.string.help, Toast.LENGTH_LONG).show();
+			return true;
 		});
 		
 		loadDictionaries();
@@ -100,8 +121,8 @@ public class DictionariesActivity extends Activity
 		runOnUiThread(() ->
 		{
 			loadPB.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
+			addBT.setEnabled(!visible);
 			listLV.setEnabled(!visible);
-			addFB.setEnabled(!visible);
 		});
 	}
 }
