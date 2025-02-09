@@ -41,23 +41,37 @@ public interface Translations
 //			"OR words1.language = :language2 AND words2.language = :language1 " + // Languages are supposed to be sorter
 			"ORDER BY words2.word, words1.word")
 	List<Translation> getForLangOrderBySecond(@NonNull String language1, @NonNull String language2);
+	
+	@Query("SELECT translations.* FROM translations " +
+		   "LEFT JOIN words AS words1 ON words1.id = word1 " +
+		   "LEFT JOIN words AS words2 ON words2.id = word2 " +
+		   "INNER JOIN learnt_words ON (learnt_words.word = word1 AND learnt_words.language = :language2) " +
+		   "WHERE words1.language = :language1 AND words2.language = :language2")
+	List<Translation> getForLangLearned1(@NonNull String language1, @NonNull String language2);
+	
+	@Query("SELECT translations.* FROM translations " +
+		   "LEFT JOIN words AS words1 ON words1.id = word1 " +
+		   "LEFT JOIN words AS words2 ON words2.id = word2 " +
+		   "INNER JOIN learnt_words ON (learnt_words.word = word2 AND learnt_words.language = :language1) " +
+		   "WHERE words1.language = :language1 AND words2.language = :language2")
+	List<Translation> getForLangLearned2(@NonNull String language1, @NonNull String language2);
 
 	@Query("SELECT translations.* FROM translations " +
 			"LEFT JOIN words AS words1 ON words1.id = word1 " +
 			"LEFT JOIN words AS words2 ON words2.id = word2 " +
+			"LEFT JOIN learnt_words ON (learnt_words.word = word1 AND learnt_words.language = :language2) " +
 			"WHERE (words1.language = :language1 AND words2.language = :language2 " +
 //			"OR words1.language = :language2 AND words2.language = :language1" + // Languages are supposed to be sorted
-			") AND translations.learned1 = 0 " +
-			"ORDER BY words1.word, words2.word")
+			") AND learnt_words.id IS NULL")
 	List<Translation> getForLangNotLearned1(@NonNull String language1, @NonNull String language2);
 
 	@Query("SELECT translations.* FROM translations " +
-			"LEFT JOIN words AS words1 ON words1.id = word1 " +
-			"LEFT JOIN words AS words2 ON words2.id = word2 " +
-			"WHERE (words1.language = :language1 AND words2.language = :language2 " +
+		   "LEFT JOIN words AS words1 ON words1.id = word1 " +
+		   "LEFT JOIN words AS words2 ON words2.id = word2 " +
+		   "LEFT JOIN learnt_words ON (learnt_words.word = word2 AND learnt_words.language = :language1) " +
+		   "WHERE (words1.language = :language1 AND words2.language = :language2 " +
 //			"OR words1.language = :language2 AND words2.language = :language1" + // Languages are supposed to be sorted
-			") AND translations.learned2 = 0 " +
-			"ORDER BY words1.word, words2.word")
+		   ") AND learnt_words.id IS NULL")
 	List<Translation> getForLangNotLearned2(@NonNull String language1, @NonNull String language2);
 
 	@Query("SELECT MAX(id) FROM translations")

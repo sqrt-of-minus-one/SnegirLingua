@@ -19,8 +19,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.util.List;
 
 import ru.snegir.snegirlingua.R;
@@ -48,6 +46,7 @@ public class EditLangActivity extends AppCompatActivity
 		
 		addBT.setOnClickListener(v ->
 		{
+			// Dialog with language creating
 			final View addLangDialog = LayoutInflater.from(EditLangActivity.this).inflate(R.layout.dialog_add_lang, null);
 			new AlertDialog.Builder(EditLangActivity.this)
 					.setTitle(R.string.a_editLang_addLang)
@@ -89,10 +88,8 @@ public class EditLangActivity extends AppCompatActivity
 		setPBVisibility(true);
 		new Thread(() ->
 		{
-			List<Language> list = LanguagesFacade.getAll(EditLangActivity.this);
-			Language[] array = new Language[list.size()];
-			list.toArray(array);
-			LanguageAdapter adapter = new LanguageAdapter(EditLangActivity.this, array);
+			LanguageAdapter adapter = new LanguageAdapter(EditLangActivity.this,
+					LanguagesFacade.getAll(EditLangActivity.this).toArray(new Language[0]));
 			EditLangActivity.this.runOnUiThread(() ->
 			{
 				listLV.setAdapter(adapter);

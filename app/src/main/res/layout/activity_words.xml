@@ -67,7 +67,7 @@
 		app:layout_constraintRight_toRightOf="parent"
 		style="@style/Widget.AppCompat.ProgressBar.Horizontal"
 		android:indeterminate="true"
-		android:visibility="invisible"/>
+		android:visibility="visible"/>
 	
 	<Button
 		android:id="@+id/words_addBT"

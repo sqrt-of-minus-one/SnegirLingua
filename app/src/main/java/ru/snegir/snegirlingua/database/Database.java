@@ -13,7 +13,7 @@ import androidx.room.RoomDatabase;
 
 import ru.snegir.snegirlingua.entity.*;
 
-@androidx.room.Database(entities = { Language.class, Word.class, Translation.class, Dictionary.class,
+@androidx.room.Database(entities = { Language.class, Word.class, Translation.class, LearntWord.class, Dictionary.class,
 									 DictionaryTranslation.class, Table.class, Row.class, Entry.class, RowEntry.class },
 						version = 1)
 public abstract class Database extends RoomDatabase
@@ -21,6 +21,7 @@ public abstract class Database extends RoomDatabase
 	public abstract Languages languages();
 	public abstract Words words();
 	public abstract Translations translations();
+	public abstract LearntWords learntWord();
 	public abstract Dictionaries dictionaries();
 	public abstract DictionaryTranslations dictionaryTranslations();
 	public abstract Tables tables();

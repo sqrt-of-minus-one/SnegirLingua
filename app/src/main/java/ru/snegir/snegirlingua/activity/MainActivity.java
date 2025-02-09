@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.util.Pair;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -102,6 +101,7 @@ public class MainActivity extends AppCompatActivity
 		editLangIB.setOnClickListener(v ->
 		{
 			Intent editLangI = new Intent(MainActivity.this, EditLangActivity.class);
+			needsToBeReloaded = true; // Languages may be changed
 			startActivity(editLangI);
 		});
 		editLangIB.setOnLongClickListener(v ->
@@ -141,15 +141,11 @@ public class MainActivity extends AppCompatActivity
 		needsToBeReloaded = false;
 		new Thread(() ->
 		{
-			final List<Language> languages = LanguagesFacade.getAll(MainActivity.this);
-			String[] langCodes = new String[languages.size()]; // Array with codes of languages
-			for (int i = 0; i < languages.size(); i++)
-			{
-				langCodes[i] = languages.get(i).getCode();
-			}
-			final ArrayAdapter<String> adapter =
-					new ArrayAdapter<>(MainActivity.this,
-									   android.R.layout.simple_spinner_item, langCodes);
+			final ArrayAdapter<String> adapter = new ArrayAdapter<>(MainActivity.this,
+					android.R.layout.simple_spinner_item,
+					LanguagesFacade.getAll(MainActivity.this).stream()
+							.map(Language::getCode)
+							.toArray(String[]::new));
 			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			runOnUiThread(() ->
 			{

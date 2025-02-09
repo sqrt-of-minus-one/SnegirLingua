@@ -40,10 +40,9 @@ public class WordsActivity extends Activity
 	private Button addBT;
 	private ListView list1LV, list2LV;
 	
-	private Pair<String, String> langs;
+	private WordAdapter adapter1, adapter2;
 	
-	private Translation[] translationsLang1; // Sorted by lang 1
-	private Translation[] translationsLang2; // Sorted by lang 2
+	private Pair<String, String> langs;
 	
 	// If true, the word list should be reloaded from database
 	public boolean needsToBeReloaded;
@@ -109,18 +108,16 @@ public class WordsActivity extends Activity
 	
 	public void loadWords()
 	{
-		setPBVisibility(true);
 		new Thread(() ->
 		{
 			if (needsToBeReloaded)
 			{
+				setPBVisibility(true);
 				needsToBeReloaded = false;
 				List<Translation> translations1 = TranslationsFacade.getForLangs(WordsActivity.this, langs, false);
 				List<Translation> translations2 = TranslationsFacade.getForLangs(WordsActivity.this, langs, true);
-				translationsLang1 = translations1.toArray(new Translation[0]);
-				translationsLang2 = translations2.toArray(new Translation[0]);
-				WordAdapter adapter1 = new WordAdapter(WordsActivity.this, translationsLang1, langs);
-				WordAdapter adapter2 = new WordAdapter(WordsActivity.this, translationsLang2, langs);
+				adapter1 = new WordAdapter(WordsActivity.this, translations1.toArray(new Translation[0]), langs);
+				adapter2 = new WordAdapter(WordsActivity.this, translations2.toArray(new Translation[0]), langs);
 				WordsActivity.this.runOnUiThread(() ->
 				{
 					list1LV.setAdapter(adapter1);
@@ -146,11 +143,13 @@ public class WordsActivity extends Activity
 					{
 						list2LV.setVisibility(View.GONE);
 						list1LV.setVisibility(View.VISIBLE);
+						adapter1.updateAll();
 					}
 					else
 					{
 						list1LV.setVisibility(View.GONE);
 						list2LV.setVisibility(View.VISIBLE);
+						adapter2.updateAll();
 					}
 				});
 			}

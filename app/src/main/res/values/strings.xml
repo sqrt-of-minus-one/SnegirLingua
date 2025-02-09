@@ -81,6 +81,7 @@
 	<string name="a_editLang_help"></string>
 	<string name="a_editLang_addLang">Add language</string>
 	<string name="a_editLang_editLang">Edit the language</string>
+	<string name="a_editLang_editLang_hint">Edit the language</string>
 	<string name="a_editLang_code">Code</string>
 	<string name="a_editLang_name">Language name</string>
 	<string name="a_editLang_delete_hint">Delete the language</string>
@@ -102,6 +103,8 @@
 	<string name="a_words_help_title">The list of words</string>
 	<string name="a_words_help"></string>
 	<string name="a_words_addWord">Add word</string>
+	<string name="a_words_learned_hint">Whether the word is learned</string>
+	<string name="a_words_editWord_hint">Edit the word</string>
 	
 	<string name="a_word_label">Edit word</string>
 	<string name="a_word_help_title">The word editing</string>
@@ -110,6 +113,7 @@
 	<string name="a_word_comment">Add comment</string>
 	<string name="a_word_dictTitle">Dictionaries</string>
 	<string name="a_word_noDict">No dictionaries\nCreate a new dictionary in the \"Dictionaries\" menu</string>
+	<string name="a_word_dict_hint">Whether the word should be added in the dictionary</string>
 	<string name="a_word_cancel_hint">Cancel creating a word</string>
 	<string name="a_word_delete_hint">Delete the translation</string>
 	<string name="a_word_create_hint">Create a new translation</string>
@@ -120,7 +124,7 @@
 	<string name="a_dictionaries_help"></string>
 	<string name="a_dictionaries_addDictionary">Add dictionary</string>
 	<string name="a_dictionaries_words">Words: %d</string>
-	<string name="a_dictionaries_addDictionary_hint">Add a new dictionary for the languages</string>
+	<string name="a_dictionaries_editDictionary_hint">Edit the dictionary</string>
 	
 	<string name="a_dictionary_label">Edit dictionary</string>
 	<string name="a_dictionary_help_title">The editing of the dictionary</string>
@@ -131,6 +135,7 @@
 	<string name="a_dictionary_rgbR">R</string>
 	<string name="a_dictionary_rgbG">G</string>
 	<string name="a_dictionary_rgbB">B</string>
+	<string name="a_dictionary_word_hint">Whether the word should be added in the dictionary</string>
 	<string name="a_dictionary_cancel_hint">Cancel creating a dictionary</string>
 	<string name="a_dictionary_delete_hint">Delete the dictionary</string>
 	<string name="a_dictionary_create_hint">Create a new dictionary</string>

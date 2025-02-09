@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -247,17 +248,15 @@ public class WordActivity extends Activity
 		setPBVisibility(true);
 		new Thread(() ->
 		{
-			List<Dictionary> dictionaries = DictionariesFacade.getForLangs(WordActivity.this, langs);
-			Dictionary[] array = new Dictionary[dictionaries.size()];
-			dictionaries.toArray(array);
-			boolean[] added = new boolean[dictionaries.size()];
+			Dictionary[] array = DictionariesFacade.getForLangs(WordActivity.this, langs).toArray(new Dictionary[0]);
+			boolean[] added = new boolean[array.length];
 			
 			if (isNew)
 			{
 				adapter = new WordDictionaryAdapter(WordActivity.this, array, added);
 				WordActivity.this.runOnUiThread(() ->
 				{
-					if (dictionaries.size() == 0)
+					if (array.length == 0)
 					{
 						listLV.setVisibility(View.GONE);
 						noDictTV.setVisibility(View.VISIBLE);
@@ -273,19 +272,10 @@ public class WordActivity extends Activity
 						new Thread(() ->
 						{
 							// Which dictionaries the translation should be added to
-							boolean[] checked = adapter.getChecked();
-							LinkedList<Integer> dictList = new LinkedList<>(); // Dictionary ID's
-							for (int i = 0; i < checked.length; i++)
-							{
-								if (checked[i])
-								{
-									dictList.add(array[i].getId());
-								}
-							}
 							if (TranslationsFacade.insert(WordActivity.this, langs,
 									new Pair<>(word1ET.getText().toString(), word2ET.getText().toString()),
 									new Pair<>(comment1ET.getText().toString(), comment2ET.getText().toString()),
-									dictList))
+									adapter.getCheckedDictionariesId()))
 							{
 								WordActivity.this.runOnUiThread(WordActivity.this::finish);
 							}
@@ -298,24 +288,26 @@ public class WordActivity extends Activity
 			else
 			{
 				translation = TranslationsFacade.getById(WordActivity.this, getIntent().getIntExtra(TRANSLATION_ID, 0));
-				if (dictionaries.size() != 0)
+				if (array.length != 0)
 				{
 					for (int i = 0; i < added.length; i++)
 					{
-						added[i] = DictionariesFacade.containsTranslation(WordActivity.this, array[i].getId(), translation.getId());
+						added[i] = DictionariesFacade.containsTranslation(
+								WordActivity.this, array[i].getId(), translation.getId());
 					}
 					adapter = new WordDictionaryAdapter(WordActivity.this, array, added);
 				}
 				String str1 = WordsFacade.getById(WordActivity.this, translation.getWord1()).getWord();
 				String str2 = WordsFacade.getById(WordActivity.this, translation.getWord2()).getWord();
-				String comm1 = translation.getComment1(), comm2 = translation.getComment2();
+				String comm1 = translation.getComment1();
+				String comm2 = translation.getComment2();
 				WordActivity.this.runOnUiThread(() ->
 				{
 					word1ET.setText(str2);
 					word2ET.setText(str1);
 					comment1ET.setText(comm1);
 					comment2ET.setText(comm2);
-					if (dictionaries.size() == 0)
+					if (array.length == 0)
 					{
 						listLV.setVisibility(View.GONE);
 						noDictTV.setVisibility(View.VISIBLE);
@@ -344,10 +336,10 @@ public class WordActivity extends Activity
 								new Pair<>(word1ET.getText().toString(), word2ET.getText().toString()),
 								new Pair<>(comment1ET.getText().toString(), comment2ET.getText().toString()));
 						
-						if (dictionaries.size() != 0)
+						if (array.length != 0)
 						{
 							// Which dictionaries the translation should be added to
-							boolean[] checked = adapter.getChecked();
+							Boolean[] checked = adapter.getChecked();
 							for (int i = 0; i < checked.length; i++)
 							{
 								// If the state of a checkbox has been changed

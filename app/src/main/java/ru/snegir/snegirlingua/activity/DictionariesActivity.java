@@ -18,8 +18,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import java.util.List;
-
 import ru.snegir.snegirlingua.R;
 import ru.snegir.snegirlingua.adapter.DictionaryAdapter;
 import ru.snegir.snegirlingua.database.facade.DictionariesFacade;
@@ -77,11 +75,6 @@ public class DictionariesActivity extends Activity
 			needsToBeReloaded = true;
 			startActivity(wordI);
 		});
-		addBT.setOnLongClickListener(v ->
-		{
-			Toast.makeText(DictionariesActivity.this, R.string.a_dictionaries_addDictionary_hint, Toast.LENGTH_LONG).show();
-			return true;
-		});
 		
 		infoIB.setOnClickListener(v -> new AlertDialog.Builder(DictionariesActivity.this)
 				.setTitle(R.string.a_dictionaries_help_title)
@@ -104,10 +97,9 @@ public class DictionariesActivity extends Activity
 		needsToBeReloaded = false;
 		new Thread(() ->
 		{
-			List<Dictionary> dictionaries = DictionariesFacade.getForLangs(DictionariesActivity.this, langs);
-			Dictionary[] array = new Dictionary[dictionaries.size()];
-			dictionaries.toArray(array);
-			DictionaryAdapter adapter = new DictionaryAdapter(DictionariesActivity.this, array, langs);
+			DictionaryAdapter adapter = new DictionaryAdapter(DictionariesActivity.this,
+					DictionariesFacade.getForLangs(DictionariesActivity.this, langs).toArray(new Dictionary[0]),
+					langs);
 			DictionariesActivity.this.runOnUiThread(() ->
 			{
 				listLV.setAdapter(adapter);

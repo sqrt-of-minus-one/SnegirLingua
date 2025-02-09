@@ -113,7 +113,7 @@ public class DictionaryActivity extends Activity
 				Toast.makeText(DictionaryActivity.this, R.string.a_dictionary_delete_hint, Toast.LENGTH_LONG).show();
 				return true;
 			});
-			cancelBT.setOnLongClickListener(v ->
+			saveBT.setOnLongClickListener(v ->
 			{
 				Toast.makeText(DictionaryActivity.this, R.string.a_dictionary_save_hint, Toast.LENGTH_LONG).show();
 				return true;
@@ -172,11 +172,10 @@ public class DictionaryActivity extends Activity
 									translationsList.add(i.getId());
 								}
 							}
-							if (DictionariesFacade.insert(DictionaryActivity.this, langs, nameET.getText().toString(), colorIB.getBackground(), translationsList);
-														  (WordActivity.this, langs,
-									new Pair<>(word1ET.getText().toString(), word2ET.getText().toString()), dictList))
+							if (DictionariesFacade.insert(DictionaryActivity.this, nameET.getText().toString(), descriptionET.getText().toString(),
+									langs, color, translationsList))
 							{
-								WordActivity.this.runOnUiThread(WordActivity.this::finish);
+								DictionaryActivity.this.runOnUiThread(DictionaryActivity.this::finish);
 							}
 							setPBVisibility(false);
 						}).start();
@@ -223,15 +222,15 @@ public class DictionaryActivity extends Activity
 		{
 			if (sortLang1RB.isChecked())
 			{
-				adapter = new DictionaryWordAdapter(DictionaryActivity.this, translationsLang1);
+				adapter1 = new DictionaryWordAdapter(DictionaryActivity.this, translationsLang1, new boolean[0]);
 			}
 			else
 			{
-				adapter = new DictionaryWordAdapter(DictionaryActivity.this, translationsLang2);
+				adapter2 = new DictionaryWordAdapter(DictionaryActivity.this, translationsLang2, new boolean[0]);
 			}
 			DictionaryActivity.this.runOnUiThread(() ->
 			{
-				listLV.setAdapter(adapter);
+				list1LV.setAdapter(adapter1);
 				cancelBT.setOnClickListener(v -> finish());
 			});
 		}).start();

@@ -7,24 +7,19 @@
 package ru.snegir.snegirlingua.adapter;
 
 import android.app.Activity;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import java.util.HashMap;
-
 import ru.snegir.snegirlingua.R;
 import ru.snegir.snegirlingua.activity.DictionaryActivity;
-import ru.snegir.snegirlingua.database.facade.TranslationsFacade;
 import ru.snegir.snegirlingua.database.facade.WordsFacade;
-import ru.snegir.snegirlingua.entity.Dictionary;
 import ru.snegir.snegirlingua.entity.Translation;
 import ru.snegir.snegirlingua.entity.Word;
 
@@ -35,15 +30,17 @@ public class DictionaryWordAdapter extends ArrayAdapter<Translation>
 	private TextView[] word2TVs;
 	
 	private DictionaryActivity activity;
+	private boolean[] added;
 	
-	public DictionaryWordAdapter(@NonNull Activity activity, Translation[] array)
+	public DictionaryWordAdapter(@NonNull DictionaryActivity activity, Translation[] array, boolean[] added)
 	{
 		super(activity, R.layout.adapter_dictionary_word, array);
 		addedCBs = new CheckBox[array.length];
 		word1TVs = new TextView[array.length];
 		word2TVs = new TextView[array.length];
 		
-		this.activity = (DictionaryActivity)activity;
+		this.activity = activity;
+		this.added = added;
 	}
 	
 	@Override
@@ -52,7 +49,7 @@ public class DictionaryWordAdapter extends ArrayAdapter<Translation>
 	{
 		if (convertView == null)
 		{
-			convertView = LayoutInflater.from(getContext()).inflate(R.layout.adapter_dictionary_word, null);
+			convertView = LayoutInflater.from(getContext()).inflate(R.layout.adapter_dictionary_word, parent, false);
 		}
 		addedCBs[position] = convertView.findViewById(R.id.a_dictionary_word_addedCB);
 		word1TVs[position] = convertView.findViewById(R.id.a_dictionary_word_word1TV);
@@ -71,19 +68,12 @@ public class DictionaryWordAdapter extends ArrayAdapter<Translation>
 			});
 		}).start();
 		
-		addedCBs[position].setChecked(activity.added.get(translation.getId()));
-		addedCBs[position].setOnCheckedChangeListener((compoundButton, b) ->
+		addedCBs[position].setChecked(added[position]);
+		addedCBs[position].setOnLongClickListener(v ->
 		{
-			for (int i = 0; i < addedCBs.length; i++)
-			{
-				if (addedCBs[i] == compoundButton)
-				{
-					activity.added.put(getItem(i).getId(), b);
-					break;
-				}
-			}
+			Toast.makeText(activity, R.string.a_dictionary_word_hint, Toast.LENGTH_LONG).show();
+			return true;
 		});
-		
 		return convertView;
 	}
 }

@@ -21,14 +21,14 @@ import ru.snegir.snegirlingua.entity.DictionaryTranslation;
 // All methods should be called in a dedicated thread
 public class DictionariesFacade
 {
-	public static void insert(Activity activity, String name, String description, Pair<String, String> langs, int color, List<Integer> translations)
+	public static boolean insert(Activity activity, String name, String description, Pair<String, String> langs, int color, List<Integer> translations)
 	{
 		// The name should be filled
 		if (name == null || name.isEmpty())
 		{
 			activity.runOnUiThread(() ->
 					Toast.makeText(activity, R.string.error_dict_add_noName, Toast.LENGTH_LONG).show());
-			return;
+			return false;
 		}
 		try
 		{
@@ -44,7 +44,9 @@ public class DictionariesFacade
 		{
 			activity.runOnUiThread(() ->
 					Toast.makeText(activity, R.string.error_dict_add, Toast.LENGTH_LONG).show());
+			return false;
 		}
+		return true;
 	}
 	
 	public static void update(Activity activity, int id, String name, String description, int color)

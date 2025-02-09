@@ -63,5 +63,15 @@
 		android:src="@drawable/ic_launcher_foreground"
 		android:scaleType="fitCenter"
 		android:contentDescription="@string/delete"/>
+	
+	<ProgressBar
+		android:id="@+id/a_word_loadPB"
+		android:layout_width="wrap_content"
+		android:layout_height="0sp"
+		app:layout_constraintTop_toTopOf="@id/a_word_learned1CB"
+		app:layout_constraintBottom_toBottomOf="@id/a_word_learned1CB"
+		app:layout_constraintLeft_toRightOf="@id/a_word_learned1CB"
+		app:layout_constraintRight_toLeftOf="@id/a_word_learned2CB"
+		android:indeterminate="true"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

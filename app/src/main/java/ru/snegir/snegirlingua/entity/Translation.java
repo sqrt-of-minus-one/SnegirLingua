@@ -35,18 +35,13 @@ public class Translation
 	// The comments on the words
 	private String comment1, comment2;
 
-	// Whether the translation is learned in the first and the second languages
-	private boolean learned1, learned2;
-
-	public Translation(int id, int word1, int word2, String comment1, String comment2, boolean learned1, boolean learned2)
+	public Translation(int id, int word1, int word2, String comment1, String comment2)
 	{
 		this.id = id;
 		this.word1 = word1;
 		this.word2 = word2;
 		this.comment1 = comment1;
 		this.comment2 = comment2;
-		this.learned1 = learned1;
-		this.learned2 = learned2;
 	}
 
 	public int getId()
@@ -94,29 +89,11 @@ public class Translation
 		this.comment2 = comment2;
 	}
 
-	public boolean getLearned1()
-	{
-		return learned1;
-	}
-	public void setLearned1(boolean learned1)
-	{
-		this.learned1 = learned1;
-	}
-
-	public boolean getLearned2()
-	{
-		return learned2;
-	}
-	public void setLearned2(boolean learned2)
-	{
-		this.learned2 = learned2;
-	}
-
 	@Override
 	@NonNull
 	public String toString()
 	{
 		return String.format(Locale.getDefault(),
-				"(%b) %d : %d (%b)", learned1, word1, word2, learned2);
+				"%d : %d", word1, word2);
 	}
 }

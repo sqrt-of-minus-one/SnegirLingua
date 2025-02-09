@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -52,7 +53,7 @@ public class DictionaryAdapter extends ArrayAdapter<Dictionary>
 	{
 		if (convertView == null)
 		{
-			convertView = LayoutInflater.from(getContext()).inflate(R.layout.adapter_dictionary, null);
+			convertView = LayoutInflater.from(getContext()).inflate(R.layout.adapter_dictionary, parent, false);
 		}
 		colorVWs[position] = convertView.findViewById(R.id.a_dictionary_colorVW);
 		nameTVs[position] = convertView.findViewById(R.id.a_dictionary_nameTV);
@@ -78,6 +79,11 @@ public class DictionaryAdapter extends ArrayAdapter<Dictionary>
 			dictionaryI.putExtra(DictionaryActivity.DICTIONARY_ID, getItem(position).getId());
 			activity.needsToBeReloaded = true;
 			activity.startActivity(dictionaryI);
+		});
+		convertView.setOnLongClickListener(v ->
+		{
+			Toast.makeText(activity, R.string.a_dictionaries_editDictionary_hint, Toast.LENGTH_LONG).show();
+			return true;
 		});
 		deleteIBs[position].setOnClickListener(v -> new AlertDialog.Builder(activity)
 				.setMessage(R.string.sure_delete_dictionary)

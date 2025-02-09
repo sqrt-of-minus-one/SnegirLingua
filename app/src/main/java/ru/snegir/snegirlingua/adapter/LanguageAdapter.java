@@ -48,7 +48,7 @@ public class LanguageAdapter extends ArrayAdapter<Language>
 	{
 		if (convertView == null)
 		{
-			convertView = LayoutInflater.from(getContext()).inflate(R.layout.adapter_language, null);
+			convertView = LayoutInflater.from(getContext()).inflate(R.layout.adapter_language, parent, false);
 		}
 		codeTVs[position] = convertView.findViewById(R.id.a_language_codeTV);
 		langTVs[position] = convertView.findViewById(R.id.a_language_langTV);
@@ -59,6 +59,7 @@ public class LanguageAdapter extends ArrayAdapter<Language>
 		
 		convertView.setOnClickListener(v ->
 		{
+			// Open dialog with the language editing
 			View editLangDialog = LayoutInflater.from(getContext()).inflate(R.layout.dialog_edit_lang, null);
 			final TextView codeTV = editLangDialog.findViewById(R.id.d_editLang_codeTV);
 			final EditText nameET = editLangDialog.findViewById(R.id.d_editLang_nameET);
@@ -81,6 +82,11 @@ public class LanguageAdapter extends ArrayAdapter<Language>
 					.setNegativeButton(R.string.cancel, null)
 					.create()
 					.show();
+		});
+		convertView.setOnLongClickListener(v ->
+		{
+			Toast.makeText(activity, R.string.a_editLang_editLang_hint, Toast.LENGTH_LONG).show();
+			return true;
 		});
 		deleteIBs[position].setOnClickListener(v -> new AlertDialog.Builder(getContext())
 				.setMessage(R.string.sure_delete_lang)

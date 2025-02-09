@@ -4,12 +4,12 @@
 	<application
 		android:allowBackup="true"
 		android:icon="@mipmap/ic_launcher"
-		android:label="@string/app_name"
+		android:label="@string/appName"
 		android:roundIcon="@mipmap/ic_launcher_round"
 		android:supportsRtl="true"
 		android:theme="@style/Theme.SnegirLingua">
 		<activity android:name="ru.snegir.snegirlingua.activity.MainActivity"
-			android:label="@string/main.label"
+			android:label="@string/a_main_label"
 			android:exported="true">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
@@ -18,15 +18,19 @@
 			</intent-filter>
 		</activity>
 		<activity android:name="ru.snegir.snegirlingua.activity.SettingsActivity"
-			android:label="@string/settings.label"/>
+			android:label="@string/a_settings_label"/>
 		<activity android:name="ru.snegir.snegirlingua.activity.EditLangActivity"
-			android:label="@string/edit_lang.label"/>
+			android:label="@string/a_editLang_label"/>
 		<activity android:name="ru.snegir.snegirlingua.activity.MenuActivity"
-			android:label="@string/menu.label"/>
+			android:label="@string/a_menu_label"/>
+		<activity android:name="ru.snegir.snegirlingua.activity.DictionariesActivity"
+			android:label="@string/a_dictionaries_label"/>
+		<activity android:name="ru.snegir.snegirlingua.activity.DictionaryActivity"
+			android:label="@string/a_dictionary_label"/>
 		<activity android:name="ru.snegir.snegirlingua.activity.WordsActivity"
-			android:label="@string/words.label"/>
+			android:label="@string/a_words_label"/>
 		<activity android:name="ru.snegir.snegirlingua.activity.WordActivity"
-			android:label="@string/word.label"/>
+			android:label="@string/a_word_label"/>
 	</application>
 
 </manifest>

@@ -11,10 +11,13 @@ import android.database.sqlite.SQLiteException;
 import android.util.Pair;
 import android.widget.Toast;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import ru.snegir.snegirlingua.R;
 import ru.snegir.snegirlingua.database.Database;
+import ru.snegir.snegirlingua.database.Translations;
+import ru.snegir.snegirlingua.entity.LearntWord;
 import ru.snegir.snegirlingua.entity.Translation;
 import ru.snegir.snegirlingua.entity.Word;
 
@@ -42,6 +45,11 @@ public class TranslationsFacade
 		}
 	}
 	
+	public static boolean isLearned(Activity activity, int word, String language)
+	{
+		return !Database.get(activity).learntWord().getByWordAndLanguage(word, language).isEmpty();
+	}
+	
 	public static void setLearned(Activity activity, int translation, boolean isSecond, boolean isLearned)
 	{
 		Database database = Database.get(activity);
@@ -67,28 +75,23 @@ public class TranslationsFacade
 		}
 		// Which word is about to be marked
 		int word = isSecond ? words.second.getId() : words.first.getId();
-		// Set learned for all translations with the word
-		List<Translation> translations = database.translations().getWithWordForLangs(word, words.first.getLanguage(), words.second.getLanguage());
-		for (Translation i : translations)
+		String lang = isSecond ? words.first.getLanguage() : words.second.getLanguage();
+		List<LearntWord> learntWords = database.learntWord().getByWordAndLanguage(word, lang);
+		try
 		{
-			if (i.getWord1() == word)
+			if (isLearned && learntWords.isEmpty())
 			{
-				i.setLearned1(isLearned);
+				database.learntWord().insert(new LearntWord(database.learntWord().getLastId() + 1, word, lang));
 			}
-			else
+			else if (!isLearned && !learntWords.isEmpty())
 			{
-				i.setLearned2(isLearned);
+				learntWords.forEach(database.learntWord()::delete);
 			}
-			try
-			{
-				database.translations().update(i);
-			}
-			catch (SQLiteException e)
-			{
-				activity.runOnUiThread(() ->
-						Toast.makeText(activity, R.string.error_translation_setLearned, Toast.LENGTH_LONG).show());
-				return;
-			}
+		}
+		catch (SQLiteException e)
+		{
+			activity.runOnUiThread(() ->
+					Toast.makeText(activity, R.string.error_translation_setLearned, Toast.LENGTH_LONG).show());
 		}
 	}
 	
@@ -105,14 +108,16 @@ public class TranslationsFacade
 		{
 			Database database = Database.get(activity);
 			// Both words should be filled
-			if (words.first == null || words.second == null || words.first.isEmpty() || !words.second.isEmpty())
+			if (words.first == null || words.second == null || words.first.isEmpty() || words.second.isEmpty())
 			{
 				activity.runOnUiThread(() ->
 						Toast.makeText(activity, R.string.error_translation_add_noWord, Toast.LENGTH_LONG).show());
 				return false;
 			}
 			// Each list is supposed to contain <=1 element
-			Pair<List<Word>, List<Word>> wordLists = new Pair<>(database.words().getWord(words.first, langs.first), database.words().getWord(words.second, langs.second));
+			Pair<List<Word>, List<Word>> wordLists = new Pair<>(
+					database.words().getWord(words.first, langs.first),
+					database.words().getWord(words.second, langs.second));
 			Word word1, word2;
 			
 			// If the database doesn't contain the word, add it, otherwise use existing word
@@ -143,7 +148,7 @@ public class TranslationsFacade
 				return false;
 			}
 			Translation translation = new Translation(database.translations().getLastId() + 1,
-													  word1.getId(), word2.getId(), comments.first, comments.second, false, false);
+													  word1.getId(), word2.getId(), comments.first, comments.second);
 			database.translations().insert(translation);
 			// Add the translation into the dictionaries
 			for (Integer i : dictionaries)
